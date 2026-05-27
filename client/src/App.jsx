@@ -8,7 +8,7 @@ import ChatBox from "./pages/ChatBox"
 import Connections from "./pages/Connections"
 import Discover from "./pages/Discover"
 import CreatePost from "./pages/CreatePost"
-import { useUser } from "@clerk/react"
+import { useUser ,useAuth} from "@clerk/react"
 import Layout from "./pages/Layout"
 import { useEffect, useState } from "react"
 import Profile from "./pages/Profile"
@@ -18,6 +18,16 @@ import Seepost from "./components/Seepost"
 
 function App() {
 const {user,isLoaded}=useUser();
+const {getToken}=useAuth();
+useEffect(()=>{
+
+  if(user)
+  {
+    getToken().then((token)=>{
+   console.log(token)
+    })
+  }
+},[user,getToken])
 if(!isLoaded)
 {
   return <Loading/>

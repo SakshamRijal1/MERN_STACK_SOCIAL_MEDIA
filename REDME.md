@@ -29,3 +29,10 @@ Domain:+=
 
 
 Okay now we have to use the middleware called ap.use(express.json()) because we send the raw data(string) from the frontend without parsing the data cannot be understand by the expressw
+
+
+
+
+we have created the differnet fn for the following follwrer out other job is to create the api routes or http endpoint
+
+//nodejs fully support the top level await.
