@@ -1,8 +1,11 @@
 
 //this is the middleware to protect the route and check if the user is authenticated or not .
 export const protect=async(req,res,next)=>{
+       console.log(req.body)
   try{
     const {userId}= req.auth();
+
+
     if(!userId)//to protect route
     {
       return res.json({

@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ConntectionState from '../components/ConntectionState'
-import { dummyConnectionsData, dummyFollowersData, dummyFollowingData, dummyPendingConnectionsData } from '../assets/assets'
+
 import { BadgeCheck, Clock, Handshake, Network, User, UserCheck } from 'lucide-react'
 import Shimmer from '../components/Shimmer'
+import { useDispatch, useSelector } from 'react-redux'
+import { useFormStatus } from 'react-dom'
+import { useAuth } from '@clerk/react'
+import { fetchConnection } from '../features/connections/connectionSlice'
+import api from '../api/axois'
+import toast from 'react-hot-toast'
 
 const Connections = () => {
- 
+
+ const {connections,pendingConnections,followers,following}=useSelector((state)=>state.connections)
   const list=[
     {
       name:"Followers",
@@ -25,23 +32,77 @@ const Connections = () => {
     }
   ]
    const [status, setStatus] = useState(list[0].name)
-  
+  const {getToken}=useAuth();
+  useEffect(()=>{
+getToken().then((token)=>{
+  const dispatch=useDispatch();
+  dispatch(fetchConnection(token))
+})
+  },[])
+  const handleUnfollow=async(userId)=>{
+    try{
+const {data}=await api.post('/api/user/unfollow',{
+  id:userId
+},{
+  headers:{
+    Authorization:`Bearer ${await getToken()}`
+  }
+})
+if(data.success)
+{
+  toast.success(data.message)
+  dispatch(fetchConnection(await getToken()))
+}
+else{
+  toast(data.message)
+}
+
+    }
+    catch(err)
+    {
+toast.error(err.message)
+    }
+  }
+   const acceptConnection=async(userId)=>{
+    try{
+const {data}=await api.post('/api/user/accept',{
+  id:userId
+},{
+  headers:{
+    Authorization:`Bearer ${await getToken()}`
+  }
+})
+if(data.success)
+{
+  toast.success(data.message)
+  dispatch(fetchConnection(await getToken()))
+}
+else{
+  toast(data.message)
+}
+
+    }
+    catch(err)
+    {
+toast.error(err.message)
+    }
+  }
   return (
    <div className='md:p-10 p-3 w-full overflow-x-hidden'>
   <h1 className='text-2xl font-bold'>Connections</h1>
   <p className=' text-gray-500 mt-4'>Manage your network and discover new connections.</p>
 <div className='flex gap-4  flex-wrap mt-10 overflow-x-hidden'>
   {
-   <ConntectionState  number={dummyFollowersData.length} parameter={'Followers'}/>
+   <ConntectionState  number={followers.length} parameter={'Followers'}/>
   }
     {
-   <ConntectionState number={dummyFollowingData.length} parameter={'Following'}/>
+   <ConntectionState number={following.length} parameter={'Following'}/>
   }
       {
-   <ConntectionState number={dummyPendingConnectionsData.length} parameter={'Pending'}/>
+   <ConntectionState number={pendingConnections.length} parameter={'Pending'}/>
   }
     {
-   <ConntectionState number={dummyConnectionsData.length} parameter={'Connections'}/>
+   <ConntectionState number={connections.length} parameter={'Connections'}/>
   }
   </div>
   <div className='max-md:w-full  w-fit flex max-md:gap-3  gap-6 mt-5 items-center justify-between shadow max-md:p-2 p-3 shadow-gray-400 rounded-lg '>
@@ -63,7 +124,7 @@ const Connections = () => {
     <div className='flex gap-5 mt-3 flex-wrap max-md:flex-col max-md:w-full'>
 
 {
-  status=="Followers"&& dummyFollowersData.map((item,index)=>(
+  status=="Followers"&& followers.map((item,index)=>(
   
     <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
       
@@ -92,7 +153,7 @@ const Connections = () => {
 
 
 {
-  status=="Following"&& dummyFollowingData.map((item,index)=>(
+  status=="Following"&& pendingConnections.map((item,index)=>(
   
     <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
       
@@ -118,7 +179,7 @@ const Connections = () => {
   
 
 {
-  status=="Pending"&& dummyPendingConnectionsData.map((item,index)=>(
+  status=="Pending"&& connections.map((item,index)=>(
   
     <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
       
@@ -146,7 +207,7 @@ const Connections = () => {
   
 
 {
-  status=="Connections"&& dummyConnectionsData.map((item,index)=>(
+  status=="Connections"&& connections.map((item,index)=>(
   
     <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
       

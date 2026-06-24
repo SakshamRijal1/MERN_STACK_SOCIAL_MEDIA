@@ -30,7 +30,7 @@ const {data}=await api.post('/api/comment/add',{
 })
 if(data.success)
 {
-  console.log(data.commentUser)
+ 
    setUserComments((value)=>[data.commentUser,...value])
   toast.success(data.message);
   commentUser.current.value=""
@@ -130,7 +130,7 @@ Start the conversation ✨
 
 comments.map((comment) => (
 
-<CommentBox    post={post} comment={comment}/>
+<CommentBox key={comment._id}    post={post} comment={comment}/>
 
 ))
 

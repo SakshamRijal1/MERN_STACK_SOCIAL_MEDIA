@@ -17,6 +17,7 @@ import {Toaster} from 'react-hot-toast'
 import Seepost from "./components/Seepost"
 import { useDispatch } from "react-redux"
 import { fetchUser } from "./features/user/userSlice.js"
+import { fetchConnection } from "./features/connections/connectionSlice.js"
 
 function App() {
 const {user,isLoaded}=useUser();
@@ -24,17 +25,19 @@ const {getToken}=useAuth();
 const dispatch=useDispatch()
 useEffect(()=>{
 const fetchData=async()=>{
+
 if(user)
   {
     const token=await getToken();
     dispatch(fetchUser(token))
+    dispatch(fetchConnection(token))
     
   }
 
 }
   fetchData();
   
-},[user,getToken,dispatch])
+},[getToken,dispatch,user?.id])
 if(!isLoaded)
 {
   return <Loading/>

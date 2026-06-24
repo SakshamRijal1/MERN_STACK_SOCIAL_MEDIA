@@ -13,9 +13,11 @@ const Storymodel = ({setShowModal,fetchStories,setStories}) => {
  const [previewUrl, setPreviewUrl] = useState(null)
  const navigate=useNavigate()
  const handleUploadImage=(e)=>{
+
    const MAX_VIDEO_DURATION=60;
  const MAX_VIDEO_SIZE=50*1024*1024;
   const file=e.target.files?.[0];
+
   ///target you have a file tyo image ho ki vdo thaxaina,
   //maxvideo duration ra max video size lai pani mantain garu xa
 if(file)
@@ -59,6 +61,7 @@ if(file)
 
 }
 else{
+  console.log("File is undefined")
   toast.error('Select proper file.')
   return;
 }

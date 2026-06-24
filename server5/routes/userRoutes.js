@@ -8,6 +8,8 @@ import { acceptConnectionRequest } from "../controllers/userController.js";
 import { getUserRecentMessages } from "../controllers/messageController.js";
 const userRouter=express.Router();
 
+
+
 userRouter.get('/data',protect,getUserData);
 
 userRouter.get('/recent-messages',protect,getUserRecentMessages);
@@ -20,7 +22,7 @@ userRouter.post('/update',protect,upload.fields([{
   maxCOunt:1
 
 }]),updateUserData);//multer is the middleware to handle file upload which can parse
-userRouter.get('/discover',protect,discoverUsers);
+userRouter.post('/discover',protect,discoverUsers);
 userRouter.post('/follow',protect,followUsers);
 userRouter.post('/unfollow',protect,unfollowUsers);
 userRouter.post('/connect',protect,sendConnectionRequest)

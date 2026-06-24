@@ -1,5 +1,5 @@
 import { BadgeCheck, Heart } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
 import { getToken, useAuth } from '@clerk/react';
@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 
 const CommentBox = ({comment,post}) => {
   const [like, setLike] = useState(comment.likes_count)
+
 
         const user=useSelector((state)=>state.user.value)
   const handleCommentLike=async(id)=>{
@@ -33,7 +34,7 @@ const CommentBox = ({comment,post}) => {
     return  prev.filter((likeUser)=>likeUser._id!==user._id)
         }
         else{
-        return [...prev,user]
+        return [user,...prev]
         }
       })
       toast.success(data.message)

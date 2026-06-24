@@ -11,9 +11,11 @@ import Post from "../models/Post.js";
 
 
 export const getUserData=async(req,res)=>{
-  
+
   try{
+
     const {userId}=  req.auth();
+
     const user=await User.findById(userId);
 
     if(!user)
@@ -42,6 +44,7 @@ export const getUserProfile=async(req,res)=>{
 
   try{
 const {userId}=req.auth();
+console.log(userId)
 
 const {id}=req.body;
 
@@ -177,11 +180,14 @@ await clerkClient.users.updateUser(userId, {
 //     file: await fetch(updateData.profile_picture).then(r => r.blob())
 //   }
 // )
-// await clerkClient.users.updateUserProfileImage(userId,
-//   {
-//     file:await fetch(updateData.profile_picture).then(r=>r.blob())
-//   }
-// )
+if(profile)
+  {
+await clerkClient.users.updateUserProfileImage(userId,
+  {
+    file:await fetch(updateData.profile_picture).then(r=>r.blob())
+  }
+)
+  }
 
 
 
@@ -210,9 +216,11 @@ await clerkClient.users.updateUser(userId, {
 
 //Find user using username,email,location,name
 export const discoverUsers=async(req,res)=>{
+ 
   try{
     const {userId}=  req.auth();
 const {input}=req.body;
+
 const allUsers=await User.find({
   $or:[
     {
@@ -226,9 +234,17 @@ const allUsers=await User.find({
   ]
 })
 const filterUsers=allUsers.filter((user)=>user._id!==userId);
+if(filterUsers.length>0
+)
+{
 res.json({
   success:true,
   users:filterUsers,
+})
+}
+res.json({
+  success:false,
+
 })
   }
   catch(err)
