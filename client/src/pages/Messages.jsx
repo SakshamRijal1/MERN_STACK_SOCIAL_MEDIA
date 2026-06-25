@@ -2,9 +2,11 @@ import React from 'react'
 import { dummyConnectionsData } from '../assets/assets'
 import { BadgeCheck, ChartArea, Eye, MessageCircle, MessageCircleCheck, MessageCircleDashed, MessageCircleHeart, MessageCircleMoreIcon, MessageCircleOff, MessageCircleQuestion, MessageCircleReply, MessageCircleX } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const Messages = () => {
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  const {connections}=useSelector((state)=>state.connections)
 
   return (
     <div className='md:p-10 p-3 w-full overflow-x-hidden'>
@@ -16,11 +18,11 @@ const Messages = () => {
    
 
     {
-      dummyConnectionsData.map((item,index)=>(
+      connections.map((item,index)=>(
         <div className='flex gap-4  max-md:w-full shadow p-5 sm:justify-between' key={index}>
       
     <div className=''>
-      <img className='w-15 h-15 rounded-full' src={item.profile_picture} alt="" />
+      <img className='w-15 h-15 object-cover rounded-full' src={item.profile_picture} alt="" />
     
     </div>
     <div className='w-40 sm:w-50'>

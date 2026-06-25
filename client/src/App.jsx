@@ -21,6 +21,7 @@ import { fetchConnection } from "./features/connections/connectionSlice.js"
 
 function App() {
 const {user,isLoaded}=useUser();
+
 const {getToken}=useAuth();
 const dispatch=useDispatch()
 useEffect(()=>{
@@ -37,7 +38,7 @@ if(user)
 }
   fetchData();
   
-},[getToken,dispatch,user?.id])
+},[getToken,dispatch,user])
 if(!isLoaded)
 {
   return <Loading/>

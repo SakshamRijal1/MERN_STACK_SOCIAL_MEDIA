@@ -6,8 +6,9 @@ import {clerkClient} from '@clerk/express'
 import Connection from "../models/Connection.js";
 import client from "../config/imageKit.js"
 import { inngest } from "../inngest/index.js";
-import { connect } from "mongoose";
+
 import Post from "../models/Post.js";
+import { url } from "inspector";
 
 
 export const getUserData=async(req,res)=>{
@@ -44,7 +45,6 @@ export const getUserProfile=async(req,res)=>{
 
   try{
 const {userId}=req.auth();
-console.log(userId)
 
 const {id}=req.body;
 
@@ -77,7 +77,7 @@ export const updateUserData=async(req,res)=>{
     const {userId}=  req.auth();
     let {username,bio,location,full_name}=req.body;
     const tempUser=await User.findById(userId);
-    console.log(username)
+
         const profile=req.files.profile && req.files.profile[0];
    const cover=req.files.cover && req.files.cover[0];
 
@@ -240,10 +240,12 @@ if(filterUsers.length>0
 res.json({
   success:true,
   users:filterUsers,
+   message:"Successfully found these poeple."
 })
 }
 res.json({
   success:false,
+  message:"Not found."
 
 })
   }
@@ -255,12 +257,43 @@ res.json({
  })
   }
 }
+
+export const defaultUser=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+    if(userId)
+    {
+    
+      const users=(await User.find({
+        is_verified:true
+      })).filter((user)=>user._id!==userId)
+
+      res.json({
+        success:true,
+        message:"Fetched default user successfully.",
+        users
+      })
+
+    }
+    
+  }
+  catch(err)
+  {
+    return res.json({
+      success:false,
+      message:err.message
+    })
+  }
+}
+
+
 //follow user 
      export const followUsers=async(req,res)=>{
   try{
     const {userId}=  req.auth();
     const {id}=req.body;
     const user=await User.findById(userId);
+
 
 
     if(user.following.includes(id))
@@ -270,8 +303,11 @@ res.json({
         message:"Already following the user"
       })
     }
+
+   
     user.following.push(id);
     await user.save();
+ 
     const toUser=await User.findById(id);
     toUser.followers.push(userId);
     await toUser.save();
@@ -296,15 +332,29 @@ export const unfollowUsers=async(req,res)=>{
     const {userId}= await req.auth();
     const {id}=req.body;
     const user=await User.findById(userId);
+    if(user.following.includes(id))
+    {
+
  user.following=user.following.filter((user=>user!=id));
  await user.save()
      const toUser=await User.findById(id);
- user.followers=user.followers.filter((user=>user!=userId));
- await user.save()
+ toUser.followers=toUser.followers.filter((user=>user!=userId));
+ await toUser.save()
     res.json({
       success:true,
       message:"User unfollowed successfully"
     })
+
+ 
+
+    }
+       else{
+      return res.json({
+  success:false,
+    message:"Not followed."
+ })
+}
+
 
 }
   catch(err)
@@ -395,17 +445,23 @@ export const getUserConnections=async(req,res)=>{
   try{
 const {userId}= req.auth();
 const user=await User.findById(userId).populate('connections followers following');
+const sentRequest=(await Connection.find({
+  from_user_id:userId,
+  status:'pending'
+}).populate('to_user_id')).map(connection=>connection.to_user_id)
 const connections=user.connections;
+
 const followers=user.followers;
 const following=user.following;
 const pendingConnections=(await Connection.find({
   to_user_id:userId,
   status:'pending'
 }).populate('from_user_id')).map(connection=>connection.from_user_id)
-
+console.log(connections,sentRequest,followers,following,pendingConnections)
 return res.json({
   success:true,
   connections,
+  sentRequest,
   followers,
   following,
   pendingConnections
@@ -419,6 +475,7 @@ return res.json({
     })
   }
 }
+
 
 
 ///accept the connection request
@@ -437,12 +494,18 @@ if(!connection)
     message:"Connection not found"
   })
 }
+connection.status='accepted';
+await connection.save()
  const user=await User.findById(userId);
  user.connections.push(id);
  await user.save()
  const toUser=await User.findById(id);
  toUser.connections.push(userId)
  await toUser.save()
+ res.json({
+  success:true,
+  message:"Connection request accepted successfully."
+ })
 
   }
   catch(err)

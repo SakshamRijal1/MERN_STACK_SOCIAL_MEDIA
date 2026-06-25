@@ -8,11 +8,7 @@ const ShowProfile = ({image,setShowProfile,setEdit}) => {
 
       
 <img className=' w-120 h-120 object-cover'  src={image} alt="" />
-<button onClick={()=>{
-  setShowProfile(false)
-  setEdit(true)
 
-}} className='cursor-pointer hover:scale-95 duration-300 transition-all shadow  bg-indigo-600 px-4 py-1 rounded-md text-white'>Change Profile Picture</button>
 <button onClick={()=>{
   setShowProfile(false)
 }} className=' cursor-pointer hover:scale-95 duration-300 transition-all shadow bg-red-600 px-4 py-1 rounded-md text-white'>Close</button>

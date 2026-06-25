@@ -4,25 +4,20 @@ import { dummyMessagesData, dummyRecentMessagesData, dummyUserData } from '../as
 import Loading from '../components/Loading';
 import { ArrowUp, BadgeCheck, Check, CheckCheck, ImagePlus } from 'lucide-react';
 import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux';
 const ChatBox = () => {
   const {id}=useParams();
-  const [user, setUser] = useState(null);
+
 const chatBox = useRef(null)
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(false);
 
   const handleSend=async()=>{
 
   }
 
+const user=useSelector((state)=>state.user.value)
 
 
-  useEffect(()=>{
-
-setUser(dummyUserData);
-setLoad(false);
-
-
-  },[])
   if(load)
   {
     return <Loading/>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ConntectionState from '../components/ConntectionState'
 
-import { BadgeCheck, Clock, Handshake, Network, User, UserCheck } from 'lucide-react'
+import { AwardIcon, BadgeCheck, Clock, Eye, Handshake, MapPin, MapPinIcon, Network, Plus, User, UserCheck } from 'lucide-react'
 import Shimmer from '../components/Shimmer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormStatus } from 'react-dom'
@@ -9,10 +9,16 @@ import { useAuth } from '@clerk/react'
 import { fetchConnection } from '../features/connections/connectionSlice'
 import api from '../api/axois'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router'
+import { fetchUser } from '../features/user/userSlice'
+import Card from '../components/Card'
 
 const Connections = () => {
-
+  const navigate=useNavigate();
+  const dispatch=useDispatch()
+const user=useSelector(state=>state.user.value)
  const {connections,pendingConnections,followers,following}=useSelector((state)=>state.connections)
+
   const list=[
     {
       name:"Followers",
@@ -31,18 +37,25 @@ const Connections = () => {
       icon:<Handshake/>
     }
   ]
+  
    const [status, setStatus] = useState(list[0].name)
   const {getToken}=useAuth();
+   useEffect(()=>{
+  const fetch=async()=>{
+  dispatch(fetchConnection(await getToken()))
+  }
+
+ },[])
   useEffect(()=>{
 getToken().then((token)=>{
-  const dispatch=useDispatch();
+
   dispatch(fetchConnection(token))
 })
   },[])
-  const handleUnfollow=async(userId)=>{
+  const handleUnfollow=async(item)=>{
     try{
 const {data}=await api.post('/api/user/unfollow',{
-  id:userId
+  id:item._id
 },{
   headers:{
     Authorization:`Bearer ${await getToken()}`
@@ -76,6 +89,7 @@ if(data.success)
 {
   toast.success(data.message)
   dispatch(fetchConnection(await getToken()))
+  dispatch(fetchUser(await getToken()))
 }
 else{
   toast(data.message)
@@ -126,24 +140,7 @@ toast.error(err.message)
 {
   status=="Followers"&& followers.map((item,index)=>(
   
-    <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
-      
-    <div className=''>
-      <img className='w-15 h-15 rounded-full' src={item.profile_picture} alt="" />
-    
-    </div>
-    <div className='w-full md:w-40'>
-  <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-      <p className='text-gray-500 '>@{item.username}</p>
-      <p className='truncate   text-gray-600 text-sm'>{item.bio}</p>
-    </div>
-
-
-
-<Shimmer link={`/profile/${item._id}`} type={"View Profile"}/>
-      
-   
-    </div>
+<Card key={item._id} item={item}/>
   ))
 }
 
@@ -153,85 +150,34 @@ toast.error(err.message)
 
 
 {
-  status=="Following"&& pendingConnections.map((item,index)=>(
-  
-    <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
-      
-    <div className=''>
-      <img className='w-15 h-15 rounded-full' src={item.profile_picture} alt="" />
+  status=="Following" && following.map((item,index)=>(
+<Card key={item._id} item={item}/>
+
     
-    </div>
-    <div className='w-full md:w-40'>
-   <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-      <p className='text-gray-500 '>@{item.username}</p>
-      <p className='truncate text-gray-600 text-sm'>{item.bio}</p>
-    </div>
+
+ 
+  ))}
 
 
-
-<Shimmer link={`/profile/${item._id}`} type={"View Profile"}/>
-      
-   
-    </div>
-  ))
-}
 
   
+ 
+{
+  status=="Connections" && connections.map((item,index)=>(
+      
+    <Card key={item._id} item={item}/>
+
+ 
+  ))}
 
 {
-  status=="Pending"&& connections.map((item,index)=>(
-  
-    <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
+  status=="Pending" && pendingConnections.map((item,index)=>(
       
-    <div className=''>
-      <img className='w-15 h-15 rounded-full' src={item.profile_picture} alt="" />
-    
-    </div>
-    <div className='w-full md:w-40'>
-  <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-      <p className='text-gray-500 '>@{item.username}</p>
-      <p className='truncate text-gray-600 text-sm'>{item.bio}</p>
-    </div>
+    <Card key={item._id} item={item}/>
 
-
-
-<Shimmer link={`/profile/${item._id}`} type={"View Profile"}/>
-      
-   
-    </div>
-  ))
-}
-
-
-
-  
-
-{
-  status=="Connections"&& connections.map((item,index)=>(
-  
-    <div className='flex gap-2 max-md:flex-col  max-md:w-full shadow p-5' key={index}>
-      
-    <div className=''>
-      <img className='w-15 h-15 rounded-full' src={item.profile_picture} alt="" />
-    
-    </div>
-    <div className='w-full md:w-40'>
-  <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-      <p className='text-gray-500 '>@{item.username}</p>
-      <p className='truncate text-gray-600 text-sm'>{item.bio}</p>
-    </div>
-
-
-
-<Shimmer link={`/profile/${item._id}`} type={"View Profile"}/>
-      
-   
-    </div>
-  ))
-}
-    </div>
-
+ 
+  ))}
+</div>
 </div>
   )}
-
 export default Connections
