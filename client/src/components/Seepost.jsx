@@ -56,16 +56,16 @@ const navigate=useNavigate()
   }
     const postWithHastags=post.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>')
   return (
-    <div className='w-full h-screen  overflow-x-hidden backdrop-blur bg-gray-50 flex p-4'>
+    <div className='w-full h-screen  overflow-x-hidden backdrop-blur dark:text-white dark:bg-gray-950 bg-gray-50 flex p-4'>
        <button onClick={()=>{
 navigate(-1);
     
       }} className='w-10 h-10   rounded-lg  p-2 hover:bg-red-600 hover:border-none hover:text-white  bg-gray-50 absolute  cursor-pointer z-50 left-2 shadow '><X/></button>
         
-      <div  className='bg-white rounded-lg  shadow border border-gray-300 w-full max-lg:h-1/2  max-lg:gap-4 flex flex-wrap '>
+      <div  className='bg-white rounded-lg  shadow border dark:text-white  dark:bg-gray-900 border-gray-300 w-full max-lg:h-1/2  max-lg:gap-4 flex flex-wrap '>
     
        
-        <div className='w-9/12 max-lg:w-full relative h-full transition-all duration-300 border-r p-4 border-r-gray-300 flex justify-center  group'>
+        <div className='w-9/12 max-lg:w-full dark:border-r-gray-700 relative h-full transition-all duration-300 border-r p-4 border-r-gray-300 flex justify-center  group'>
 
      
    <img   className='rounded max-md:object-cover w-full  transition-all duration-300 object-contain' src={post.image_urls[curr]} alt="" />
@@ -92,7 +92,7 @@ navigate(-1);
 
 
       </div>
-<div className='w-3/12 rounded-lg  shadow bg-white max-lg:w-full p-4 '>
+<div className='w-3/12 rounded-lg  shadow dark:text-white dark:bg-gray-900 bg-white max-lg:w-full p-4 '>
 <div className='flex flex-col  justify-center items-center'>
 
 
@@ -100,8 +100,8 @@ navigate(-1);
   
       <img className='w-13  rounded-full object-cover relative bottom-5 h-13' src={post.user.profile_picture} alt="cover-photo" />
       <div className='flex  relative flex-col bottom-5'>
-    <h1 className='font-semibold flex gap-1'>{post.user.full_name}{post.user.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-      <p className='text-gray-700 text-sm font-light flex gap-0.5'>@{post.user.username} <Dot/> {dayjs(post.createdAt).fromNow()} </p>
+    <h1 className='font-semibold flex gap-1'>{post.user.full_name}{post.user.is_verified && <BadgeCheck  className='fill-blue-600 size-4 text-white'/>}</h1>
+      <p className='text-gray-700 text-sm font-light flex gap-0.5 dark:text-gray-500'>@{post.user.username} <Dot/> {dayjs(post.createdAt).fromNow()} </p>
       </div>
      
           </div>
@@ -109,7 +109,7 @@ navigate(-1);
 
 } 
    </div>
-   <hr  className='text-gray-300 mt-4'/>
+   <hr  className='text-gray-300 mt-4 dark:text-gray-700'/>
   
 </div>
       </div>

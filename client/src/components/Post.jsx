@@ -142,7 +142,7 @@ return (
  
    
 
-<div className='flex mt-5 gap-10 border-t border-t-gray-400 p-4'>
+<div className='flex mt-5 gap-10 border-t dark:border-t-gray-700 border-t-gray-400 p-4'>
 <div className=''> 
     <Heart onClick={()=>{
      
