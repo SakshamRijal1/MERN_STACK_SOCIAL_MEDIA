@@ -95,7 +95,7 @@ useEffect(() => {
     
            <div onClick={()=>{
             setShowModel(true)
-           }}  className='min-w-35 max-w-35 rounded-lg hover:shadow  shadow-gray-400 transition-all duration-150 hover:scale-101 cursor-pointer border-2 border-violet-300  border-dashed h-45  m-5 flex flex-col justify-center items-center'>
+           }}  className='min-w-30 max-w-30 rounded-lg hover:shadow  shadow-gray-400 transition-all duration-150 hover:scale-101 cursor-pointer border-2 border-violet-300  border-dashed h-40 m-5 flex flex-col justify-center items-center'>
            <CirclePlusIcon className='fill-indigo-600  text-white w-10 h-10'/>
            <p>Create Story</p>
           </div>
@@ -105,7 +105,7 @@ useEffect(() => {
           <div onClick={()=>{
             setShowStories(item)
             handleView(item)
-          }} key={index} className='min-w-35 max-w-35 rounded-lg hover:shadow  shadow-gray-400 transition-all duration-150 hover:scale-101 cursor-pointer justify-center items-center  h-45  m-5 relative flex'>
+          }} key={index} className='min-w-30 max-w-30 rounded-lg hover:shadow  shadow-gray-400 transition-all duration-150 hover:scale-101 cursor-pointer justify-center items-center  h-40  m-5 relative flex'>
 <img className='rounded-full h-10 absolute top-3 left-3  z-20 w-10 object-cover' src={item.user.profile_picture}alt="" />
 <div>
 <p className='absolute z-20 bottom-3 right-2 font-extralight text-white '>{ dayjs(item.createdAt).fromNow()

@@ -141,8 +141,12 @@ setShowProfile(true)
             <hr  className='text-gray-300 mt-5'/>
             <div className='flex gap-4 mt-2 text-gray-800'>
               <h1 className='flex gap-1'>{posts.length} <span className='font-semibold'>Posts</span></h1>
-                <h1 className='flex gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
-                  <h1 className='flex gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
+                <h1 onClick={()=>{
+                  navigate('/connections')
+                }} className='flex hover:underline cursor-pointer  gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
+                  <h1 onClick={()=>{
+                  navigate('/connections')
+                }} className='flex hover:underline cursor-pointer  gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
             </div>
           </div>
 
@@ -162,7 +166,7 @@ setShowProfile(true)
     </div>
 
 
-    <div className='shadow w-96 p-2  flex justify-between rounded-lg'>
+    <div className='shadow w-96 p-2 max-sm:w-full  flex justify-between rounded-lg'>
 
 {
   list.map((item,index)=>(
@@ -179,7 +183,7 @@ setShowProfile(true)
       status=="Post" &&     <div className="flex justify-center p-2 max-w-4xl  flex-col gap-2">
 
 {
-  posts?.length==0 && <p className='text-gray-600'>No post found!!</p>
+  posts?.length==0 && <p className='text-gray-600 text-sm'>No post found!!</p>
 }
 {
 
@@ -190,10 +194,10 @@ posts.map((post,index)=>(
 </div>
     }
     {
-      status=="Media" &&     <div className="flex flex-wrap w-full gap-2 shadow p-2 rounded ">
+      status=="Media" &&    <div className="flex justify-center p-2 max-w-4xl  flex-col gap-2">
 
 {
-  posts?.length==0 && <p className='text-gray-600'>No media found!!</p>
+  posts?.length==0 && <p className='text-gray-600 text-sm '>No media found!!</p>
 }
 {
 

@@ -242,8 +242,8 @@ else{
         <input onInput={(e)=>{
           handleUploadImage(e)
         }} accept='image/*,video/*' className='hidden' type="file" name="" id="" />
-        <Upload/>
-       Add Photos/Videos
+        <Upload />
+       Add Media
       </label>
      </div>
 <div className='flex justify-center items-center mt-5 '>

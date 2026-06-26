@@ -75,7 +75,7 @@ setProfileFile(link)
 
 
 
-   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg   cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative z-10 '>
+   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg   cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative  '>
 
   <Edit2 className='w-5 h-5  '/> Change Profile Picture
       <input className=' hidden' type="file" accept='image/*' id="" />
@@ -113,7 +113,7 @@ setCoverPhoto(URL.createObjectURL(link));
 setCoverFile(link)
 
 
-   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg  cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative z-10 '>
+   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg  cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative  '>
 
   <Edit2 className='w-5 h-5 '/> Change Cover Photo
       <input className=' hidden' type="file" accept='image/*' id="" />

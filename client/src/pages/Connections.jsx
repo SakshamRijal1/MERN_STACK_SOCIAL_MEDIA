@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ConntectionState from '../components/ConntectionState'
 
 import { AwardIcon, BadgeCheck, Clock, Eye, Handshake, MapPin, MapPinIcon, Network, Plus, User, UserCheck } from 'lucide-react'
@@ -15,7 +15,11 @@ import Card from '../components/Card'
 
 const Connections = () => {
   const navigate=useNavigate();
-  const dispatch=useDispatch()
+  const dispatch=useDispatch();
+ const load = useRef(false)
+ const [loading, setLoading] = useState(false)
+
+
 const user=useSelector(state=>state.user.value)
  const {connections,pendingConnections,followers,following}=useSelector((state)=>state.connections)
 
@@ -33,7 +37,7 @@ const user=useSelector(state=>state.user.value)
       icon:<Clock/>
     },
     {
-      name:"Connections",
+      name:"Connection",
       icon:<Handshake/>
     }
   ]
@@ -52,31 +56,11 @@ getToken().then((token)=>{
   dispatch(fetchConnection(token))
 })
   },[])
-  const handleUnfollow=async(item)=>{
-    try{
-const {data}=await api.post('/api/user/unfollow',{
-  id:item._id
-},{
-  headers:{
-    Authorization:`Bearer ${await getToken()}`
-  }
-})
-if(data.success)
-{
-  toast.success(data.message)
-  dispatch(fetchConnection(await getToken()))
-}
-else{
-  toast(data.message)
-}
 
-    }
-    catch(err)
-    {
-toast.error(err.message)
-    }
-  }
    const acceptConnection=async(userId)=>{
+  if(load.current) return;
+  load.current=true
+  setLoading(true)
     try{
 const {data}=await api.post('/api/user/accept',{
   id:userId
@@ -100,7 +84,46 @@ else{
     {
 toast.error(err.message)
     }
+    finally{
+     load.current=false
+     setLoading(false)
+    }
   }
+     const cancelConnection=async(userId)=>{
+      if(load.current) return
+      load.current=true
+      setLoading(true)
+    try{
+const {data}=await api.post('/api/user/cancel',{
+  id:userId
+},{
+  headers:{
+    Authorization:`Bearer ${await getToken()}`
+  }
+})
+if(data.success)
+{
+  toast.success(data.message)
+  dispatch(fetchConnection(await getToken()))
+  dispatch(fetchUser(await getToken()))
+}
+else{
+  toast(data.message)
+}
+
+    }
+    catch(err)
+    {
+toast.error(err.message)
+    }
+    finally
+    {
+load.current=false
+setLoading(false)
+    }
+  }
+
+
   return (
    <div className='md:p-10 p-3 w-full overflow-x-hidden'>
   <h1 className='text-2xl font-bold'>Connections</h1>
@@ -116,10 +139,10 @@ toast.error(err.message)
    <ConntectionState number={pendingConnections.length} parameter={'Pending'}/>
   }
     {
-   <ConntectionState number={connections.length} parameter={'Connections'}/>
+   <ConntectionState number={connections.length} parameter={'Connection'}/>
   }
   </div>
-  <div className='max-md:w-full  w-fit flex max-md:gap-3  gap-6 mt-5 items-center justify-between shadow max-md:p-2 p-3 shadow-gray-400 rounded-lg '>
+  <div className='max-md:w-full  w-fit flex max-md:gap-1 max-sm:gap-2  gap-6 mt-5 items-center justify-between  py-2 shadow rounded-lg '>
 
 
 
@@ -127,7 +150,7 @@ toast.error(err.message)
       list.map((item,index)=>(
 <div onClick={()=>{
   setStatus(item.name)
-}} key={index} className={`flex flex-wrap gap-1 justify-center items-center transition-all text-sm duration-200 cursor-pointer ${status==item.name? 'border-b-2 border-b-indigo-600 text-indigo-600':"text-gray-500 "}`}>
+}} key={index} className={`flex flex-wrap gap-1 py-2 px-4 max-sm:px-2 justify-center items-center transition-all text-sm duration-200 cursor-pointer rounded-lg ${status==item.name? ' bg-indigo-600  text-white':"text-gray-500 "}`}>
 {item.icon}
   <span>{item.name}</span>
 </div>
@@ -135,13 +158,29 @@ toast.error(err.message)
     }
     </div>
 
-    <div className='flex gap-5 mt-3 flex-wrap max-md:flex-col max-md:w-full'>
+    <div className='flex gap-5 mt-3 flex-wrap max-md:flex-col max-md:w-full justify-center items-center'>
 
 {
-  status=="Followers"&& followers.map((item,index)=>(
+  status=="Followers"&&
+
+
+  <>
+{
   
+  followers.map((item,index)=>(
+   
 <Card key={item._id} item={item}/>
-  ))
+
+
+  
+
+  ))}
+  {
+    followers.length==0 &&<p className='my-5 text-gray-600 text-sm'>No followers found.</p>
+  }
+    </>
+
+
 }
 
 
@@ -150,33 +189,112 @@ toast.error(err.message)
 
 
 {
-  status=="Following" && following.map((item,index)=>(
+  status=="Following" &&
+  
+  <>
+  {
+  following.map((item,index)=>(
 <Card key={item._id} item={item}/>
 
-    
+   
 
  
   ))}
+  {  following.length===0 && <p className='my-5 text-gray-600 text-sm'>No following found.</p>
+
+  }
+   </>}
 
 
 
   
  
 {
-  status=="Connections" && connections.map((item,index)=>(
+  status=="Connection" &&
+  
+  
+  <>
+  {connections.map((item,index)=>(
       
     <Card key={item._id} item={item}/>
 
  
-  ))}
+  ))
+}{
+   connections.length===0 && <p className='my-5 text-gray-600 text-sm'>No connections found.</p>
+}
+  </>
+  }
 
 {
-  status=="Pending" && pendingConnections.map((item,index)=>(
-      
-    <Card key={item._id} item={item}/>
+  status=="Pending" &&
+  <>
+  {
+  pendingConnections.map((item,index)=>(
 
+      <div className='flex flex-col max-w-72 rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-4'>
+       <img onClick={()=>{
+        navigate(`/profile/${item._id}`)
+       }}  className='w-15 h-15 object-cover rounded-full cursor-pointer' src={item.profile_picture} alt="" />
+       <div>
+   
+      
+       <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
+       <p className='text-gray-500 text-center'>@{item.username}</p>
+   
+    </div>
+       <p className=' text-gray-600 text-sm'>{item.bio}</p>
+   
+   
+    
+     
+   <div className='flex w-full items-center  content-around gap-3 my-1 flex-wrap'>
+   
+   
+
+   
+     <button disabled={loading}   onClick={()=>{
+  
+      acceptConnection(item._id)
+     }}
+       className={`group relative cursor-pointer  w-full text-sm py-2 ${loading && 'opacity-50'} bg-green-600 text-white  active:scale-95 transition-all duration-300   rounded-lg`}>
+     
+   Accept
+   
+   
+     </button>
+     
+      
+     
+   
+        
+    <button disabled={loading}  onClick={()=>{
+
+      cancelConnection(item._id)
+    }} 
+       className={`group ${loading && 'opacity-50'} cursor-pointer relative  w-full  py-2   bg-slate-500 active:scale-95 transition-all duration-300     text-white shadow  rounded-lg`}>
+         
+    
+   Cancel
+   
+     </button> 
+   
+   
+
+   
+   
+   
+   
+   
+         </div>
+      </div>
  
   ))}
+  {
+ pendingConnections.length===0 && <p className='my-5 text-gray-600 text-sm'>No pending connections found.</p>
+  }
+  </>} 
+  
 </div>
 </div>
   )}

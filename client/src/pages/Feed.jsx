@@ -59,14 +59,16 @@ fetchFeeds();
 
 
     
-    <div className='h-full w-full   overflow-y-auto no-scrollbar  items-start  xl:gap-8  lg:p-10 grid xl:grid-cols-[2fr_1fr] justify-center   relative '>
+    <div className='h-full w-full   overflow-y-auto no-scrollbar  items-start  xl:gap-8  lg:p-10 grid xl:grid-cols-[2fr_1fr]    relative '>
       {}
-<div className='truncate  flex-nowrap max-w-4xl'>
- 
+<div className=' max-w-4xl'>
+ <div className=' truncate  flex-nowrap'>
+
+
  
   <Stories/>
-  
-    <div className="flex justify-center  px-4 flex-col gap-4">
+   </div>
+    <div className="flex  px-4 flex-col gap-4">
 
 
 { feeds.length >0 ?

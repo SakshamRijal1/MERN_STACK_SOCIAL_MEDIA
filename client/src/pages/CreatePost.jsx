@@ -13,9 +13,12 @@ const caption=useRef('')
 const [url, setUrl] = useState([])
 const {getToken}=useAuth()
 const [image, setImage] = useState([])
+
+
 const user=useSelector((state)=>state.user.value)
 const navigate=useNavigate()
 const handlePost=async()=>{
+  setLoad(true)
   const token=await getToken()
   let content=""
   let post_type=""
@@ -76,6 +79,9 @@ const handlePost=async()=>{
 catch(err)
 {
   toast.error(err.message)
+}
+finally{
+  setLoad(false)
 }
 }
 
@@ -179,10 +185,10 @@ setImage(image.filter((_,i)=>i!==index))
 <Image  className='cursor-pointer hover:scale-95 transition-all duration-200 shadow'/>
       </label>
    <div  class="flex flex-col gap-6 max-md:w-full  relative z-10">
-  <button onClick={()=>{
+  <button disabled={load} onClick={()=>{
     handlePost()
   }}
-    class="group relative px-5  py-3 text-white rounded-md flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl   hover:scale-[1.02] hover:-translate-y-1 active:scale-95 transition-all duration-500 ease-out cursor-pointer  hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 overflow-hidden">
+    class={`group relative px-5  py-3 text-white rounded-md flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 ${load && 'opacity-50'} to-pink-500 shadow-2xl   hover:scale-[1.02] hover:-translate-y-1 active:scale-95 transition-all duration-500 ease-out cursor-pointer  hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 overflow-hidden`}>
     <div class="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
     ></div>
 

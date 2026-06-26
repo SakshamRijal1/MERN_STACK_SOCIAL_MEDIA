@@ -9,6 +9,7 @@ import { inngest } from "../inngest/index.js";
 
 import Post from "../models/Post.js";
 import { url } from "inspector";
+import { userInfo } from "os";
 
 
 export const getUserData=async(req,res)=>{
@@ -365,6 +366,102 @@ export const unfollowUsers=async(req,res)=>{
  })
   }
 }
+export const disconnectRequest=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+    const {id}=req.body;
+    const connection=await Connection.findOne(
+      {
+        $or:[
+          {to_user_id:userId,from_user_id:id},
+          { from_user_id:userId,to_user_id:id}
+        ],
+        status:'accepted'
+      }
+    )
+    if(!connection )
+    {
+      return res.json({
+        success:false,
+        message:"Connection doesnot exists."
+      })
+    }
+  
+    const user=await User.findById(userId)
+    const toUser=await User.findById(id);
+    if(user && toUser)
+    {
+   user.connections = user.connections.filter(
+      (item) => item.toString() !== toUser._id.toString()
+    );
+
+    toUser.connections = toUser.connections.filter(
+      (item) => item.toString() !== user._id.toString()
+    );
+
+    await user.save();
+    await toUser.save();
+    await connection.deleteOne();
+
+    return res.json({
+      success: true,
+      message: "Disconnected successfully.",
+    })
+
+    }
+    else{
+return res.json({
+  success:false,
+  message:"Something went wrong."
+})
+
+    }
+
+
+  }
+  catch(err)
+  {
+    res.json({
+      success:false,
+    message:err.message
+    })
+  }
+}
+
+export const handleCancel=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+    const {id}=req.body;
+    const connection=await Connection.findOne({
+      $or:[{
+        to_user_id:id,from_user_id:userId
+      },{
+        from_user_id:id,to_user_id:userId
+      }]
+    })
+    if(connection)
+    {
+      await connection.deleteOne();
+    
+     return res.json({
+        success:true,
+        message:"Canceled request"
+      })
+
+    }
+res.json({
+  success:false,
+  message:"Something went wrong."
+})
+  }
+  catch(err)
+  {
+res.json({
+  success:false,
+  message:err.message
+})
+  }
+}
 
 export const sendConnectionRequest=async(req,res)=>{
   try{
@@ -489,9 +586,13 @@ const connection=await Connection.findOne({
 })
 if(!connection)
 {
-  return res.json({
+  
+}
+if(connection.status=="accepted")
+{
+return res.json({
     success:false,
-    message:"Connection not found"
+    message:"Already accepted friend request"
   })
 }
 connection.status='accepted';
