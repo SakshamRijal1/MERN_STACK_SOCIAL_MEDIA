@@ -238,7 +238,7 @@ toast.error(err.message)
   return (
     
 
-   <div className='flex flex-col max-w-72 rounded-lg p-4  min-w-60 shadow mt-8   items-center gap-4'>
+   <div className='flex flex-col dark:bg-gray-900 dark:text-white  max-w-72 rounded-lg p-4  min-w-60 shadow mt-8   items-center gap-4'>
 
        <img  onClick={()=>{
         navigate(`/profile/${item._id}`)
@@ -257,8 +257,8 @@ toast.error(err.message)
       <div className='flex gap-2 justify-center items-center'>
        {item.location &&
    
-        <button className='rounded-2xl justify-center items-center text-sm gap-2  border-gray-300 border py-0.5 flex  text-gray-600  px-4 shadow'><MapPin className='w-5 h-5'/>{item.location}</button>}
-          <button  className='rounded-2xl text-sm  px-4 py-0.5 justify-center shadow text-gray-600 border-gray-300  border flex'>{item.followers.length} Followers</button>
+        <button className='rounded-2xl justify-center items-center text-sm gap-2 dark:border-gray-700 border-gray-300 border py-0.5 flex  text-gray-600  px-4 shadow'><MapPin className='w-5 h-5'/>{item.location}</button>}
+          <button  className='rounded-2xl text-sm  px-4 py-0.5 dark:border-gray-700 justify-center shadow text-gray-600 border-gray-300  border flex'>{item.followers.length} Followers</button>
        </div>}
        
      

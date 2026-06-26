@@ -109,14 +109,15 @@ toast.error(err.message)
 return (
 <>
  
- <div className=" bg-white rounded-lg  p-5 lg:p-10 flex justify-center  flex-col relative">
+ <div className=" bg-white dark:bg-gray-900 dark:text-white rounded-lg p-6   lg:p-10 w-full
+ max-md:w-full flex justify-center  flex-col relative">
 
-      <div className='flex gap-4 '>
+      <div className='flex gap-4 max-lg:my-3 max-sm:gap-5 '>
     
-      <img className='w-13  rounded-full object-cover relative bottom-5 h-13' src={item.user.profile_picture} alt="cover-photo" />
-      <div className='flex  relative flex-col bottom-5'>
-    <h1 className='font-semibold flex gap-1 flex  items-center'>{item.user.full_name}{item.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
-      <p className='text-gray-700 text-sm font-light flex gap-0.5'>@{item.user.username} <Dot/> {dayjs(item.createdAt).fromNow()} </p>
+      <img className='w-13  rounded-full object-cover  relative bottom-5 h-13' src={item.user.profile_picture} alt="cover-photo" />
+      <div className='flex  relative flex-col bottom-5 '>
+    <h1 className='font-semibold flex gap-1  items-center'>{item.user.full_name}{item.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
+      <p className='text-gray-700  dark:text-gray-500 text-sm font-light flex flex-wrap gap-0.5'>@{item.user.username} <Dot/> {dayjs(item.createdAt).fromNow()} </p>
       </div>
           
       </div>

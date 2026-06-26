@@ -14,7 +14,7 @@ export const fetchUser=createAsyncThunk('user/fetchUser',async(token)=>{
       Authorization:`Bearer ${token}`
     }
   })
-  console.log(data)
+
   return data.success ? data.user :null
 })
 

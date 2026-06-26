@@ -52,12 +52,12 @@ key={comment._id}
 className="
 group
 flex
-gap-3
+gap-3 max-sm:gap-0
 items-start
-relative
+relative max-sm:w-full
 "
 > 
-<div className='absolute right-2 top-5 flex justify-center items-center flex-col'>
+<div className='absolute right-2 top-7 flex justify-center items-center flex-col'>
 {
   <Heart  onClick={()=>{
   const id=comment._id;
@@ -97,25 +97,28 @@ ring-indigo-100
 <div
 className="
 bg-gray-50
+dark:bg-gray-800
 rounded-3xl
 px-5
 py-3
 group-hover:bg-indigo-50
+dark:group-hover:bg-gray-700
 transition
 "
 >
-  <div className='flex gap-2 items-center'>
+  <div className='flex gap-2 items-center flex-wrap'>
 
  
 
-    <h1 className='font-semibold flex gap-1 flex  items-center'>{comment.user.full_name}{comment.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
-    <p className='text-sm font-light text-gray-600'>{dayjs(comment.createdAt).fromNow()}</p>
+    <h1 className='font-semibold flex gap-1   items-center'>{comment.user.full_name}{comment.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
+    <p className='text-sm font-light text-gray-600 dark:text-gray-500 truncate'>{dayjs(comment.createdAt).fromNow()}</p>
      </div>
 
 <p
 className="
 text-gray-700
 break-words
+dark:text-gray-300
 "
 >
 {comment.comment}

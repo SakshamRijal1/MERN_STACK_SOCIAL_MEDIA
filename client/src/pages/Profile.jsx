@@ -106,7 +106,7 @@ else{
   <div className='md:p-10 p-3 w-full overflow-x-hidden flex justify-center items-center flex-col gap-5 relative'>
 
 
-    <div className=' rounded-lg w-full max-h-screen bg-white min-h-120 relative '>
+    <div className=' rounded-lg w-full max-h-screen dark:bg-slate-900  dark:text-white bg-white min-h-120 relative '>
       <div className=' max-h-screen w-full bg-gradient-to-r from-purple-600  to-pink-600 rounded-t-lg h-60 '>
         {
 item.cover_photo &&
@@ -131,7 +131,7 @@ setShowProfile(true)
           <div>
             <p className='text-gray-600 text-sm'>{item?.bio}</p>
 
-            <div className='mt-5 flex  gap-4 text-gray-700 max-sm:flex-col'>
+            <div className='mt-5 flex  gap-4 text-gray-700 dark:text-gray-600 max-sm:flex-col'>
               {
                 item.location &&   <button className=' gap-1 flex rounded-xl  items-center justify-center px-3 py-0.5 text-sm ' ><MapPin/>{item?.location}</button>
               }
@@ -139,7 +139,7 @@ setShowProfile(true)
               <button className=' gap-1 flex rounded-xl  items-center justify-center px-3 py-0.5 text-sm ' ><Calendar/> Joined <span className='font-semibold'>{dayjs(item?.createdAt).fromNow()}</span></button>
             </div>
             <hr  className='text-gray-300 mt-5'/>
-            <div className='flex gap-4 mt-2 text-gray-800'>
+            <div className='flex gap-4 mt-2 text-gray-800 dark:text-gray-400'>
               <h1 className='flex gap-1'>{posts.length} <span className='font-semibold'>Posts</span></h1>
                 <h1 onClick={()=>{
                   navigate('/connections')
@@ -158,7 +158,7 @@ setShowProfile(true)
   !id && <div className=' p-3 max-lg:w-full '>
           <button onClick={()=>{
   setEdit(true)
-          }} className='flex max-lg:w-full transition-all duration-200 hover:scale-95 rounded-lg hove:shadow px-4 py-1 shadow  cursor-pointer  gap-2 justify-center items-center'> <Edit/>Edit</button>
+          }} className='flex max-lg:w-full transition-all duration-200 hover:scale-95 rounded-lg hove:shadow px-4 py-1 shadow  cursor-pointer  gap-2 justify-center items-center dark:shadow-gray-700'> <Edit/>Edit</button>
         </div>
 }
        
@@ -166,13 +166,13 @@ setShowProfile(true)
     </div>
 
 
-    <div className='shadow w-96 p-2 max-sm:w-full  flex justify-between rounded-lg'>
+    <div className='shadow w-96 p-2 max-sm:w-full dark:bg-gray-900 flex justify-between rounded-lg'>
 
 {
   list.map((item,index)=>(
     <button onClick={()=>{
       setStatus(item)
-    }} className={`cursor-pointer px-5 py-1 rounded-lg transition-all duration-500 ${item==status ? "bg-indigo-600 text-white":"text-gray-700"} `} key={item}>
+    }} className={`cursor-pointer px-5 py-1 rounded-lg  transition-all duration-500 ${item==status ? "bg-indigo-600 text-white":"text-gray-700 dark:text-gray-500"} `} key={item}>
 {item}
 
     </button>
@@ -180,7 +180,7 @@ setShowProfile(true)
 }
     </div>
     {
-      status=="Post" &&     <div className="flex justify-center p-2 max-w-4xl  flex-col gap-2">
+      status=="Post" &&     <div className="flex justify-center p-2 max-w-4xl  flex-col gap-6">
 
 {
   posts?.length==0 && <p className='text-gray-600 text-sm'>No post found!!</p>
@@ -194,10 +194,10 @@ posts.map((post,index)=>(
 </div>
     }
     {
-      status=="Media" &&    <div className="flex justify-center p-2 max-w-4xl  flex-col gap-2">
+      status=="Media" &&    <div className="flex  p-2 max-w-4xl  flex-col gap-2">
 
 {
-  posts?.length==0 && <p className='text-gray-600 text-sm '>No media found!!</p>
+  posts?.length==0 && <p className='text-gray-600 text-sm text-center'>No media found!!</p>
 }
 {
 

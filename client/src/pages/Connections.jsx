@@ -125,10 +125,10 @@ setLoading(false)
 
 
   return (
-   <div className='md:p-10 p-3 w-full overflow-x-hidden'>
-  <h1 className='text-2xl font-bold'>Connections</h1>
-  <p className=' text-gray-500 mt-4'>Manage your network and discover new connections.</p>
-<div className='flex gap-4  flex-wrap mt-10 overflow-x-hidden'>
+   <div className='md:p-10 p-3 w-full   overflow-x-hidden'>
+  <h1 className='text-2xl font-bold dark:text-white'>Connections</h1>
+  <p className=' text-gray-500 dark:text-gray-400 mt-4'>Manage your network and discover new connections.</p>
+<div className='flex gap-4 rounded-lg flex-wrap mt-10 overflow-x-hidden'>
   {
    <ConntectionState  number={followers.length} parameter={'Followers'}/>
   }
@@ -142,7 +142,7 @@ setLoading(false)
    <ConntectionState number={connections.length} parameter={'Connection'}/>
   }
   </div>
-  <div className='max-md:w-full  w-fit flex max-md:gap-1 max-sm:gap-2  gap-6 mt-5 items-center justify-between  py-2 shadow rounded-lg '>
+  <div className='max-md:w-full  dark:bg-gray-900 dark:text-white w-fit flex max-md:gap-1 max-sm:gap-2  gap-6 mt-5 items-center justify-between  py-2 shadow rounded-lg '>
 
 
 
@@ -232,7 +232,7 @@ setLoading(false)
   {
   pendingConnections.map((item,index)=>(
 
-      <div className='flex flex-col max-w-72 rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-4'>
+      <div className='flex flex-col  dark:bg-gray-900 dark:text-white max-w-72 rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-4'>
        <img onClick={()=>{
         navigate(`/profile/${item._id}`)
        }}  className='w-15 h-15 object-cover rounded-full cursor-pointer' src={item.profile_picture} alt="" />

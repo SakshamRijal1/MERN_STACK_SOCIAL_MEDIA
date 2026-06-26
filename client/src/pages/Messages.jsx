@@ -10,16 +10,16 @@ const Messages = () => {
 
   return (
     <div className='md:p-10 p-3 w-full overflow-x-hidden'>
-  <h1 className='text-2xl font-bold'>Messages</h1>
-  <p className=' text-gray-500 mt-4'>Talk to your friends and family</p>
+  <h1 className='text-2xl dark:text-white font-bold'>Messages</h1>
+  <p className=' text-gray-500 dark:text-gray-400 mt-4'>Talk to your friends and family</p>
 
 
-  <div className='flex flex-wrap items-center gap-4 w-full mt-10 shadow rounded-lg md:p-3 justify-center'>
+  <div className='flex flex-wrap items-center gap-4 w-full mt-10 dark:bg-gray-900  shadow rounded-lg md:p-3 justify-center'>
    
 {
   connections.length === 0 && (
-    <div className="flex flex-col items-center justify-center w-full py-20 text-center">
-      <div className="w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full rounded-lg py-20 text-center">
+      <div className="w-24 h-24 rounded-full bg-indigo-100  flex items-center justify-center">
         <MessageCircleX className="w-12 h-12 text-indigo-600" />
       </div>
 
@@ -46,7 +46,7 @@ const Messages = () => {
     {
       connections.map((item,index)=>(
         
-              <div className='flex flex-col max-w-72 rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-4'>
+              <div className='flex flex-col max-w-72 dark:shadow-gray-900 dark:bg-gray-800 dark:text-white rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-4'>
                <img onClick={()=>{
                 navigate(`/profile/${item._id}`)
                }}  className='w-15 h-15 object-cover rounded-full cursor-pointer' src={item.profile_picture} alt="" />

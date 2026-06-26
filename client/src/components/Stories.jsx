@@ -66,7 +66,7 @@ useEffect(() => {
 
 
   return !load ? (
-     <div  className='px-4 relative group'>
+     <div  className='px-4 relative group dark:bg-gray-900 dark:text-white'>
   { 
   (story.current &&( (story.current.scrollWidth-story.current.offsetWidth))>Math.ceil(scrollX)) &&
   <div  onClick={()=>{
@@ -90,7 +90,7 @@ useEffect(() => {
         </div>}
       <div ref={story} onScroll={()=>{
    setScrollX(story.current.scrollLeft)
-     }} className='flex scroll-smooth  bg-white rounded-lg shadow my-4  overflow-x-auto no-scrollbar  '>
+     }} className='flex scroll-smooth   rounded-lg shadow my-4  overflow-x-auto no-scrollbar  '>
 
     
            <div onClick={()=>{

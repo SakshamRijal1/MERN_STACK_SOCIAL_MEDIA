@@ -51,7 +51,7 @@ return (
 
 <div
 className="
-bg-white/90
+bg-white/90 dark:bg-gray-950 dark:text-white
 backdrop-blur-lg
 rounded-3xl
 shadow-2xl
@@ -145,6 +145,7 @@ onSubmit={handleSubmit}
 className="
 border-t
 bg-white
+dark:bg-gray-950
 sticky
 bottom-0
 p-4
@@ -173,12 +174,16 @@ className="
 w-full
 rounded-full
 bg-gray-100
+dark:bg-gray-900
 focus:bg-white
+dark:focus:bg-gray-950
+dark:border
 px-5
 py-3
 pr-16
 outline-none
 focus:ring-2
+focus:border-none
 focus:ring-indigo-500
 transition
 "
@@ -229,7 +234,7 @@ hover:scale-110
 onClick={() => setComment(false)}
 className="
 text-sm
-text-gray-500
+text-gray-500 dark:text-red-500
 hover:text-red-500
 transition
 cursor-pointer

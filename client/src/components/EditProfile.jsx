@@ -55,13 +55,13 @@ catch(err)
 }
   return (
     <div className='fixed bg-black/80 backdrop-blur w-screen h-screen  inset-0 z-110 flex justify-center p-5 max-sm:z-50 max-sm:p-0'>
-    <div className='bg-white flex flex-col gap-3  max-sm:w-full sm:rounded-lg  w-150 max-sm:h-full  no-scrollbar min-h-full overflow-y-auto relative '>
-<h1 className='text-2xl  border-b bg-white w-full border-b-gray-300 font-bold p-3 z-50 text-gray-800 sticky top-0'>Edit Profile</h1>
+    <div className='bg-white dark:text-white dark:bg-gray-900 flex flex-col gap-3  max-sm:w-full sm:rounded-lg  w-150 max-sm:h-full  no-scrollbar min-h-full overflow-y-auto relative '>
+<h1 className='text-2xl  border-b bg-white w-full border-b-gray-300 font-bold p-3 z-50 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 text-gray-800 sticky top-0'>Edit Profile</h1>
 <div className='flex gap-1 flex-wrap flex-col p-2 '>
   <div className=''>
 
 
-<h1 className='text-sm text-gray-800'>Profile Picture</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Profile Picture</h1>
 <img className='w-25 h-25 rounded-full object-cover' src={ profile || details.profile_picture} alt="" />
   </div>
   <div>
@@ -75,7 +75,7 @@ setProfileFile(link)
 
 
 
-   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg   cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative  '>
+   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg   cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative dark:text-gray-300  '>
 
   <Edit2 className='w-5 h-5  '/> Change Profile Picture
       <input className=' hidden' type="file" accept='image/*' id="" />
@@ -95,7 +95,7 @@ setProfileFile(null)
   <div>
 
 
-<h1 className='text-sm text-gray-800'>Cover Photo</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Cover Photo</h1>
 {
   coverPhoto||details.cover_photo ?
 
@@ -113,7 +113,7 @@ setCoverPhoto(URL.createObjectURL(link));
 setCoverFile(link)
 
 
-   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg  cursor-pointer hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative  '>
+   }} className='flex gap-2 my-3 px-2 py-1 rounded-lg  cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-300 transition-all duration-300  border border-gray-200 justify-center items-center text-gray-700  relative dark:text-gray-300 '>
 
   <Edit2 className='w-5 h-5 '/> Change Cover Photo
       <input className=' hidden' type="file" accept='image/*' id="" />
@@ -131,33 +131,33 @@ setCoverFile(link)
     </div>
 </div>
 <div className='flex gap-1 flex-col p-2'>
-<h1 className='text-sm text-gray-800'>Name</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Name</h1>
 <input ref={name}  className='w-full h-full border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.full_name} id="" />
 </div>
 <div className='flex gap-1 flex-col p-2'>
-<h1 className='text-sm text-gray-800'>Username</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Username</h1>
 <input ref={username} className='w-full h-full border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.username} id="" />
 </div>
 <div className='flex gap-1 flex-col p-2'>
-<h1 className='text-sm text-gray-800'>Bio</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Bio</h1>
 <textarea ref={bio}  rows={3}  className='w-full resize-none  text-nowrap  h-full   border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.bio} id="" />
 </div>
 <div className='flex gap-1 flex-col p-2'>
-<h1 className='text-sm text-gray-800'>Location</h1>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Location</h1>
 <input ref={location} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.location} id="" />
 </div>
-<div className='w-full flex max-sm:justify-center justify-end p-2 border-t border-gray-300 sticky bottom-0 bg-white '>
+<div className='w-full flex max-sm:justify-center justify-end p-2 border-t border-gray-300 sticky bottom-0 dark:bg-gray-900 dark:border-gray-700 bg-white '>
   <div className='flex gap-5 p-2 max-sm:w-full max-sm:flex-col '>
 
  
 <button onClick={()=>{
   setEdit(false)
-}} className=' rounded-md py-1 px-7  cursor-pointer  hover:bg-gray-200 border-gray-300 border transition-all duration-300'>Cancel</button>
+}} className=' rounded-md py-1 px-7  cursor-pointer  dark:hover:bg-gray-700 dark:border-none hover:bg-gray-200 border-gray-300 border transition-all duration-300'>Cancel</button>
   <button  onClick={()=>{
     handleSaveChange()
   }}
 
-    class={`group relative px-5 max-md:w-full py-1 text-white rounded-md flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
+    class={`group relative px-5 max-md:w-full py-1 text-white rounded-md dark:border-none flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
     <div class="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
     ></div>
 

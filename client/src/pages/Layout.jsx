@@ -1,36 +1,48 @@
-import React, { useState } from 'react'
-import Sidebar from '../components/Sidebar'
-import {Outlet} from 'react-router'
-import { dummyUserData } from '../assets/assets'
-import {Menu, X} from 'lucide-react'
-import Loading from '../components/Loading'
-import {useSelector} from 'react-redux'
+import React, { useState } from "react";
+import { Outlet } from "react-router";
+import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
+
+import Sidebar from "../components/Sidebar";
+import Loading from "../components/Loading";
+
 const Layout = () => {
-  
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-const user=useSelector((state)=>state.user.value)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const user = useSelector((state) => state.user.value);
 
-  return user? (
-    <div className='w-full justify-center  flex h-screen'>
-    <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
-      <div className='flex-1  bg-slate-50 overflow-x-hidden' >
-        <Outlet/>
+  if (!user) return <Loading />;
+
+  return (
+    <div className="min-h-screen bg-slate-100 dark:bg-gray-950">
+      <div className="mx-auto flex max-w-[1600px] w-full h-dvh dark:bg-gray-950">
+
+        {/* Sidebar */}
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+        />
+
+        {/* Main */}
+        <main className="flex-1 dark:bg-gray-950 min-h-dvh overflow-x-hidden no-scrollbar">
+          <Outlet />
+        </main>
+
+        {/* Mobile Menu */}
+        {sidebarOpen ? (
+          <X
+            onClick={() => setSidebarOpen(false)}
+            className="fixed top-4 right-4 z-50 h-11 w-11 rounded-xl bg-white p-2 shadow-lg sm:hidden cursor-pointer"
+          />
+        ) : (
+          <Menu
+            onClick={() => setSidebarOpen(true)}
+            className="fixed top-4 right-4 z-50 h-11 w-11 rounded-xl bg-white p-2 shadow-lg sm:hidden cursor-pointer"
+          />
+        )}
       </div>
-      {
-        sidebarOpen?
-        <X  onClick={()=>{
-          setSidebarOpen(false)
-        }} className='absolute top-3 right-3 p-2 z-110 bg-white rounded-md shadow w-10 h-10 cursor-pointer text-gray-600 sm:hidden'/>
-        :
-        <Menu onClick={()=>{
-          setSidebarOpen(true)
-        }} className='absolute cursor-pointer top-3 right-3 p-2 z-100 bg-white rounded-md shadow w-10 h-10 text-gray-600 sm:hidden'/>
-      }
-      
     </div>
-  )
-  :<Loading/>
-}
+  );
+};
 
-export default Layout
+export default Layout;

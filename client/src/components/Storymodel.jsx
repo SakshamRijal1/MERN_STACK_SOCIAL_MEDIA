@@ -11,8 +11,12 @@ const Storymodel = ({setShowModal,fetchStories,setStories}) => {
  const [background, setBackground] = useState(bgColors[0])
  const [media, setMedia] = useState(null)
  const [previewUrl, setPreviewUrl] = useState(null)
+ const [load, setLoad] = useState(false
+
+ )
  const navigate=useNavigate()
  const handleUploadImage=(e)=>{
+
 
    const MAX_VIDEO_DURATION=60;
  const MAX_VIDEO_SIZE=50*1024*1024;
@@ -124,7 +128,8 @@ else{
  const {getToken}=useAuth();
 
  const handleStoryAdd=async()=>{
-
+setLoad(true)
+  if(load) return
   const token=await getToken();
 
  
@@ -178,7 +183,9 @@ else{
   {
     toast.error(err.message)
   }
-  
+  finally{
+    setLoad(false)
+  }
 
  }
 
@@ -248,11 +255,11 @@ else{
      </div>
 <div className='flex justify-center items-center mt-5 '>
 
-  <button   onClick={(e)=>{
+  <button disabled={load}  onClick={(e)=>{
      toast.promise(handleStoryAdd(e),{
       loading:"Adding story.."
      })
-        }} className='flex bg-indigo-600 w-full justify-center items-center text-white rounded-lg py-2 cursor-pointer gap-2'>
+        }} className={`flex  bg-indigo-600 w-full justify-center items-center text-white rounded-lg py-2 ${load && 'opacity-50 cursor-not-allowed'} cursor-pointer gap-2`}>
 <StarsIcon/>
     Create Story
     </button>
