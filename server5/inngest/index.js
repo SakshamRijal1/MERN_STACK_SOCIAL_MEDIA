@@ -47,11 +47,11 @@ existingUsername=await User.findOne({
     }
 
 const existingUser=await User.findById(id);
-console.log(existingUser)
+console.log("this is existing one ",existingUser)
 if(!existingUser)
 {
  const user= await User.create(userCreated);
- console.log(user)
+ console.log("this is real one",user)
 }
   })
 
