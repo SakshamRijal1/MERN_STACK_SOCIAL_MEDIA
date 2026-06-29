@@ -45,10 +45,13 @@ existingUsername=await User.findOne({
            username
 
     }
+
 const existingUser=await User.findById(id);
+console.log(existingUser)
 if(!existingUser)
 {
-  await User.create(userCreated)
+ const user= await User.create(userCreated);
+ console.log(user)
 }
   })
 
@@ -85,8 +88,9 @@ const syncUserDeletion=inngest.createFunction(
   },
   async({event})=>{
     const {id}=event.data;
+    console.log("from inngest",id)
 
-await User.findByIdAndDelete(id)
+await User.findByIdAndDelete(id);
   })
 //Inggest fn to send reminder when a new cnnenction request is added
  //the event is app/connection-request
