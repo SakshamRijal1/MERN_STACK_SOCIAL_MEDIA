@@ -3,8 +3,9 @@ import sample_cover from './sample_cover.jpg'
 import sample_profile from './sample_profile.jpg'
 import bgImage from './bgImage.png'
 import group_users from './group_users.png'
-import { Home, MessageCircle, Search, UserIcon, Users } from 'lucide-react'
+import { Home, Icon, MessageCircle, Search, Sparkle, UserIcon, Users } from 'lucide-react'
 import sponsored_img from './sponsored_img.png'
+import { label } from 'three/src/nodes/core/ContextNode.js'
 
 export const assets = {
     logo,
@@ -17,10 +18,11 @@ export const assets = {
 
 export const menuItemsData = [
     { to: '/', label: 'Feed', Icon: Home },
-    { to: '/messages', label: 'Messages', Icon: MessageCircle },
-    { to: '/connections', label: 'Connections', Icon: Users },
-    { to: '/discover', label: 'Discover', Icon: Search },
-    { to: '/profile', label: 'Profile', Icon: UserIcon },
+    { to: '/messages', label: 'Messages', Icon: MessageCircle ,isNew:false},
+    { to: '/connections', label: 'Connections', Icon: Users,isNew:false },
+    { to: '/discover', label: 'Discover', Icon: Search,isNew:false },
+    { to: '/profile', label: 'Profile', Icon: UserIcon,isNew:false },
+    {to:'/setting',label:'Advanced Setting',Icon:Sparkle,isNew:true}
 ];
 
 export const dummyUserData = {

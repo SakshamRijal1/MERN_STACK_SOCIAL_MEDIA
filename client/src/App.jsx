@@ -18,6 +18,7 @@ import Seepost from "./components/Seepost.jsx"
 import { useDispatch } from "react-redux"
 import { fetchUser } from "./features/user/userSlice.js"
 import { fetchConnection } from "./features/connections/connectionSlice.js"
+import Setting from "./pages/Setting.jsx"
 
 function App() {
 const {user,isLoaded}=useUser();
@@ -84,7 +85,10 @@ index:true,
   element:<Profile/>
 }
 ,
-
+{
+  path:'setting',
+  element:<Setting/>
+},
 
 {
   path:"createpost",
@@ -98,6 +102,7 @@ index:true,
   element:<Seepost/>
 }
 ,
+
   ])
 
 

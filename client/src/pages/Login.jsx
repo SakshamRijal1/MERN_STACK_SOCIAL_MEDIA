@@ -4,9 +4,13 @@ import { Star } from "lucide-react";
 import { SignIn } from "@clerk/react";
 import DotField from "../components/DotField.jsx";
 
+import { dark } from "@clerk/ui/themes";
+
+
 const Login = () => {
+
   return (
-    <div className="relative min-h-screen w-full bg-white overflow-y-auto flex items-center justify-center">
+    <div className="relative min-h-screen w-full dark:bg-slate-950 dark:text-white bg-white overflow-y-auto flex items-center justify-center">
 
       {/* Background */}
       <div className="absolute inset-0 z-0">
@@ -54,7 +58,7 @@ const Login = () => {
           </div>
 
           {/* Headline */}
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-4xl lg:text-5xl font-bold dark:text-white text-gray-900 leading-tight">
             Build. Share. Connect Globally.
           </h2>
 
@@ -95,7 +99,7 @@ const Login = () => {
         {/* ================= RIGHT SIDE ================= */}
         <div className="flex items-center justify-center">
 
-          <div className="w-full max-w-md bg-white/70 backdrop-blur-2xl border border-gray-200 shadow-2xl rounded-3xl p-8">
+          <div className="w-full max-w-md dark:bg-gray-900 dark:border-gray-700 bg-white/70 backdrop-blur-2xl border border-gray-200 shadow-2xl rounded-3xl p-8">
 
             {/* Accent line */}
             <div className="w-20 h-1 bg-indigo-500 rounded-full mx-auto mb-6"></div>
@@ -110,8 +114,14 @@ const Login = () => {
             </p>
 
             {/* Clerk Login */}
-            <div className="flex justify-center">
-              <SignIn />
+          
+            <div className="flex  justify-center">
+<SignIn
+  appearance={{
+    theme: dark,
+  }}
+/>
+  
             </div>
 
             {/* Footer */}

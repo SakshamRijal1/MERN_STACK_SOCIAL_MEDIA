@@ -63,7 +63,7 @@ const Feed = () => {
                 <Post key={post._id} item={post} />
               ))
             ) : (
-              <div className="rounded-2xl  bg-white py-20 text-center shadow-sm">
+              <div className="rounded-2xl  bg-white  dark:bg-gray-900  dark:text-white w-full py-20 text-center shadow-sm">
                 <div className="text-6xl">📰</div>
 
                 <h2 className="mt-5 text-2xl font-bold">

@@ -60,7 +60,7 @@ const navigate=useNavigate()
        <button onClick={()=>{
 navigate(-1);
     
-      }} className='w-10 h-10   rounded-lg  p-2 hover:bg-red-600 hover:border-none hover:text-white  bg-gray-50 absolute  cursor-pointer z-50 left-2 shadow '><X/></button>
+      }} className='w-10 h-10   rounded-lg  p-2 hover:bg-red-600 hover:border-none hover:text-white dark:bg-gray-800 bg-gray-50 absolute  cursor-pointer z-50 left-2 shadow '><X/></button>
         
       <div  className='bg-white rounded-lg  shadow border dark:text-white  dark:bg-gray-900 border-gray-300 w-full max-lg:h-1/2  max-lg:gap-4 flex flex-wrap '>
     
