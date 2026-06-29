@@ -20,7 +20,7 @@ const syncUserCreation=inngest.createFunction(
     ]
   },
   async({event})=>{
-
+console.log(process.env.MONGO_URI)
     console.log("Function triggered");
     console.log("Mongo state:", mongoose.connection.readyState);
 
