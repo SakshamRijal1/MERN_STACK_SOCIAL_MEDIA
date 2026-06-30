@@ -5,14 +5,53 @@ import { useSelector } from "react-redux";
 
 import Sidebar from "../components/Sidebar";
 import Loading from "../components/Loading";
-
+import {  useLocation } from "react-router";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { addMessage } from "../features/messages/messagesSlice";
+import { useUser } from "@clerk/react";
+import api from "../api/axois";
 const Layout = () => {
+     const {user}= useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const user = useSelector((state) => state.user.value);
+  const messageUser = useSelector((state) => state.user.value);
 
+  
+
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  const pathnameRef = useRef(location.pathname);
+
+
+
+  useEffect(() => {
+    pathnameRef.current = location.pathname;
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!messageUser) return;
+
+    const eventSource = new EventSource(
+      `${import.meta.env.VITE_BASEURL}/api/message/${messageUser._id}`
+    );
+
+    eventSource.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      if (pathnameRef.current === `/messages/${message.from_user_id._id}`) {
+        dispatch(addMessage(message));
+        
+  
+      }
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, [messageUser, dispatch]);
   if (!user) return <Loading />;
-
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-gray-950">
       <div className="mx-auto flex max-w-[1600px] w-full h-dvh dark:bg-gray-950">

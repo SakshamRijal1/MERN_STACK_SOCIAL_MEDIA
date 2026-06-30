@@ -156,7 +156,7 @@ if(message_type==='image')
   })
 }
 const message=await Message.create({
-  form_user_id:userId,
+  from_user_id:userId,
   to_user_id,
   text,
   message_type,
@@ -164,7 +164,7 @@ const message=await Message.create({
 })
 res.json({
   success:true,
-  message:"Succefully send message"
+message
 })
 
 //send message to to_user_id
@@ -226,18 +226,18 @@ export const getChatMessages=async(req,res)=>{
     const messages=await Message.find(
 {
   $or:[
-    {form_user_id:userId,to_user_id},
+    {from_user_id:userId,to_user_id},
     {
-      form_user_id:to_user_id,
+      from_user_id:to_user_id,
       to_user_id:userId,
     }
   ]
 }
-    ).sort({createdAt:-1})
+    ).sort({createdAt:1})
 
 //mark messages as seen
 
-await Message.updateMany({form_user_id:to_user_id,to_user_id:userId},{seen:true
+await Message.updateMany({from_user_id:to_user_id,to_user_id:userId},{seen:true
 
 })
 
@@ -270,5 +270,6 @@ export const getUserRecentMessages=async(req,res)=>{
  })
   }
 }
+
 
 

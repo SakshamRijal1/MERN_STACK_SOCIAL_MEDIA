@@ -1,109 +1,218 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router'
-import { dummyMessagesData, dummyRecentMessagesData, dummyUserData } from '../assets/assets';
-import Loading from '../components/Loading';
-import { ArrowUp, BadgeCheck, Check, CheckCheck, ImagePlus } from 'lucide-react';
-import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux';
+
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import { ArrowUp, AwardIcon, BadgeCheck, Check, CheckCheck, ImagePlus } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import Loading from "../components/Loading";
+import { dummyMessagesData } from "../assets/assets";
+import { useAuth } from "@clerk/react";
+import api from "../api/axois";
+import { addMessage, fetchMessages, resetMessage } from "../features/messages/messagesSlice";
+
 const ChatBox = () => {
-  const {id}=useParams();
+  const { userId } = useParams();
+const [user, setUser] = useState(null)
+  const connections=useSelector((state)=>state.connections.connections)
+    const currentUser = useSelector((state) => state.user.value);
 
-const chatBox = useRef(null)
-  const [load, setLoad] = useState(false);
+  const [loading] = useState(false);
+const message = useRef(null);
+const show=useRef(null)
+  const [image, setImage] = useState(null)
+  const bottomRef = useRef(null);
+  const fetchUserMessges=async()=>{
+    try{
+      const token=await getToken();
+      dispatch(fetchMessages({token,userId}))
 
-  const handleSend=async()=>{
+    }
+    catch(error)
+    {
 
+    }
   }
+  const messages=useSelector((state)=>state.messages.messages)
+const {getToken}=useAuth();
+const dispatch=useDispatch()
 
-const user=useSelector((state)=>state.user.value)
+useEffect(() => {
+  if (connections.length > 0) {
+    const foundUser = connections.find(
+      (connection) => connection._id == userId
+    );
 
-
-  if(load)
-  {
-    return <Loading/>
+    if (foundUser) {
+      setUser(foundUser);
+    }
   }
-  if(id!==dummyMessagesData[0].from_user_id && id!==dummyMessagesData[0].to_user_id)
-  {
-return <p className='text-center  h-screen flex justify-center items-center text-gray-600'>Error!!</p>
+}, [connections, userId]);
+
+  const handleSend = async()=>{
+    if(!message.current.value.trim()) return;
+const token=await getToken();
+const formData=new FormData();
+formData.append('to_user_id',userId);
+formData.append('text',message.current.value);
+image && formData.append('image',image)
+
+const {data}=await  api.post('/api/message/send',formData,{
+  headers:{
+    Authorization:`Bearer ${token}`
   }
-  return (
-    <div   className='min-h-screen bg-gradient-to-r from-white to-purple-100 scroll-  scroll-smooth w-full flex flex-col' >
-
-    <div className='flex   backdrop-blur-sm   gap-2 items-center bg-transparent  w-full sticky top-0  border-b border-b-gray-300 z-50 '>
-    
-     {/* <img onClick={()=>{
-          navigate('/')
-        }} className='w-26 ml-7 my-2 cursor-pointer' src={assets.logo} alt="" />
-        <hr className='border-gray-300 mb-8'/> */}
-  
-          <img className='w-9.5 ml-5  my-2 rounded-full object-cover  h-9.5  ' src={user.profile_picture} alt="profile-photo" />
-    
-    <h1 className='font-semibold flex gap-1'>{user.full_name}{user.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
+})
+if(data.success)
+{
+message.current.value=""
+  setImage(null);
+  dispatch(addMessage(data.message));
+  console.log("Date is ",data)
 
 
-      
-
-
-
-    </div>
-<div dir=''  className='px-10 h-full  bg-gradient-to-r from-white to-purple-100 py-17   w-full  flex flex-col scroll-smooth gap-2'>
-  {dummyMessagesData.map((item,index)=>(
-    <div className='flex flex-col' key={index}>
-      {
-      item.message_type=="image" &&  <div className={`${item.to_user_id==id && "items-end bg-green-100  justify-end  self-end"} w-fit shadow   flex flex-col  rounded-lg object-cover relative  p-2`}>
-
-          <img className=' w-80 rounded-lg h-80  object-cover ' src={item.media_url} alt="" />
-
-          <div className='self-end flex gap-2
-           '>
-      <p className=' self-end text-nowrap mt-2 text-gray-500'>{new Date(item.createdAt).toLocaleTimeString()}</p> 
-        {
-  item.to_user_id==id &&  !item.seen && <Check/>
-  
-  }
-  {
-  item.to_user_id==id &&  item.seen && <CheckCheck className='text-indigo-600'/>
-  }
-          </div>
-  
-         
-        </div>
-      }
-      
-      {
-        item.message_type=="text" && <div className={`max-w-80   ${item.to_user_id==id ? " bg-green-100 items-end justify-end  self-end":"self-start"} p-2 items-center  gap-2 flex  rounded-lg shadow`}>
-<p>{item.text}</p>
-  <p className={`self-end text-nowrap mt-2 text-gray-500`}>{new Date(item.createdAt).toLocaleTimeString()}</p>  
-  {
-  item.to_user_id==id &&  !item.seen && <Check/>
-  
-  }
-  {
-  item.to_user_id==id &&  item.seen && <CheckCheck className='text-indigo-600'/>
-  }
-        </div>
-      }
-    </div>
-  ))}
-  <div className='w-full flex justify-center items-center  '>
-  <form onSubmit={(e)=>{
-    e.preventDefault()
-  toast.promise(handleSend(),{
-    
-    loading:"Sending",
-    success:"Sent",
-    error:"Couldnot send the message!Please try again"
-  })
-}} className='w-96  fixed bottom-7 rounded-lg  shadow flex items-center '>  
-<input className='w-full text-gray-900 py-3  rounded-lg border-none pr-3  pl-10 outline-none' placeholder='Enter message' type="text" />
-<ImagePlus className='absolute text-gray-700 hover:shadow  rounded-sm cursor-pointer active:scale-95 transition-all duration-300 top-[25%] mx-2'/>
-<button  className='px-3 rounded-r-lg cursor-pointer active:scale-95 transition-all duration-300 py-3 shadow bg-indigo-600 text-white h-full'><ArrowUp/></button>
- </form>
-</div>
-</div>
-
-    </div>
-  )
+}
+else{
+  throw new Error(data.message)
 }
 
-export default ChatBox
+  }
+  useEffect(()=>{
+fetchUserMessges();
+return ()=>{
+  dispatch(resetMessage())
+}
+  },[userId])
+  useEffect(() => {
+  requestAnimationFrame(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth"
+    });
+  });
+}, [messages]);
+
+  if(loading ) return <Loading/>;
+
+
+  return    user && 
+    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-violet-100">
+
+      <header className="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-200 px-5 h-16 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <img src={user.profile_picture} className="w-11 h-11 rounded-full object-cover" alt="" />
+          <div>
+            <div className="flex items-center gap-1 font-semibold">
+              {user.full_name}
+              {user.is_verified && <BadgeCheck size={16} className="fill-blue-600 text-white"/>}
+            </div>
+            <p className="text-xs text-green-600">● Active now</p>
+          </div>
+        </div>
+      </header>
+
+   <div className="flex-1 overflow-y-auto min-h-0 px-4 py-5 space-y-4">
+        {messages.map((item,index)=>{
+
+const isMine = item.from_user_id === currentUser._id;
+          return (
+            <div key={index} className={`flex ${isMine?"justify-end":"justify-start"}`}>
+              {!isMine && (
+                <img
+                  src={user.profile_picture}
+                  className="w-8 h-8 rounded-full object-cover mr-2 self-end"
+                  alt=""
+                />
+              )}
+
+              <div className={`max-w-[72%] shadow
+                ${isMine
+                  ? "bg-indigo-600 text-white rounded-3xl rounded-br-md"
+                  : "bg-white border border-gray-200 text-gray-900 rounded-3xl rounded-bl-md"
+                }`}>
+
+                {item.message_type==="image" ? (
+                  <>
+                    <img
+                      src={item.media_url}
+                      alt=""
+                      className="w-72 h-72 rounded-t-3xl object-cover"
+                    />
+                    <div className="px-3 py-2 flex justify-end items-center gap-1">
+                      <span className={`text-xs ${isMine?"text-indigo-100":"text-gray-500"}`}>
+                        {new Date(item.createdAt).toLocaleTimeString([],{
+                          hour:"2-digit",
+                          minute:"2-digit"
+                        })}
+                      </span>
+
+                      {isMine && (
+                        item.seen
+                          ? <CheckCheck size={14} className="text-cyan-300"/>
+                          : <Check size={14} className="text-indigo-100"/>
+                      )}
+                    </div>
+                  </>
+                ):(
+                  <div className="px-4 py-3">
+                    <p className="break-words">{item.text}</p>
+
+                    <div className="flex justify-end items-center gap-1 mt-2">
+                      <span className={`text-xs ${isMine?"text-indigo-100":"text-gray-500"}`}>
+                        {new Date(item.createdAt).toLocaleTimeString([],{
+                          hour:"2-digit",
+                          minute:"2-digit"
+                        })}
+                      </span>
+
+                      {isMine && (
+                        item.seen
+                          ? <CheckCheck size={14} className="text-cyan-300"/>
+                          : <Check size={14} className="text-indigo-100"/>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </div>
+          )
+        })}
+        <div className="" ref={bottomRef}></div>
+    
+      </div>
+
+      <form
+        onSubmit={(e)=>{
+          e.preventDefault();
+          handleSend();
+        }}
+        className="border-t border-gray-200 bg-white p-4"
+      >
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="w-11 h-11 rounded-full hover:bg-gray-100 flex justify-center items-center"
+          >
+            <ImagePlus/>
+          </button>
+
+          <input
+
+         ref={message}
+            placeholder="Type a message..."
+            className="flex-1 rounded-full border border-gray-300 px-5 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+
+          <button
+            className="w-12 h-12 rounded-full bg-indigo-600 hover:bg-indigo-700 transition text-white flex justify-center items-center"
+          >
+            <ArrowUp size={20}/>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  
+
+
+};
+
+export default ChatBox;

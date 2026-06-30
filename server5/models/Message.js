@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const messageSchema=new mongoose.Schema({
-form_user_id:{
+from_user_id:{
   type:String,
   ref:"User",
   required:true

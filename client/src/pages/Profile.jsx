@@ -63,6 +63,7 @@ const {data}=await api.post(`/api/user/profiles`,
     setItem(data.profile)
 setPosts(data.posts)
 
+
   }
   else {
     toast.error(data.message)
@@ -193,7 +194,7 @@ posts.map((post,index)=>(
       status=="Media" &&    <div className="flex  p-2 max-w-4xl   flex-col gap-2">
 
 {
-  posts?.length==0 || posts.some(userPost=>userPost.post_type!=='text_with_image'||userPost.post_type!=='image') && <p className='text-gray-600 text-sm text-center'>No media found!!</p>
+ (( posts.length==0) ||( posts.some(userPost=>userPost.post_type!=='text_with_image'||userPost.post_type!=='image'))) && <p className='text-gray-600 text-sm text-center'>No media found!!</p>
 }
 {
 

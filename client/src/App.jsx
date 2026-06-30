@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router"
+import { createBrowserRouter, Navigate, useLocation } from "react-router"
 
 import { RouterProvider } from "react-router"
 import Login from "./pages/Login.jsx"
@@ -10,7 +10,7 @@ import Discover from "./pages/Discover.jsx"
 import CreatePost from "./pages/CreatePost.jsx"
 import { useUser ,useAuth} from "@clerk/react"
 import Layout from "./pages/Layout.jsx"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Profile from "./pages/Profile.jsx"
 import Loading from "./components/Loading.jsx"
 import {Toaster} from 'react-hot-toast'
@@ -19,8 +19,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchUser } from "./features/user/userSlice.js"
 import { fetchConnection } from "./features/connections/connectionSlice.js"
 import Setting from "./pages/Setting.jsx"
+import { addMessage } from "./features/messages/messagesSlice.js"
 function App() {
 const theme = useSelector((state) => state.theme.value);
+
 const {user,isLoaded}=useUser();
 useEffect(() => {
   if (theme === "dark") {
@@ -30,6 +32,8 @@ useEffect(() => {
   }
 }, [theme]);
 const {getToken}=useAuth();
+
+
 const dispatch=useDispatch()
 useEffect(()=>{
 const fetchData=async()=>{
@@ -46,6 +50,7 @@ if(user)
   fetchData();
   
 },[getToken,dispatch,user])
+
 if(!isLoaded)
 {
   return <Loading/>
@@ -70,7 +75,7 @@ index:true,
 
 },
 {
-  path:"messages/:id",
+  path:"messages/:userId",
   element:<ChatBox/>
 },
 {

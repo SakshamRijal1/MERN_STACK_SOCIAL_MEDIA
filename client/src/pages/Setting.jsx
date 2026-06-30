@@ -36,22 +36,22 @@ const Setting = () => {
   {
     title: "Verified Email",
     completed: !!user.email,
-    message:`${user.email} verified.`
+    message:`${user.email} verified`
   },
   {
     title: "Profile Picture Added",
     completed: !!user.profile_picture,
-    message:user.profile_picture? "Profile Picture added" :"Profile Picture not added."
+    message:user.profile_picture? "Profile Picture added" :"Profile Picture not added"
   },
   {
     title: "Unique Username",
     completed: !!user.username,
-    message:`${user.username} is verified.`
+    message:`${user.username} is verified`
   },
   {
     title: "100+ Followers",
     completed: user.followers.length >= 100,
-    message:`${user.followers.length} followers completed.`
+    message:`${user.followers.length} followers completed`
   },
   {
     title: "Account Age 30+ Days",
@@ -59,6 +59,9 @@ const Setting = () => {
         message:`${Math.floor(accountAge)} days completed`
   },
 ];
+const completed =verificationRequirements.filter((item) => item.completed).length;
+const progress=(completed/5)*100;
+
   const handleVerified=async()=>{
 const token=await getToken();
 if(verificationRequirements.filter((item)=>item.completed).length==5)
@@ -189,7 +192,7 @@ user.is_verified &&
 
           <div className="h-3 rounded-full bg-gray-200 overflow-hidden">
 
-            <div className={`w-[${((verificationRequirements.filter((item)=>item.completed).length/5)*100)}%] h-full bg-indigo-600 rounded-full`}></div>
+            <div style={{'width':`${progress}%`}} className={` h-full bg-indigo-600 rounded-full`}></div>
 
           </div>
 

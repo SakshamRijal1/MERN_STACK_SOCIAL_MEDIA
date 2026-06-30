@@ -8,9 +8,11 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
 const user=useSelector((state)=>state.user.value)
+
 const {signOut}=useClerk()
 
   const navigate=useNavigate()
+  if(!user) return
   return (
     <div className={`w-60 xl:w-72 bg-white dark:bg-gray-900 border-r dark:border-gray-700 border-gray-200 flex flex-col justify-between items-center max-sm:absolute h-dvh relative inset-0 z-100 ${sidebarOpen?'translate-x-0':'max-sm:-translate-x-full'} transition-all  ease-in-out duration-300`}>
       <div className='w-full  flex flex-col'>
