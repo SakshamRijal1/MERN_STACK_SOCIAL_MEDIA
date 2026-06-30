@@ -243,10 +243,10 @@ toast.error(err.message)
        <img  onClick={()=>{
         navigate(`/profile/${item._id}`)
        }} className='w-15 cursor-pointer h-15 object-cover rounded-full' src={item.profile_picture} alt="" />
-       <div>
+       <div className='flex justify-center items-center flex-col'>
    
       
-       <h1 className='font-semibold flex gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
+       <h1 className='font-semibold flex items-center text-center  gap-1'>{item.full_name}{item.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
        <p className='text-gray-500 text-center'>@{item.username}</p>
    
     </div>

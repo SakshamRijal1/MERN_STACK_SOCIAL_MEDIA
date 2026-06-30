@@ -375,3 +375,37 @@ catch(err)
 
 }
 
+
+
+export const getLikePost=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+
+  const {id}=req.body;
+
+  const post=await Post.findById(id).populate('likes_count');
+console.log(post)
+  if(post)
+  {
+   return res.json({
+      success:true,
+      message:"Likes fetched successfully",
+      post
+    })
+  }
+  res.json({
+    success:false,
+    message:"Unable to found post."
+  })
+
+
+
+  }
+  catch(err)
+  {
+    res.json({
+      success:false,
+      message:err.message
+    })
+  }
+}

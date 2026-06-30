@@ -96,12 +96,12 @@ navigate(-1);
 <div className='flex flex-col  justify-center items-center'>
 
 
-    <div className='flex w-full gap-4 mt-4'>
+    <div className='flex w-full gap-4 mt-4 '>
   
-      <img className='w-13  rounded-full object-cover relative bottom-5 h-13' src={post.user.profile_picture} alt="cover-photo" />
-      <div className='flex  relative flex-col bottom-5'>
-    <h1 className='font-semibold flex gap-1'>{post.user.full_name}{post.user.is_verified && <BadgeCheck  className='fill-blue-600 size-4 text-white'/>}</h1>
-      <p className='text-gray-700 text-sm font-light flex gap-0.5 dark:text-gray-500'>@{post.user.username} <Dot/> {dayjs(post.createdAt).fromNow()} </p>
+      <img className='w-13  rounded-full object-cover relative bottom-5 h-13 ' src={post.user.profile_picture} alt="cover-photo" />
+      <div className='flex  relative flex-col bottom-5 flex-wrap' >
+    <h1 className='font-semibold flex gap-1 items-center'>{post.user.full_name}{post.user.is_verified && <BadgeCheck  className='fill-blue-600 size-4 text-white'/>}</h1>
+      <p className='text-gray-700 text-sm font-light flex flex-wrap gap-0.5 dark:text-gray-500'>@{post.user.username} <Dot/> {dayjs(post.createdAt).fromNow()} </p>
       </div>
      
           </div>

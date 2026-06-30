@@ -1,5 +1,5 @@
 import express from "express";
-import {defaultUser, disconnectRequest, discoverUsers, followUsers, getUserData, getUserProfile, handleCancel, unfollowUsers, updateUserData} from '../controllers/userController.js'
+import {defaultUser, disconnectRequest, discoverUsers, followUsers, getUserData, getUserProfile, getVerified, handleCancel, unfollowUsers, updateUserData} from '../controllers/userController.js'
 import {protect} from '../middleware/auth.js'
 import { upload } from "../config/multer.js";
 import { sendConnectionRequest } from "../controllers/userController.js";
@@ -24,6 +24,7 @@ userRouter.post('/update',protect,upload.fields([{
 }]),updateUserData);//multer is the middleware to handle file upload which can parse
 userRouter.post('/discover',protect,discoverUsers);
 userRouter.get('/default',protect,defaultUser);
+userRouter.get('/verify',protect,getVerified);
 userRouter.post('/follow',protect,followUsers);
 userRouter.post('/unfollow',protect,unfollowUsers);
 userRouter.post('/connect',protect,sendConnectionRequest)

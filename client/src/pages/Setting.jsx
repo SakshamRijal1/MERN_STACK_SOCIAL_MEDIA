@@ -9,12 +9,86 @@ import {
   Rocket,
 } from "lucide-react";
 
+import { useDispatch, useSelector } from "react-redux";
+import { distance } from "three/src/nodes/math/MathNode.js";
+import { setTheme } from "../features/theme/themeSlice.js";
+import { div } from "three/src/nodes/math/OperatorNode.js";
+import { useAuth } from "@clerk/react";
+import api from "../api/axois.js";
+
+import toast from "react-hot-toast";
+import { fetchUser } from "../features/user/userSlice.js";
+
+
+ 
+
 const Setting = () => {
+   const {getToken}=useAuth()
+  const theme=useSelector((state)=>state.theme.value)
+  const user=useSelector((state)=>state.user.value)
+  const  dispatch=useDispatch()
+  const accountAge=(Date.now()-new Date(user.createdAt))/(1000*60*60*25)
+
+
+
+
+  const verificationRequirements = [
+  {
+    title: "Verified Email",
+    completed: !!user.email,
+    message:`${user.email} verified.`
+  },
+  {
+    title: "Profile Picture Added",
+    completed: !!user.profile_picture,
+    message:user.profile_picture? "Profile Picture added" :"Profile Picture not added."
+  },
+  {
+    title: "Unique Username",
+    completed: !!user.username,
+    message:`${user.username} is verified.`
+  },
+  {
+    title: "100+ Followers",
+    completed: user.followers.length >= 100,
+    message:`${user.followers.length} followers completed.`
+  },
+  {
+    title: "Account Age 30+ Days",
+    completed: accountAge >= 30,
+        message:`${Math.floor(accountAge)} days completed`
+  },
+];
+  const handleVerified=async()=>{
+const token=await getToken();
+if(verificationRequirements.filter((item)=>item.completed).length==5)
+{
+const {data}=await api.get('/api/user/verify',{
+  headers:{
+    Authorization:`Bearer ${token}`
+  }
+})
+if(data.success)
+{
+  toast.success(`User ${user.full_name} verified successfully. `)
+  dispatch(fetchUser(token))
+}
+else{
+  toast.error(data.message)
+}
+}
+else{
+  toast('You cannot be verified with this status.')
+}
+
+}
+
+
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-8">
+    <div className="max-w-5xl mx-auto transition-all  ease-in-out duration-300 p-6 space-y-8">
 
       {/* Header */}
-      <div>
+      <div className="transition-all  ease-in-out duration-300">
         <h1 className="text-3xl font-bold dark:text-white">
           Settings
         </h1>
@@ -27,7 +101,7 @@ const Setting = () => {
 
       {/* What's New */}
 
-      <section className="rounded-3xl bg-white dark:bg-slate-900 dark:border dark:border-slate-700 shadow p-6">
+      <section className="rounded-3xl bg-white dark:bg-slate-900 dark:border dark:border-slate-700 transition-all  ease-in-out duration-300 shadow p-6">
 
         <div className="flex items-center gap-2 mb-5">
           <Sparkles className="text-indigo-600" />
@@ -36,7 +110,7 @@ const Setting = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-cols-2 transition-all  ease-in-out duration-300 gap-5">
 
           <div className="rounded-xl dark:border dark:border-slate-700 p-5">
             <BadgeCheck className="text-blue-600 mb-3" />
@@ -81,69 +155,122 @@ const Setting = () => {
             </p>
           </div>
 
+        {
+!user.is_verified &&
           <span className="rounded-full bg-yellow-100 text-yellow-700 px-3 py-1 text-sm flex items-center gap-1">
             <Clock3 size={16} />
             In Progress
           </span>
-
+}
+      {
+user.is_verified &&
+          <span className="rounded-full bg-green-100 text-yellow-700 px-3 py-1 text-sm flex items-center gap-1">
+            <Clock3 size={16} />
+           Completed
+          </span>
+}
         </div>
 
         {/* Progress */}
-
-        <div className="mt-6">
+{ !user.is_verified &&
+      <div className="mt-6">
 
           <div className="flex justify-between text-sm mb-2">
             <span className="text-gray-600">
               Verification Progress
             </span>
 
-            <span className="font-semibold">
-              3 / 5 Completed
+            <span className="font-semibold text-green-600">
+ {
+  (verificationRequirements.filter((item)=>item.completed)).length
+ }/5
             </span>
           </div>
 
           <div className="h-3 rounded-full bg-gray-200 overflow-hidden">
 
-            <div className="w-[60%] h-full bg-indigo-600 rounded-full"></div>
+            <div className={`w-[${((verificationRequirements.filter((item)=>item.completed).length/5)*100)}%] h-full bg-indigo-600 rounded-full`}></div>
 
           </div>
 
         </div>
+}
+{
+  user.is_verified &&
+   <div className="mt-6">
+
+          <div className="flex justify-between text-sm mb-2">
+            <span className="text-gray-600">
+              Verification Progress
+            </span>
+
+            <span className="font-semibold text-green-600">
+              5 / 5 Completed
+            </span>
+          </div>
+
+          <div className="h-3 rounded-full bg-gray-200 overflow-hidden">
+
+            <div className="w-[100%] h-full bg-indigo-600 rounded-full"></div>
+
+          </div>
+
+        </div>
+}
 
         {/* Criteria */}
 
-        <div className="mt-8 grid md:grid-cols-2 gap-4">
+     {
+<>
+       <div className="mt-8 grid dark:text-white md:grid-cols-2 gap-4">
 
-          <div className="flex items-center gap-3">
-            <CheckCircle2 className="text-green-600" />
-            <span>Verified Email</span>
+
+{
+!user.is_verified &&
+
+  verificationRequirements.map((item,index)=>(
+    <div className="flex items-center gap-3">
+         
+         {   item.completed &&
+          <CheckCircle2 className="text-green-600" />
+         }
+            {   !item.completed &&
+          <Clock3 className="text-yellow-500" />
+         }
+          
+          
+
+            <div>{item.title}<span className="text-gray-500"> ({item.message}) </span></div>
+          
+        
+       
           </div>
 
-          <div className="flex items-center gap-3">
-            <CheckCircle2 className="text-green-600" />
-            <span>Profile Picture Added</span>
-          </div>
+  ))
+}
+      
 
-          <div className="flex items-center gap-3">
-            <CheckCircle2 className="text-green-600" />
-            <span>Complete Profile</span>
-          </div>
-
-          <div className="flex items-center gap-3 text-gray-500">
-            <Clock3 className="text-yellow-500" />
-            <span>Minimum 500 Followers</span>
-          </div>
-
-          <div className="flex items-center gap-3 text-gray-500">
-            <Clock3 className="text-yellow-500" />
-            <span>Active for 30 Days</span>
-          </div>
+        
 
         </div>
 
-        <button className="mt-8 bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded-xl text-white font-medium">
+        
+        {
+          !user.is_verified &&
+          <button onClick={()=>{
+          handleVerified()
+        }} disabled={verificationRequirements.filter((item)=>item.completed).length<5} className={`mt-8  ${verificationRequirements.filter((item)=>item.completed).length<5 ?"cursor-not-allowed bg-gray-500 " :"cursor-pointer bg-indigo-600 hover:bg-indigo-700"}  transition px-6 py-3 rounded-xl text-white font-medium`}>
           Apply for Verification
         </button>
+}
+        </>
+}
+{
+   user.is_verified &&   <div className=" md:grid-cols-2 text-center text-green-600  ">
+   You are  verified.
+
+   </div>
+}
 
       </section>
 
@@ -165,12 +292,15 @@ const Setting = () => {
 
         <div className="grid md:grid-cols-2 gap-5 mt-6">
 
-          <button className="rounded-2xl border-2 border-indigo-600 p-6 hover:shadow transition">
+          <button onClick={()=>{
+    
+            dispatch(setTheme("light"))
+          }} className={`rounded-2xl  ${theme==="light"? 'border-indigo-600 border-2':'border border-white' }  cursor-pointer hover:scale-95 duration-300  p-6 hover:shadow transition`}>
 
             <Sun className="mx-auto text-yellow-500" size={35} />
 
-            <h3 className="mt-3 font-semibold">
-              Light Mode
+            <h3 className="mt-3 font-semibold dark:text-white">
+              Dark Mode
             </h3>
 
             <p className="text-sm text-gray-500 mt-2">
@@ -179,7 +309,9 @@ const Setting = () => {
 
           </button>
 
-          <button className="rounded-2xl border p-6 hover:shadow transition">
+          <button onClick={()=>{
+            dispatch(setTheme("dark"))
+          }}  className={`rounded-2xl ${theme=="dark" && 'border-indigo-600 border-2'} border hover:scale-95  duration-300 cursor-pointer p-6 hover:shadow transition`}>
 
             <Moon className="mx-auto text-slate-700" size={35} />
 
@@ -197,70 +329,10 @@ const Setting = () => {
 
       </section>
 
-      {/* Coming Soon */}
-
-      <section className="rounded-3xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-8">
-
-        <div className="flex items-center gap-3">
-
-          <Rocket size={30} />
-
-          <h2 className="text-2xl font-bold">
-            More Features Are Coming!
-          </h2>
-
-        </div>
-
-        <p className="mt-4 text-indigo-100 leading-7">
-
-          We're continuously building new features to make your
-          SakshaMedia experience even better.
-
-          <br />
-
-          Upcoming improvements include:
-
-        </p>
-
-        <ul className="mt-5 space-y-2 text-indigo-100 list-disc list-inside">
-
-          <li>Story Highlights</li>
-
-          <li>Profile Themes</li>
-
-          <li>AI Content Assistant</li>
-
-          <li>Custom Profile Badges</li>
-
-          <li>Advanced Privacy Controls</li>
-
-          <li>Message Reactions</li>
-
-          <li>Scheduled Posts</li>
-
-          <li>More Personalization Options</li>
-
-        </ul>
-
-        <div className="mt-6 rounded-xl bg-white/10 p-4">
-
-          <h3 className="font-semibold">
-            🚀 Stay Tuned!
-          </h3>
-
-          <p className="text-indigo-100 mt-2">
-
-            We're shipping exciting updates regularly.
-            Keep your app updated so you never miss the latest features.
-
-          </p>
-
-        </div>
-
-      </section>
 
     </div>
   );
 };
 
-export default Setting;
+export default Setting
+

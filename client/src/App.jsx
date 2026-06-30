@@ -15,14 +15,20 @@ import Profile from "./pages/Profile.jsx"
 import Loading from "./components/Loading.jsx"
 import {Toaster} from 'react-hot-toast'
 import Seepost from "./components/Seepost.jsx"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { fetchUser } from "./features/user/userSlice.js"
 import { fetchConnection } from "./features/connections/connectionSlice.js"
 import Setting from "./pages/Setting.jsx"
-
 function App() {
+const theme = useSelector((state) => state.theme.value);
 const {user,isLoaded}=useUser();
-
+useEffect(() => {
+  if (theme === "dark") {
+    document.documentElement.setAttribute("data-theme","dark");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+}, [theme]);
 const {getToken}=useAuth();
 const dispatch=useDispatch()
 useEffect(()=>{

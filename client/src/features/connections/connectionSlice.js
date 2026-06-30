@@ -23,7 +23,7 @@ const {data}=await api.get('/api/user/connection',{
     Authorization:`Bearer ${token}`
   }
 })
-console.log(data)
+
 return data.success?data:null;
 
   }

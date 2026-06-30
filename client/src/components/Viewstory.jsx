@@ -65,15 +65,16 @@ if(!data) return;
         <div>
           <div className='flex gap-3 items-center-safe justify-between '>
 
-         <div className='flex gap-2 items-center justify-center'>
+         <div className='flex gap-2 items-center justify-center relative'>
     <h1 className='font-semibold text-white'>{data.user.full_name}</h1>
       <BadgeCheck className=' size-4 border-none fill-indigo-600 text-white'/>
          </div>
        
-         <div className=' gap-4 flex'>
-<button  className=' cursor-pointer  shadow-xs shadow-white  p-2 rounded-lg' onClick={()=>{
+         <div className=' flex'>
+<button  className=' cursor-pointer shadow-white  p-2 rounded-lg ' onClick={()=>{
 handleClose()
-      }} ><X className='text-white' /></button>
+      }} > <X 
+       className='absolute top-1 right-1 cursor-pointer  shadow rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200'/></button>
 
      </div>
              </div>

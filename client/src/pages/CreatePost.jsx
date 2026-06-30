@@ -23,9 +23,9 @@ const handlePost=async()=>{
   let content=""
   let post_type=""
  try{
+let text=caption.current.value.trim()
 
-
-  if(caption.current.value)
+  if(text)
   {
     content=caption.current.value;
   }
@@ -125,17 +125,17 @@ setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-
 }}/>
 <div className='w-full min-h-full flex gap-2 flex-wrap justify-center items-center'>
   {
-    url.length>=1 && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center grid grid-cols-2 gap-2 content-center justify-center'>
+    url.length>=1 && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center grid w-full grid-cols-3 gap-2 content-center justify-center  '>
 
 {
 url.length==1 && 
-<div className='col-span-2 relative w-96 h-96  '>
+<div className='col-span-3 relative w-96 h-96 '>
 
     <img className='w-full h-full object-cover ' src={url} alt="" />
     <X onClick={()=>{
   setUrl([])
   setImage([])
-}} className='absolute top-0 right-0 cursor-pointer     shadow w-8 h-8 flex items-center bg-white text-gray-700 active:scale-95 transition-all duration-200'/>
+}} className='absolute rounded-full top-0 right-0 cursor-pointer  bg-gray-500   shadow  w-8 h-8 flex items-center  text-white active:scale-95 transition-all duration-200'/>
 </div>
     
 }
@@ -144,7 +144,7 @@ url.length==1 &&
     
     url.map((item,index)=>(
 
-      <div className='max-w-96 min-w-96 relative'>
+      <div className=' relative'>
             <X onClick={()=>{
 
 setUrl(url.filter(link=>link!==item))
@@ -153,7 +153,7 @@ setUrl(url.filter(link=>link!==item))
 setImage(image.filter((_,i)=>i!==index))
 
 }} 
- className='absolute top-0 right-0 cursor-pointer  shadow w-8 h-8 flex items-center bg-white text-gray-700 active:scale-95 transition-all duration-200'/>
+ className='absolute top-0 right-0 cursor-pointer  shadow w-8 h-8 rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200'/>
  <img className='w-full  max-w-96 max-h-96   object-cover' src={item} alt="" />
  </div>
     ))

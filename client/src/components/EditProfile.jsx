@@ -21,10 +21,27 @@ if(name.current.value.length>25)
  toast.error("Name is too long.");
  return
 }
+if(name.current.value.length<=3)
+{
+ toast.error("Name is too short.");
+ return
+}
 if(username.current.value.length>20)
 {
  toast.error("User name is too long.")
  return
+}
+if(username.current.value.length<=3)
+{
+  toast.error('User name must have at least 4 letters.')
+  return
+}
+const array=username.current.value.split(" ");
+console.log(array)
+if(array.length>1)
+{
+  toast.error("Dont use space on username try to user underscore,doller or something else.")
+  return
 }
 const token=await getToken()
 
@@ -32,10 +49,10 @@ const token=await getToken()
 
   const profile_picture=profileFile 
   const cover_photo=coverFile
-   const full_name=name.current.value
- const user_name=username.current.value
-  const about=bio.current.value
- const user_location=location.current.value
+   const full_name=name.current.value.trim()
+ const user_name=username.current.value.trim()
+  const about=bio.current.value.trim()
+ const user_location=location.current.value.trim()
 const userData=new FormData();
 userData.append('username',user_name)
 userData.append('bio',about)

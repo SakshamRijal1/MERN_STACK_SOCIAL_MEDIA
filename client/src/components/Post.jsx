@@ -11,9 +11,11 @@ import api from '../api/axois'
 import { useAuth } from '@clerk/react'
 import toast from 'react-hot-toast'
 import CommentModel from './CommentModel'
+import LikeModel from './LikeModel'
 dayjs.extend(relativeTime);
 const Post = ({item}) => {
 
+const [likeModel, setLikeModel] = useState(false)
   const user=useSelector((state)=>state.user.value)
 const [comment, setComment] = useState(false);
 const [userComments, setUserComments] = useState([]);
@@ -142,14 +144,16 @@ return (
  
    
 
-<div className='flex mt-5 gap-10 border-t dark:border-t-gray-700 border-t-gray-400 p-4'>
+<div className='flex mt-5 gap-10 border-t dark:border-t-gray-700  border-t-gray-400 p-4'>
 <div className=''> 
     <Heart onClick={()=>{
      
      handleLike()
     }} className={`cursor-pointer ${like.some(liked=>liked._id==user._id)? 'fill-red-600 duration-150 text-red-600 transition-all':''} `}/>
 
-   <p className='font-semibold duration-150 transition-colors '> {like.length}  likes</p>
+   <p onClick={()=>{
+    setLikeModel(true)
+   }} className='font-semibold duration-150 transition-colors hover:underline cursor-pointer '> {like.length}  likes</p>
    <div className='flex'>
     
     {
@@ -192,6 +196,9 @@ postShare()
         }
 
         </div>
+        {
+          likeModel && <LikeModel setLikeModel={setLikeModel} id={item._id} />
+        }
          
       </>
     

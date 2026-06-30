@@ -74,10 +74,12 @@ if(userId)
 }
 
 export const updateUserData=async(req,res)=>{
+
   try{
     const {userId}=  req.auth();
     let {username,bio,location,full_name}=req.body;
     const tempUser=await User.findById(userId);
+     
 
         const profile=req.files.profile && req.files.profile[0];
    const cover=req.files.cover && req.files.cover[0];
@@ -107,7 +109,6 @@ if(existingUser)
  
 
   
- 
 
   const updateData=
   {
@@ -166,14 +167,8 @@ if(existingUser)
     updateData.cover_photo=response.url;
 
    }
-  const [firstName,...rest]=full_name.trim().split(' ');
-  const lastName=rest.join(" ")
 
-await clerkClient.users.updateUser(userId, {
-  firstName,
-  lastName,
-  username
-})
+
 
 // await clerkClient.users.updateUserProfileImage(
 //   userId,
@@ -614,6 +609,44 @@ await connection.save()
     res.json({
       message:err.message,
       success:false,
+    })
+  }
+}
+
+export const getVerified=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+    const user=await User.findById(userId)
+    if(!user)
+    {
+      return res.json({
+        success:false,
+        message:"User doesnot exists."
+      })
+
+      
+    }
+    if(user.following.length>=100 && user.email && user.username && user.profile_picture && (Date.now()-new Date(user.createdAt))/(1000*60*60*24)>=30)
+    {
+   user.is_verified=true;
+   await user.save();
+   return res.json({ 
+    success:true,
+    message:"User verified successfully",
+   })
+    }
+    res.json({
+      success:false,
+      message:"Something went wrong"
+    })
+
+
+  }
+  catch(err)
+  {
+    res.json({
+      success:false,
+      message:err.message
     })
   }
 }
