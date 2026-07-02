@@ -2,6 +2,7 @@
 import fs from 'fs'
 import client from "../config/imageKit.js";
 import Message from "../models/Message.js";
+import Connection from '../models/Connection.js';
 
 
 // import { error } from "console";
@@ -135,13 +136,14 @@ const {userId}=req.auth();
 const {to_user_id,text}=req.body;
 const image=req.file;
 let media_url="";
+console.log('Imageis ',image)
 let message_type=image?'image':'text';
 if(message_type==='image')
 {
   const buffer=fs.createReadStream(image.path);
   const response=await client.files.upload({
   file:buffer,
-  fileName:image.orginalname
+  fileName:image.originalname
   })
   media_url=client.helper.buildSrc({
     urlEndpoint:process.env.IMAGEKIT_URL_ENDPOINT,
@@ -256,10 +258,28 @@ res.json({success:true,messages})
 export const getUserRecentMessages=async(req,res)=>{
   try{
     const {userId}=req.auth();
+const connections=await Connection.find({
+  $or:[
+    {from_user_id:userId},
+    {to_user_id:userId},
+  ],
+  status:'accepted'
+})
+const connectionIds=connections.map((connection)=>connection.from_user_id ===userId?connection.to_user_id :connection.from_user_id)
+
     const messages=await Message.find({
-      to_user_id:userId
-    }).populate('from_user_id to_user_id').sort({createdAt:-1})
-    res.json({success:true,messages})
+$and:[
+  {to_user_id:userId},
+  {from_user_id:{
+    $in:connectionIds
+  }}
+]
+    }).populate('from_user_id').sort({createdAt:-1}).limit(3)
+  res.json({
+    success:true,
+    messages
+  })
+
   }
   catch(err)
   {

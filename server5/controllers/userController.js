@@ -51,7 +51,7 @@ const {id}=req.body;
 
 if(userId)
 {
-  const profile=await User.findById(id);
+  const profile=await User.findById(id).populate('followers following connections')
   const posts=await Post.find({
     user:id,
   }).populate('user likes_count').sort({createdAt:-1});

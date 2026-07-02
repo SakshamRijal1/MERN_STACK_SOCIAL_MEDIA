@@ -1,14 +1,16 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import { ArrowUp, AwardIcon, BadgeCheck, Check, CheckCheck, ImagePlus } from "lucide-react";
+import { ArrowUp, AwardIcon, BadgeCheck, Check, CheckCheck, ImagePlus, TurkishLira, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
 import { dummyMessagesData } from "../assets/assets";
 import { useAuth } from "@clerk/react";
 import api from "../api/axois";
-import { addMessage, fetchMessages, resetMessage } from "../features/messages/messagesSlice";
+import { addMessage, fetchMessages, resetMessage, setMessage } from "../features/messages/messagesSlice";
+import { div } from "three/src/nodes/math/OperatorNode.js";
+import ShowProfile from "../components/ShowProfile";
 
 const ChatBox = () => {
   const { userId } = useParams();
@@ -20,7 +22,19 @@ const [user, setUser] = useState(null)
 const message = useRef(null);
 const show=useRef(null)
   const [image, setImage] = useState(null)
+  const [showProfile,setShowProfile]=useState(false)
+  const [imageUrl, setImageUrl] = useState(null)
+const [viewImage, setViewImage] = useState(null)
   const bottomRef = useRef(null);
+  const handleChangeImage=(e)=>{
+    const file=e.target.files[0];
+    if(file)
+    {
+      setImage(file);
+      setImageUrl(URL.createObjectURL(file))
+    }
+
+  }
   const fetchUserMessges=async()=>{
     try{
       const token=await getToken();
@@ -49,13 +63,14 @@ useEffect(() => {
 }, [connections, userId]);
 
   const handleSend = async()=>{
-    if(!message.current.value.trim()) return;
+    if(!message.current.value.trim() && !image) return;
 const token=await getToken();
 const formData=new FormData();
 formData.append('to_user_id',userId);
 formData.append('text',message.current.value);
+console.log(image)
 image && formData.append('image',image)
-
+try{
 const {data}=await  api.post('/api/message/send',formData,{
   headers:{
     Authorization:`Bearer ${token}`
@@ -72,6 +87,16 @@ message.current.value=""
 }
 else{
   throw new Error(data.message)
+}
+}
+catch(err)
+{
+  toast.error(err.message)
+}
+finally{
+  setMessage(null);
+  setImageUrl(null);
+  setImage(null)
 }
 
   }
@@ -93,9 +118,9 @@ return ()=>{
 
 
   return    user && 
-    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-violet-100">
+    <div className="h-screen flex flex-col dark:bg-gray-800 ">
 
-      <header className="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-200 px-5 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-20 dark:bg-gray-900 dark:text-white dark:border-gray-700 bg-white/80 backdrop-blur border-b border-gray-200 px-5 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src={user.profile_picture} className="w-11 h-11 rounded-full object-cover" alt="" />
           <div>
@@ -131,9 +156,13 @@ const isMine = item.from_user_id === currentUser._id;
                 {item.message_type==="image" ? (
                   <>
                     <img
+                    onClick={()=>{
+                setShowProfile(true)
+             setViewImage(item.media_url)
+                    }}
                       src={item.media_url}
                       alt=""
-                      className="w-72 h-72 rounded-t-3xl object-cover"
+                      className="w-72 cursor-pointer h-72 rounded-t-3xl object-cover"
                     />
                     <div className="px-3 py-2 flex justify-end items-center gap-1">
                       <span className={`text-xs ${isMine?"text-indigo-100":"text-gray-500"}`}>
@@ -184,21 +213,37 @@ const isMine = item.from_user_id === currentUser._id;
           e.preventDefault();
           handleSend();
         }}
-        className="border-t border-gray-200 bg-white p-4"
+        className="border-t dark:bg-gray-900 dark:border-gray-700 dark:text-white border-gray-200 bg-white p-4 w-full relative"
       >
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="w-11 h-11 rounded-full hover:bg-gray-100 flex justify-center items-center"
-          >
-            <ImagePlus/>
-          </button>
+        {
+          imageUrl && <div className="w-30 h-30 relative ">
+
+<X onClick={()=>{
+  setImage(null);
+  setImageUrl(null)
+}} className="absolute top-0 right-0 rounded-full w-5 h-5 text-white bg-gray-700 cursor-pointer"/>
+            <img className="w-full h-full object-cover" src={imageUrl} alt="" />
+          </div>
+        }
+        <div className="flex items-center   gap-3 ">
+     <label className="cursor-pointer relative w-11 h-11  flex justify-center items-center">
+   <input onChange={(e)=>{
+    handleChangeImage(e);
+   }}
+            type="file"
+            accept="image/*"
+            className=" w-full hidden h-full rounded-full hover:bg-gray-100  z-10 justify-center items-center "/>
+          
+            <ImagePlus className=" inset-0"/>
+        
+     </label>
+       
 
           <input
 
          ref={message}
             placeholder="Type a message..."
-            className="flex-1 rounded-full border border-gray-300 px-5 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1   rounded-full border border-gray-300 px-5 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
           />
 
           <button
@@ -208,8 +253,25 @@ const isMine = item.from_user_id === currentUser._id;
           </button>
         </div>
       </form>
+{
+  showProfile &&    <div className='bg-black/80 backdrop-blur-lg w-full h-screen  fixed left-0 top-0 z-200  items-center flex flex-col gap-2 justify-center'>
+  
+
+      
+<img className=' w-9/12 max-sm:w-full
+  object-cover'  src={viewImage} alt="" />
+
+<button onClick={()=>{
+  setShowProfile(false)
+  setViewImage(null)
+}} className=' cursor-pointer hover:scale-95 duration-300 transition-all  shadow bg-red-600 px-4 py-1 rounded-md text-white'>Close</button>
 
     </div>
+
+}
+
+    </div>
+    
   
 
 

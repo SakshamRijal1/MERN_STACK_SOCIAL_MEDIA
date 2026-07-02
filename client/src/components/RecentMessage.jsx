@@ -3,23 +3,51 @@ import {  dummyRecentMessagesData } from '../assets/assets'
 dummyRecentMessagesData
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
+import api from '../api/axois';
+import { getToken, useAuth } from '@clerk/react';
 
 const RecentMessage = () => {
+  const {getToken}=useAuth()
   const [message, setMessage] = useState([])
 dayjs.extend(relativeTime);
+
   useEffect(()=>{
-    const messages=dummyRecentMessagesData;
-   setMessage(messages);
+const fetch=async()=>{
+  try{
+    const {data}=await api.get('/api/user/recent-messages',
+      {
+        headers:{
+          Authorization:`Bearer ${await getToken()}`
+        }
+      }
+    )
+
+
+    if(data.success)
+    {
+      setMessage(data.messages)
+      console.log(data)
+
+    }
+
+  }
+
+  catch(err)
+  {
+
+  }
+}
+fetch()
 
   },[])
 
   return (
-    <div className='shadow hadow bg-white dark:bg-gray-900 dark:text-white p-2 rounded-lg'>
+    <div className='shadow hadow bg-white dark:bg-gray-900 dark:text-white p-2 rounded-lg  '>
       <h1 className='font-semibold'>Recent messages</h1>
       <div className='flex flex-col gap-5 mt-5 justify-center '>
 {
 message.map((item,index)=>(
-  <div className='flex gap-2 cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-300 rounded-lg p-2 transition-all duration-200 ' key={index}>
+  <div key={item._id} className='flex gap-2 cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-300 rounded-lg p-2 transition-all duration-200 ' key={index}>
 <div >
  <img className='w-10 h-10 rounded-full object-cover' src={item.from_user_id.profile_picture
 } alt="" />

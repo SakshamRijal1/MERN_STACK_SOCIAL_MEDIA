@@ -13,12 +13,15 @@ import { getToken, useAuth } from '@clerk/react'
 import toast from 'react-hot-toast'
 import api from '../api/axois.js'
 import ShowProfile from '../components/ShowProfile.jsx'
+import FollowModel from '../components/FollowModel.jsx'
   const Profile = () => {
 const {id}=useParams()
 
 const currentUser=useSelector((state)=>state.user.value)  
 const [likes, setLikes] = useState(0)
 const [edit, setEdit] = useState(false)
+const [followModel, setFollowModel] = useState(false)
+const [followingModel, setFollowingModel] = useState(false)
 const [showProfile, setShowProfile] = useState(false)
 const [posts, setPosts] = useState([]);
  const list=[
@@ -59,7 +62,7 @@ const {data}=await api.post(`/api/user/profiles`,
 
   if(data.success)
   {
-  
+
     setItem(data.profile)
 setPosts(data.posts)
 
@@ -142,7 +145,11 @@ setShowProfile(true)
             <hr  className='text-gray-300 mt-5'/>
             <div className='flex gap-4 mt-2 text-gray-800 dark:text-gray-400'>
               <h1 className='flex gap-1'>{posts.length} <span className='font-semibold'>Posts</span></h1>
-                <h1  className='flex hover:underline cursor-pointer  gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
+                <h1  onClick={()=>{
+                  setFollowModel(true
+
+                  )
+                }} className='flex hover:underline cursor-pointer  gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
                   <h1  className='flex hover:underline cursor-pointer  gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
             </div>
           </div>
@@ -239,7 +246,10 @@ posts.map((post,index)=>(
         <EditProfile  setEdit={setEdit} details={item} />
       }
       {
-        showProfile && <ShowProfile image={item.profile_picture} setEdit={setEdit} setShowProfile={setShowProfile}/>
+        showProfile && <ShowProfile image={item.profile_picture} setShowProfile={setShowProfile}/>
+      }
+         {
+        followModel && <FollowModel title={'Followers'} setFollowModel={setFollowModel} users={item.followers}/>
       }
 
 

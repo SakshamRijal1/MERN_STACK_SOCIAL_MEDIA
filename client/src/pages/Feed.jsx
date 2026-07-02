@@ -80,14 +80,14 @@ const Feed = () => {
         </div>
 
         {/* Right Sidebar */}
-        <div className=" max-xl:hidden xl:block xl:col-span-5 ">
+        <div className=" max-xl:hidden xl:block xl:col-span-5  ">
           <div className="sticky top-6 space-y-6">
 
             <div className="rounded-2xl dark:bg-gray-900 dark:text-white  bg-white p-4 shadow-sm">
               <Sponsered />
             </div>
 
-            <div className="rounded-2xl dark:bg-gray-900 dark:text-white  bg-white p-4 shadow-sm">
+            <div className="rounded-2xl dark:bg-gray-900 dark:text-white  bg-white p-4 shadow-sm ">
               <RecentMessage />
             </div>
 

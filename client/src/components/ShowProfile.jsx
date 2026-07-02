@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ShowProfile = ({image,setShowProfile,setEdit}) => {
+const ShowProfile = ({image,setShowProfile}) => {
 
   return (
     <div className='bg-black/80 backdrop-blur-lg w-full h-screen  fixed left-0 top-0 z-200  items-center flex flex-col gap-2 justify-center'>
