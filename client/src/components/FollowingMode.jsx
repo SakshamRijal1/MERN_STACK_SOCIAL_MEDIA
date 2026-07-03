@@ -5,14 +5,14 @@ import { useNavigate } from "react-router";
 const FollowModel = ({
   title,
   users,
-  setFollowModel,
+  setFollowingModel,
 }) => {
   const navigate = useNavigate();
 
   return (
     <div className="fixed inset-0 z-100 flex justify-center p-5 bg-black/80 backdrop-blur">
       <X
-        onClick={() => setFollowModel(false)}
+        onClick={() => setFollowingModel(false)}
         className="absolute top-2 right-2 w-8 h-8 rounded-full bg-gray-500 text-white p-1 cursor-pointer active:scale-95"
       />
 

@@ -18,6 +18,7 @@ import FollowModel from '../components/FollowModel.jsx'
 const {id}=useParams()
 
 const currentUser=useSelector((state)=>state.user.value)  
+
 const [likes, setLikes] = useState(0)
 const [edit, setEdit] = useState(false)
 const [followModel, setFollowModel] = useState(false)
@@ -150,7 +151,11 @@ setShowProfile(true)
 
                   )
                 }} className='flex hover:underline cursor-pointer  gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
-                  <h1  className='flex hover:underline cursor-pointer  gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
+                  <h1  onClick={()=>{
+                  setFollowingModel(true
+
+                  )
+                }}  className='flex hover:underline cursor-pointer  gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
             </div>
           </div>
 
@@ -249,7 +254,10 @@ posts.map((post,index)=>(
         showProfile && <ShowProfile image={item.profile_picture} setShowProfile={setShowProfile}/>
       }
          {
-        followModel && <FollowModel title={'Followers'} setFollowModel={setFollowModel} users={item.followers}/>
+        followModel &&  <FollowModel title={'Followers'} setFollowModel={setFollowModel} users={item.followers}/>
+      }
+          {
+        followingModel &&  <FollowModel title={'Following'} setFollowModel={setFollowingModel} users={item.following}/>
       }
 
 

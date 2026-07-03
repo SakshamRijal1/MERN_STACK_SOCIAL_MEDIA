@@ -17,6 +17,7 @@ const ChatBox = () => {
 const [user, setUser] = useState(null)
   const connections=useSelector((state)=>state.connections.connections)
     const currentUser = useSelector((state) => state.user.value);
+    const [load, setLoad] = useState(false)
 
   const [loading] = useState(false);
 const message = useRef(null);
@@ -25,6 +26,7 @@ const show=useRef(null)
   const [showProfile,setShowProfile]=useState(false)
   const [imageUrl, setImageUrl] = useState(null)
 const [viewImage, setViewImage] = useState(null)
+
   const bottomRef = useRef(null);
   const handleChangeImage=(e)=>{
     const file=e.target.files[0];
@@ -64,6 +66,7 @@ useEffect(() => {
 
   const handleSend = async()=>{
     if(!message.current.value.trim() && !image) return;
+    setLoad(true)
 const token=await getToken();
 const formData=new FormData();
 formData.append('to_user_id',userId);
@@ -97,10 +100,12 @@ finally{
   setMessage(null);
   setImageUrl(null);
   setImage(null)
+  setLoad(false)
 }
 
   }
   useEffect(()=>{
+   
 fetchUserMessges();
 return ()=>{
   dispatch(resetMessage())
@@ -246,19 +251,19 @@ const isMine = item.from_user_id === currentUser._id;
             className="flex-1   rounded-full border border-gray-300 px-5 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
           />
 
-          <button
-            className="w-12 h-12 rounded-full bg-indigo-600 hover:bg-indigo-700 transition text-white flex justify-center items-center"
+          <button disabled={load}
+            className={`w-12 h-12 rounded-full ${load && 'opacity-50 cursor-not-allowed'} bg-indigo-600 hover:bg-indigo-700 transition text-white flex justify-center items-center`}
           >
             <ArrowUp size={20}/>
           </button>
         </div>
       </form>
 {
-  showProfile &&    <div className='bg-black/80 backdrop-blur-lg w-full h-screen  fixed left-0 top-0 z-200  items-center flex flex-col gap-2 justify-center'>
+  showProfile &&    <div className='bg-black/80 backdrop-blur-lg w-full h-screen  fixed left-0 top-0 z-200  items-center flex flex-col gap-2 justify-center overflow-auto'>
   
 
       
-<img className=' w-9/12 max-sm:w-full
+<img className=' w-130  max-sm:w-full
   object-cover'  src={viewImage} alt="" />
 
 <button onClick={()=>{
