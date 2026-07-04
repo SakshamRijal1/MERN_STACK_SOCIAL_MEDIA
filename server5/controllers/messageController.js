@@ -44,7 +44,10 @@ res.setHeader('Cache-Control','no-cache')
   res.setHeader('Access-Control-Allow-Origin','*')
   connections[userId]=res;
 
-
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    `${process.env.FRONTEND_URL}`
+  );
   res.write('data:Connected to sse stream \n\n');
   req.on('close',()=>{
    delete connections[userId];
