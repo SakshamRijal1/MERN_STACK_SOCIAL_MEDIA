@@ -54,11 +54,12 @@ const Layout = () => {
 
       if (pathnameRef.current === `/messages/${message.from_user_id._id}`) {
         dispatch(addMessage(message));
-           
+        
 
         
   
       } else{
+console.log('happen')
         toast.custom((t)=>(
           <MessageNotification t={t} navigate={navigate} message={message}/>
         ),{position:'bottom-right'})
