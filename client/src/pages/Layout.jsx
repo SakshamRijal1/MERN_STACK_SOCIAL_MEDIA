@@ -51,16 +51,17 @@ const Layout = () => {
   
 
       const message = JSON.parse(event.data);
-
+console.log('Notification comes')
       if (pathnameRef.current === `/messages/${message.from_user_id._id}`) {
         dispatch(addMessage(message));
-        
+        console.log('Notification enter if block')
 
         
   
       } else{
-console.log('happen')
+        console.log('Notification enter else block')
         toast.custom((t)=>(
+               
           <MessageNotification t={t} navigate={navigate} message={message}/>
         ),{position:'bottom-right'})
     
