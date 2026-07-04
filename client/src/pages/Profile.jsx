@@ -1,6 +1,6 @@
   import React, { useEffect, useRef, useState } from 'react'
   import { dummyConnectionsData, dummyPostsData } from '../assets/assets'
-  import { BadgeCheck, Calendar, Edit, MapPin } from 'lucide-react'
+  import { BadgeCheck, Calendar, Edit, GitPullRequestCreateArrowIcon, MapPin } from 'lucide-react'
 
     import dayjs from 'dayjs'
     import relativeTime from 'dayjs/plugin/relativeTime'
@@ -44,6 +44,7 @@ const [item, setItem] = useState(null)
 
 
 useEffect(()=>{
+if(!currentUser)  return
     const fetchUser=async(id)=>{
 
     const token=await getToken();
@@ -88,7 +89,7 @@ if(id)
    fetchUser(id)
 }
 else{
- fetchUser(currentUser._id)
+fetchUser(currentUser._id)
 }
 
 
@@ -208,7 +209,7 @@ posts.map((post,index)=>(
 {
  (( posts.length==0) ||( posts.some(userPost=>userPost.post_type!=='text_with_image'||userPost.post_type!=='image'))) && <p className='text-gray-600 text-sm text-center'>No media found!!</p>
 }
-{
+{/* {
 
 
   posts.map((post,index)=>(
@@ -229,7 +230,7 @@ posts.map((post,index)=>(
   }
 </>
   ))
-}
+} */}
 </div>
     }
     {
