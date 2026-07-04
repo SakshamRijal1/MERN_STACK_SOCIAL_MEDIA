@@ -61,7 +61,7 @@ overflow-hidden
 >
 
 {/* HEADER */}
-<div className="px-6 py-5 border-b flex items-center gap-3">
+<div className="px-6  py-5 border-b flex items-center gap-3">
 
 <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
 <LucideMessageCircleWarning

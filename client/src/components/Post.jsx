@@ -111,7 +111,7 @@ toast.error(err.message)
 return (
 <>
  
- <div className=" bg-white dark:bg-gray-900 dark:text-white rounded-lg p-6   lg:p-10 w-full
+ <div className=" bg-white  dark:bg-gray-900 dark:text-white rounded-lg p-6 max-sm:p-2  lg:p-10 w-full
  max-md:w-full flex justify-center  flex-col relative">
 
       <div className='flex gap-4 max-lg:my-3 max-sm:gap-5 '>

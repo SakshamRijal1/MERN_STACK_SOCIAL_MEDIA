@@ -45,7 +45,7 @@ const Feed = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 dark:bg-gray-950 ">
+    <div className="mx-auto max-w-7xl px-4  py-6 dark:bg-gray-950 max-sm:px-1 ">
       <div className="grid grid-cols-12 gap-6">
 
         {/* Feed */}
@@ -57,7 +57,7 @@ const Feed = () => {
           </div>
 
           {/* Posts */}
-          <div className="mt-6 space-y-6 w-full flex justify-center p-3 items-center flex-col ">
+          <div className="mt-6 space-y-6 w-full flex justify-center p-3  max-sm:p-1 items-center flex-col ">
             {feeds.length > 0 ? (
               feeds.map((post) => (
                 <Post key={post._id} item={post} />
