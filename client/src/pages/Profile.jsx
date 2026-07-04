@@ -8,12 +8,14 @@ import Post from '../components/Post'
 import Loading from '../components/Loading'
 import { useNavigate, useParams } from 'react-router'
 import EditProfile from '../components/EditProfile'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getToken, useAuth } from '@clerk/react'
 import toast from 'react-hot-toast'
 import api from '../api/axois.js'
 import ShowProfile from '../components/ShowProfile.jsx'
 import FollowModel from '../components/FollowModel.jsx'
+import { fetchUser } from '../features/user/userSlice.js'
+import { fetchConnection } from '../features/connections/connectionSlice.js'
   const Profile = () => {
 const {id}=useParams()
 
@@ -23,7 +25,10 @@ const [likes, setLikes] = useState(0)
 const [edit, setEdit] = useState(false)
 const [followModel, setFollowModel] = useState(false)
 const [followingModel, setFollowingModel] = useState(false)
+const [loadFollow, setLoadFollow] = useState(false)
 const [showProfile, setShowProfile] = useState(false)
+const dispatch=useDispatch()
+
 const [posts, setPosts] = useState([]);
  const list=[
     "Post",
@@ -40,6 +45,88 @@ const navigate=useNavigate()
 const [item, setItem] = useState(null)
     const {getToken}= useAuth()
 
+    const handleFollow=async(item)=>{
+if(loadFollow) return
+  const token=await getToken()
+setLoadFollow(true)
+  try{
+    const {data}=await api.post('/api/user/follow',
+      {
+        id:item._id,
+      },{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    )
+
+
+    if(data.success)
+    {
+          dispatch(fetchUser(token))
+               dispatch(fetchConnection(token))
+      // setFollowing((prev)=>{
+      //   return [item._id,...prev]
+      // })
+    
+
+  
+      toast.success(`Following ${item.full_name} successfully.`)
+    }
+    else{
+      toast(data.message)
+    }
+  }
+  catch(err)
+  {
+toast.error(err.message)
+  }
+  finally{
+      setLoadFollow(false)
+  }
+}
+const handleUnFollow=async(item)=>{
+  if(loadFollow) return;
+     setLoadFollow(true)
+  const token=await getToken()
+
+  try{
+    const {data}=await api.post('/api/user/unfollow',
+      {
+        id:item._id,
+      },{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    )
+    if(data.success)
+    {
+      
+  //     setFollowing((prev)=>{
+  //  return prev.filter(user=>user!==item._id)
+  //     })
+
+
+          dispatch(fetchUser(token))
+          dispatch(fetchConnection(token))
+  
+  
+      toast.success(`Unfollowed ${item.full_name} successfully.`)
+    }
+    else{
+      toast(data.message)
+    }
+
+  }
+  catch(err)
+  {
+toast.error(err.message)
+  }
+  finally{
+      setLoadFollow(false)
+  }
+}
 
 
 
@@ -83,7 +170,7 @@ setPosts(data.posts)
 
   }
 
-if(id)
+if(id && id!==currentUser._id)
 {
 
    fetchUser(id)
@@ -113,7 +200,7 @@ fetchUser(currentUser._id)
 
 
     <div className=' rounded-lg w-full max-h-screen dark:bg-slate-900  dark:text-white bg-white min-h-120 relative '>
-      <div className=' max-h-screen w-full bg-gradient-to-r from-purple-600  to-pink-600 rounded-t-lg h-60 '>
+<div className="h-64 rounded-t-xl overflow-hidden bg-gradient-to-r max-h-full from-indigo-700 via-purple-700 to-pink-600">
         {
 item.cover_photo &&
         
@@ -124,15 +211,61 @@ item.cover_photo &&
       </div>
 
       <div className='flex  gap-3 mt-5 max-lg:flex-col justify-between  '>
-        <div className='absolute  top-[30%]  max-lg:top-[25%] ml-5'>
-  <img onClick={()=>{
-setShowProfile(true)
-  }} className='w-40 h-40 rounded-full border-4 border-amber-50 cursor-pointer object-cover' src={item?.profile_picture} alt="" />
-        </div>
+   <div className="absolute top-[150px] ml-6 z-10">
+  <div className="rounded-full p-1 bg-white dark:bg-slate-900 shadow-2xl">
+    <img
+      onClick={() => setShowProfile(true)}
+      src={item?.profile_picture}
+      alt=""
+      className="w-40 h-40 rounded-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
+    />
+  </div>
+</div>
         <div className='max-lg:ml-0 max-lg:mt-15 p-3 ml-50 w-full '>
-          <div className=''>
+          <div className='flex justify-between'>
+            <div>
+
+            
     <h1 className='font-semibold text-xl items-center flex gap-1'>{item?.full_name}{item?.is_verified && <BadgeCheck className=' fill-blue-600 text-white text-sm size-5 '/>}</h1>
   <p className='text-gray-500'>@{item?.username}</p>
+  </div>
+  <div>
+       {
+      id && <>{
+   currentUser.following.includes(item._id) ?
+   
+    <button   onClick={()=>{
+  
+       handleUnFollow(item)
+     }}
+       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-slate-500 text-white  rounded-lg`}>
+         
+     Unfollow
+   
+   
+     </button> :
+   
+     <button  onClick={()=>{
+  
+handleFollow(item)
+     
+     }}
+       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-indigo-600 text-white  rounded-lg`}>
+     
+   
+     Follow
+   
+   
+     </button>
+     
+      
+     
+   
+    }
+     </>
+
+   }
+  </div>
           </div>
           <div>
             <p className='text-gray-600 text-sm'>{item?.bio}</p>

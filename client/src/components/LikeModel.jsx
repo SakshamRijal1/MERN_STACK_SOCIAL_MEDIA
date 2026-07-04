@@ -5,11 +5,13 @@ import { useAuth } from '@clerk/react'
 import { BadgeCheck, HeartCrack, HeartHandshakeIcon, HeartOff, X } from 'lucide-react'
 import { div } from 'three/src/nodes/math/OperatorNode.js'
 import { useNavigate } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const LikeModel = ({id,setLikeModel}) => {
   
 const navigate=useNavigate()
   const [likes, setLikes] = useState([])
+  const user=useSelector((state)=>state.user.value)
   const {getToken}=useAuth()
   useEffect(()=>{
 const fetchLike=async()=>{
@@ -85,7 +87,15 @@ fetchLike()
 <div  className="p-3 space-y-2">
   {likes.map((likeUser) => (
     <div onClick={()=>{
-  navigate(`/profile/${likeUser._id}`)
+if(user._id==likeUser._id)
+{
+
+navigate(`/profile`)
+}
+else{
+
+navigate(`/profile/${comment.user._id}`)
+}
 }}
       key={likeUser._id}
       className="

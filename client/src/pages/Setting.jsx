@@ -27,7 +27,7 @@ const Setting = () => {
   const theme=useSelector((state)=>state.theme.value)
   const user=useSelector((state)=>state.user.value)
   const  dispatch=useDispatch()
-  const accountAge=(Date.now()-new Date(user.createdAt))/(1000*60*60*25)
+  const accountAge=(Date.now()-new Date(user?.createdAt))/(1000*60*60*25)
 
 
 
@@ -35,23 +35,23 @@ const Setting = () => {
   const verificationRequirements = [
   {
     title: "Verified Email",
-    completed: !!user.email,
-    message:`${user.email} verified`
+    completed: !!user?.email,
+    message:`${user?.email} verified`
   },
   {
     title: "Profile Picture Added",
-    completed: !!user.profile_picture,
-    message:user.profile_picture? "Profile Picture added" :"Profile Picture not added"
+    completed: !!user?.profile_picture,
+    message:user?.profile_picture? "Profile Picture added" :"Profile Picture not added"
   },
   {
     title: "Unique Username",
-    completed: !!user.username,
-    message:`${user.username} is verified`
+    completed: !!user?.username,
+    message:`${user?.username} is verified`
   },
   {
     title: "100+ Followers",
-    completed: user.followers.length >= 100,
-    message:`${user.followers.length} followers completed`
+    completed: user?.followers.length >= 100,
+    message:`${user?.followers.length} followers completed`
   },
   {
     title: "Account Age 30+ Days",
@@ -159,14 +159,14 @@ else{
           </div>
 
         {
-!user.is_verified &&
+!user?.is_verified &&
           <span className="rounded-full bg-yellow-100 text-yellow-700 px-3 py-1 text-sm flex items-center gap-1">
             <Clock3 size={16} />
             In Progress
           </span>
 }
       {
-user.is_verified &&
+user?.is_verified &&
           <span className="rounded-full bg-green-100 text-yellow-700 px-3 py-1 text-sm flex items-center gap-1">
             <Clock3 size={16} />
            Completed
@@ -175,7 +175,7 @@ user.is_verified &&
         </div>
 
         {/* Progress */}
-{ !user.is_verified &&
+{ !user?.is_verified &&
       <div className="mt-6">
 
           <div className="flex justify-between text-sm mb-2">
@@ -199,7 +199,7 @@ user.is_verified &&
         </div>
 }
 {
-  user.is_verified &&
+  user?.is_verified &&
    <div className="mt-6">
 
           <div className="flex justify-between text-sm mb-2">
@@ -229,7 +229,7 @@ user.is_verified &&
 
 
 {
-!user.is_verified &&
+!user?.is_verified &&
 
   verificationRequirements.map((item,index)=>(
     <div className="flex items-center gap-3">
@@ -259,7 +259,7 @@ user.is_verified &&
 
         
         {
-          !user.is_verified &&
+          !user?.is_verified &&
           <button onClick={()=>{
           handleVerified()
         }} disabled={verificationRequirements.filter((item)=>item.completed).length<5} className={`mt-8  ${verificationRequirements.filter((item)=>item.completed).length<5 ?"cursor-not-allowed bg-gray-500 " :"cursor-pointer bg-indigo-600 hover:bg-indigo-700"}  transition px-6 py-3 rounded-xl text-white font-medium`}>
@@ -269,7 +269,7 @@ user.is_verified &&
         </>
 }
 {
-   user.is_verified &&   <div className=" md:grid-cols-2 text-center text-green-600  ">
+   user?.is_verified &&   <div className=" md:grid-cols-2 text-center text-green-600  ">
    You are  verified.
 
    </div>

@@ -8,8 +8,8 @@ import client from "../config/imageKit.js"
 import { inngest } from "../inngest/index.js";
 
 import Post from "../models/Post.js";
-import { url } from "inspector";
-import { userInfo } from "os";
+
+
 
 
 export const getUserData=async(req,res)=>{
@@ -496,6 +496,7 @@ export const sendConnectionRequest=async(req,res)=>{
       from_user_id:userId,
       to_user_id:id,
     })
+    console.log("COnnection created",connection)
     await inngest.send({
       name:"app/connection-request",
       data:{

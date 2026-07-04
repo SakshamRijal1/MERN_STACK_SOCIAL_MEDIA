@@ -266,7 +266,7 @@ toast.error(err.message)
    
    
    {
-   user.following.includes(item._id) ?
+   user?.following.includes(item._id) ?
    
     <button disabled={
    loadFollow

@@ -44,16 +44,16 @@ const FollowModel = ({
             {users.map((user) => (
               <div
                 key={user._id}
-                onClick={() => 
+                
+                className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition "
+              >
+                <div className="flex items-center gap-3">
+
+                  <img onClick={() => 
                   {navigate(`/profile/${user._id}`)
 
                   setFollowModel(false)
                   }}
-                className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-
-                  <img
                     src={user.profile_picture}
                     className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
                   />

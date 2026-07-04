@@ -1,13 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import { BadgeCheck, UserRound, X } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "@clerk/react";
+import { fetchUser } from "../features/user/userSlice";
+import { fetchConnection } from "../features/connections/connectionSlice";
+import toast from "react-hot-toast";
+import api from "../api/axois";
 
 const FollowModel = ({
   title,
   users,
   setFollowModel,
+
 }) => {
+  
   const navigate = useNavigate();
+  const currentUser=useSelector((state)=>state.user.value)
+  const [loadFollow, setLoadFollow] = useState(false)
+   const {getToken}=useAuth()
+   const dispatch=useDispatch()
+const handleFollow=async(item)=>{
+if(loadFollow) return
+  const token=await getToken()
+setLoadFollow(true)
+  try{
+    const {data}=await api.post('/api/user/follow',
+      {
+        id:item._id,
+      },{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    )
+
+
+    if(data.success)
+    {
+          dispatch(fetchUser(token))
+               dispatch(fetchConnection(token))
+      // setFollowing((prev)=>{
+      //   return [item._id,...prev]
+      // })
+    
+
+  
+      toast.success(`Following ${item.full_name} successfully.`)
+    }
+    else{
+      toast(data.message)
+    }
+  }
+  catch(err)
+  {
+toast.error(err.message)
+  }
+  finally{
+      setLoadFollow(false)
+  }
+}
+const handleUnFollow=async(item)=>{
+  if(loadFollow) return;
+     setLoadFollow(true)
+  const token=await getToken()
+
+  try{
+    const {data}=await api.post('/api/user/unfollow',
+      {
+        id:item._id,
+      },{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    )
+    if(data.success)
+    {
+      
+  //     setFollowing((prev)=>{
+  //  return prev.filter(user=>user!==item._id)
+  //     })
+
+
+          dispatch(fetchUser(token))
+          dispatch(fetchConnection(token))
+  
+  
+      toast.success(`Unfollowed ${item.full_name} successfully.`)
+    }
+    else{
+      toast(data.message)
+    }
+
+  }
+  catch(err)
+  {
+toast.error(err.message)
+  }
+  finally{
+      setLoadFollow(false)
+  }
+}
 
   return (
     <div className="fixed inset-0 z-100 flex justify-center p-5 bg-black/80 backdrop-blur">
@@ -44,18 +138,26 @@ const FollowModel = ({
             {users.map((user) => (
               <div
                 key={user._id}
-                onClick={() => 
-                  {navigate(`/profile/${user._id}`)
-
-                  setFollowModel(false)
-                  }}
-                className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer"
+               
+                className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition "
               >
                 <div className="flex items-center gap-3">
 
-                  <img
+                  <img  onClick={() => 
+                  {if(currentUser._id==user._id)
+{
+
+navigate(`/profile`)
+}
+else{
+
+navigate(`/profile/${user._id}`)
+}
+
+                  setFollowModel(false)
+                  }}
                     src={user.profile_picture}
-                    className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 cursor-pointer dark:ring-gray-700"
                   />
 
                   <div>
@@ -77,14 +179,17 @@ const FollowModel = ({
 
                 <div className=" rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex justify-center items-center">
        
+                     { !(currentUser._id==user._id) &&
+                     <>
                      {
-   user.following.includes(user._id) ?
+
+   currentUser.following.includes(user._id) ?
    
     <button   onClick={()=>{
-      setLoadFollow(true)
+  
        handleUnFollow(user)
      }}
-       className={`group  relative cursor-pointer text-sm  w-full  py-2 active:scale-95 ${loadFollow ? "cursor-not-allowed":'cursor-pointer'}     bg-slate-500  text-white active:scale-95 transition-all duration-300   shadow cursor-pointer  rounded-lg`}>
+       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-slate-500 text-white  rounded-lg`}>
          
      Unfollow
    
@@ -93,7 +198,7 @@ const FollowModel = ({
    
      <button  onClick={()=>{
   
-       handleFollow(user)
+handleFollow(user)
      
      }}
        className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-indigo-600 text-white  rounded-lg`}>
@@ -107,7 +212,7 @@ const FollowModel = ({
       
      
    
-     
+     }</>
    
    }
                 </div>

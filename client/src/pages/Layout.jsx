@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 
@@ -9,15 +9,22 @@ import {  useLocation } from "react-router";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addMessage } from "../features/messages/messagesSlice";
+
 import { useUser } from "@clerk/react";
 import api from "../api/axois";
+import toast from "react-hot-toast";
+
+import MessageNotification from "../components/MessageNotification";
+import { ColorSpaceNode } from "three/src/nodes/Nodes.js";
+
 const Layout = () => {
      const {user}= useUser();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const messageUser = useSelector((state) => state.user.value);
 
-  
+  const navigate=useNavigate()
 
   const dispatch = useDispatch();
 
@@ -30,20 +37,35 @@ const Layout = () => {
     pathnameRef.current = location.pathname;
   }, [location.pathname]);
 
+
   useEffect(() => {
+
     if (!messageUser) return;
+    
 
     const eventSource = new EventSource(
       `${import.meta.env.VITE_BASEURL}/api/message/${messageUser._id}`
     );
 
     eventSource.onmessage = (event) => {
+  
+
       const message = JSON.parse(event.data);
 
       if (pathnameRef.current === `/messages/${message.from_user_id._id}`) {
         dispatch(addMessage(message));
+           
+
         
   
+      } else{
+        toast.custom((t)=>(
+          <MessageNotification t={t} navigate={navigate} message={message}/>
+        ),{position:'bottom-right'})
+    
+
+
+
       }
     };
 
