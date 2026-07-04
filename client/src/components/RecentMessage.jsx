@@ -55,14 +55,10 @@ const fetch=async()=>{
 
   }
 }
-if(user)
-{
+
   fetch();
-const interval= setInterval(fetch,30000);
-return ()=>{
-  clearInterval(interval)
-}
-}
+
+
 
   },[user])
 

@@ -41,13 +41,11 @@ export const sseController=async(req,res)=>{
 const {userId}=req.params;
   res.setHeader('Content-Type','text/event-stream')
 res.setHeader('Cache-Control','no-cache')
-  res.setHeader('Access-Control-Allow-Origin','*')
+res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+res.setHeader("Access-Control-Allow-Credentials", "true");
   connections[userId]=res;
 
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    `${process.env.FRONTEND_URL}`
-  );
+
   res.write('data:Connected to sse stream \n\n');
   req.on('close',()=>{
    delete connections[userId];
@@ -252,7 +250,7 @@ res.json({success:true,messages})
   {
     res.json({
       success:false,
-      message:error.message
+      message:err.message
     })
   }
 }
