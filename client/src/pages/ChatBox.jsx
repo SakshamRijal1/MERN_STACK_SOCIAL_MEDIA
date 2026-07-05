@@ -71,7 +71,7 @@ const token=await getToken();
 const formData=new FormData();
 formData.append('to_user_id',userId);
 formData.append('text',message.current.value);
-console.log(image)
+
 image && formData.append('image',image)
 try{
 const {data}=await  api.post('/api/message/send',formData,{
@@ -84,7 +84,7 @@ if(data.success)
 message.current.value=""
   setImage(null);
   dispatch(addMessage(data.message));
-  console.log("Date is ",data)
+
 
 
 }

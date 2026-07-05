@@ -48,7 +48,7 @@ const Layout = () => {
     );
 
     eventSource.onmessage = (event) => {
-  
+  if(event.data==="Connected to sse stream") return;
 
       const message = JSON.parse(event.data);
 

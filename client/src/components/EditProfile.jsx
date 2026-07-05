@@ -37,7 +37,7 @@ if(username.current.value.length<=3)
   return
 }
 const array=username.current.value.split(" ");
-console.log(array)
+
 if(array.length>1)
 {
   toast.error("Dont use space on username try to user underscore,doller or something else.")

@@ -33,7 +33,8 @@ const postShare=async(req,res)=>{
 
   catch(err)
   {
-    console.log(err)
+toast.error("Something went wrong.")
+return;
   }
 }
 else{

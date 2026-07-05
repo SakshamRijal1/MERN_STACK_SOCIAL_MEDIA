@@ -18,7 +18,7 @@ const story=useRef(null)
 const [scrollX, setScrollX] = useState(0)
 const {getToken}= useAuth();
 const handleView=async(item)=>{
-  console.log('viewd')
+
 const token=await getToken()
 
 const {data}=await api.post('/api/story/see',{

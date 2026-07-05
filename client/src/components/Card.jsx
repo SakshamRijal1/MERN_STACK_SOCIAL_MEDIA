@@ -148,7 +148,7 @@ setLoadFollow(true)
         }
       }
     )
-    console.log(data)
+
 
     if(data.success)
     {

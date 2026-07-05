@@ -22,7 +22,7 @@ const dispatch=useDispatch();
   
   const [discover, setDiscover] = useState([]);
  const {connections,pendingConnections,followers,following,sentRequest}=useSelector((state)=>state.connections);
- console.log(connections,pendingConnections,followers,)
+
  
 
   const fetchDefault=async()=>{
