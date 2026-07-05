@@ -33,7 +33,7 @@ const [posts, setPosts] = useState([]);
  const list=[
     "Post",
     "Media",
-    "Likes"
+
   ]
     const [status, setStatus] = useState(list[0]);
     const [width, setWidth] = useState(0)
@@ -366,15 +366,7 @@ posts.map((post,index)=>(
 } */}
 </div>
     }
-    {
-      status=="Likes" &&     <div className="flex justify-center  px-4 flex-col gap-4">
 
-
-   <p className='text-gray-600'>Total likes is <span className='font-semibold'>{likes}</span> for this account</p>
-
-
-</div>
-    }
 
 
         

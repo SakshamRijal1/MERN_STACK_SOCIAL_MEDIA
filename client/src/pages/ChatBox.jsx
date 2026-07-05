@@ -123,7 +123,8 @@ return ()=>{
 
 
   return    user && 
-    <div className="h-dvh flex flex-col dark:bg-gray-800 ">
+    <div className="h-dvh max-sm:fixed max-sm:overflow-hidden max-sm:inset-0  no-scrollbar flex flex-col dark:bg-gray-800 ">
+        {/* <div className="fixed inset-0 flex flex-col overflow-hidden dark:bg-gray-800"></div> */}
 
       <header className="sticky top-0 z-20 dark:bg-gray-900 dark:text-white dark:border-gray-700 bg-white/80 backdrop-blur border-b border-gray-200 px-5 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -218,7 +219,7 @@ const isMine = item.from_user_id === currentUser._id;
           e.preventDefault();
           handleSend();
         }}
-        className="border-t  dark:bg-gray-900 dark:border-gray-700 dark:text-white border-gray-200 bg-white p-4 w-full relative"
+        className="border-t sticky  bottom-0 dark:bg-gray-900 dark:border-gray-700 dark:text-white border-gray-200 bg-white p-4 w-full "
       >
         {
           imageUrl && <div className="w-30 h-30 relative ">
@@ -230,7 +231,7 @@ const isMine = item.from_user_id === currentUser._id;
             <img className="w-full h-full object-cover" src={imageUrl} alt="" />
           </div>
         }
-        <div className="flex items-center   gap-3 ">
+        <div className="flex max-sm:grid grid-cols-5 items-center   gap-3 ">
      <label className="cursor-pointer relative    flex justify-center items-center">
    <input onChange={(e)=>{
     handleChangeImage(e);
@@ -248,11 +249,11 @@ const isMine = item.from_user_id === currentUser._id;
 
          ref={message}
             placeholder="Type a message..."
-            className="flex-1  rounded-full border border-gray-300 px-5 max-sm:px-2 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 col-span-3  rounded-full border border-gray-300 px-5 max-sm:px-2 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
           />
 
           <button disabled={load}
-            className={`w-12 h-12  max-sm:w-10 max-sm:h-10 rounded-full max-sm:rounded-lg cursor-pointer ${load && 'opacity-50 cursor-not-allowed'} bg-indigo-600 hover:bg-indigo-700 transition text-white flex  justify-center items-center`}
+            className={`w-12 h-12  max-sm:w-12 max-sm:h-12 rounded-full max-sm:rounded-lg cursor-pointer ${load && 'opacity-50 cursor-not-allowed'} bg-indigo-600 hover:bg-indigo-700 transition text-white flex  justify-center items-center`}
           >
             <ArrowUp />
           </button>

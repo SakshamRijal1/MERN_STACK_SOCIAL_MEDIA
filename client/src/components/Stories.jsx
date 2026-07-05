@@ -66,7 +66,7 @@ useEffect(() => {
 
 
   return !load ? (
-     <div  className='px-4 relative group dark:bg-gray-900 dark:text-white'>
+     <div  className='px-4 max-sm:px-0 relative group dark:bg-gray-900 dark:text-white'>
   { 
   (story.current &&( (story.current.scrollWidth-story.current.offsetWidth))>Math.ceil(scrollX)) &&
   <div  onClick={()=>{

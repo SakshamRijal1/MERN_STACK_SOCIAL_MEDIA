@@ -19,6 +19,7 @@ const [likeModel, setLikeModel] = useState(false)
   const user=useSelector((state)=>state.user.value)
 const [comment, setComment] = useState(false);
 const [userComments, setUserComments] = useState([]);
+
 const postShare=async(req,res)=>{
   const postUrl=`${window.location.origin}/seepost/${item._id}`
   if(navigator.share)
@@ -117,7 +118,16 @@ return (
 
       <div className='flex gap-4 max-lg:my-3 max-sm:gap-5 '>
     
-      <img className='w-13  rounded-full object-cover  relative bottom-5 h-13' src={item.user.profile_picture} alt="cover-photo" />
+      <img onClick={()=>{
+        if(item.user._id===user._id)
+        {
+          navigate('/profile')
+        }
+        else
+        {
+          navigate(`/profile/${item.user._id}`)
+        }
+      }} className='w-13  rounded-full object-cover  relative bottom-5 h-13' src={item.user.profile_picture} alt="cover-photo" />
       <div className='flex  relative flex-col bottom-5 '>
     <h1 className='font-semibold flex gap-1  items-center'>{item.user.full_name}{item.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
       <p className='text-gray-700  dark:text-gray-500 text-sm font-light flex flex-wrap gap-0.5'>@{item.user.username} <Dot/> {dayjs(item.createdAt).fromNow()} </p>

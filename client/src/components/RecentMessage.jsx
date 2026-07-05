@@ -91,6 +91,9 @@ message.map((item,index)=>(
  </div>
 ))
 }
+{
+  message?.length==0 && <p className='text-center text-gray-500  text-sm'>No recent message found!</p>
+}
 
 
       </div>

@@ -52,7 +52,7 @@ key={comment._id}
 className="
 group
 flex
-gap-3 max-sm:gap-0
+gap-3 max-sm:gap-2
 items-start
 relative max-sm:w-full
 "
@@ -106,7 +106,7 @@ dark:group-hover:bg-gray-700
 transition
 "
 >
-  <div className='flex gap-2 items-center flex-wrap'>
+  <div className='flex gap-1 max-sm:flex-col max-sm:items-start items-center flex-wrap'>
 
  
 

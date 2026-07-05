@@ -52,7 +52,7 @@ const Feed = () => {
         <div className="col-span-12 xl:col-span-7">
 
           {/* Stories */}
-          <div className="rounded-2xl bg-white dark:bg-gray-900 p-4 shadow-sm ">
+          <div className="rounded-2xl bg-white dark:bg-gray-900 p-4 max-sm:p-0 shadow-sm ">
             <Stories />
           </div>
 
