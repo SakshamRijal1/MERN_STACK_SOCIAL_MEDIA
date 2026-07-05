@@ -4,11 +4,12 @@ import { Star } from "lucide-react";
 import { SignIn } from "@clerk/react";
 import DotField from "../components/DotField.jsx";
 
-import { dark } from "@clerk/ui/themes";
+import { dark, shadcn } from "@clerk/ui/themes";
+import { useSelector } from "react-redux";
 
 
 const Login = () => {
-
+const theme=useSelector((state)=>state.theme.value)
   return (
     <div className="relative min-h-screen w-full dark:bg-slate-950 dark:text-white bg-white overflow-y-auto flex items-center justify-center">
 
@@ -117,8 +118,8 @@ const Login = () => {
           
             <div className="flex  justify-center">
 <SignIn
-  appearance={{
-    theme: dark,
+ appearance={{
+      theme: theme === "dark" ? dark : null,
   }}
 />
   

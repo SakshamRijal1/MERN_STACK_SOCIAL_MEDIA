@@ -127,7 +127,7 @@ return (
         {
           navigate(`/profile/${item.user._id}`)
         }
-      }} className='w-13  rounded-full object-cover  relative bottom-5 h-13' src={item.user.profile_picture} alt="cover-photo" />
+      }} className='w-13  rounded-full object-cover  relative bottom-5 h-13 cursor-pointer' src={item.user.profile_picture} alt="cover-photo" />
       <div className='flex  relative flex-col bottom-5 '>
     <h1 className='font-semibold flex gap-1  items-center'>{item.user.full_name}{item.user.is_verified && <BadgeCheck className='fill-blue-600 text-white size-4'/>}</h1>
       <p className='text-gray-700  dark:text-gray-500 text-sm font-light flex flex-wrap gap-0.5'>@{item.user.username} <Dot/> {dayjs(item.createdAt).fromNow()} </p>

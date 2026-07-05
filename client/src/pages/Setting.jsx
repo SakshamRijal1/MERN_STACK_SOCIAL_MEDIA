@@ -298,7 +298,7 @@ user?.is_verified &&
           <button onClick={()=>{
     
             dispatch(setTheme("light"))
-          }} className={`rounded-2xl  ${theme==="light"? 'border-indigo-600 border-2':'border border-white' }  cursor-pointer hover:scale-95 duration-300  p-6 hover:shadow transition`}>
+          }} className={`rounded-2xl  ${theme==="light"? 'border-indigo-600 border-2':' border-white border' }  cursor-pointer hover:scale-95 duration-300  p-6 hover:shadow transition`}>
 
             <Sun className="mx-auto text-yellow-500" size={35} />
 

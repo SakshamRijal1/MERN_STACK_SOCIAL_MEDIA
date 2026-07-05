@@ -1,6 +1,6 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { ArrowUp, AwardIcon, BadgeCheck, Check, CheckCheck, ImagePlus, TurkishLira, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -63,6 +63,7 @@ useEffect(() => {
     }
   }
 }, [connections, userId]);
+const navigate=useNavigate()
 
   const handleSend = async()=>{
     if(!message.current.value.trim() && !image) return;
@@ -120,7 +121,7 @@ return ()=>{
 }, [messages]);
 
   if(loading ) return <Loading/>;
-
+if(!user) return <div>No user found.</div>
 
   return    user && 
     <div className="h-dvh max-sm:fixed max-sm:overflow-hidden max-sm:inset-0  no-scrollbar flex flex-col dark:bg-gray-800 ">
@@ -128,7 +129,15 @@ return ()=>{
 
       <header className="sticky top-0 z-20 dark:bg-gray-900 dark:text-white dark:border-gray-700 bg-white/80 backdrop-blur border-b border-gray-200 px-5 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={user.profile_picture} className="w-11 h-11 rounded-full object-cover" alt="" />
+          <img onClick={()=>{
+            if(currentUser._id !==user._id)
+            {
+            navigate(`/profile/${user._id}`)
+            }
+            else{
+              navigate('/profile')
+            }
+          }} src={user.profile_picture} className="w-11 h-11 rounded-full object-cover cursor-pointer" alt="" />
           <div>
             <div className="flex items-center gap-1 font-semibold">
               {user.full_name}
@@ -246,7 +255,7 @@ const isMine = item.from_user_id === currentUser._id;
        
 
           <input
-
+     readOnly={image}
          ref={message}
             placeholder="Type a message..."
             className="flex-1 col-span-3  rounded-full border border-gray-300 px-5 max-sm:px-2 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
@@ -282,5 +291,7 @@ const isMine = item.from_user_id === currentUser._id;
 
 
 };
+
+
 
 export default ChatBox;

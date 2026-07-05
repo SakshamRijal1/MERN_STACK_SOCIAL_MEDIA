@@ -5,11 +5,12 @@ import Menu from './Menu'
 import { CirclePlus, DoorClosed, LogOut, MoveLeftIcon } from 'lucide-react'
 import { useClerk, UserButton, useSessionList, useUser } from '@clerk/react'
 import { useSelector } from 'react-redux'
-
+import { dark, shadcn } from "@clerk/ui/themes";
 const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
 const user=useSelector((state)=>state.user.value)
 
 const {signOut}=useClerk()
+const theme=useSelector((state)=>state.theme.value)
 
   const navigate=useNavigate()
   if(!user) return
@@ -43,7 +44,9 @@ Create Post
   
       <div className='dark:text-gray-200 text-gray-800 mb-5 w-full flex  justify-around border-t  dark:border-gray-700 border-t-gray-200 items-center   '>
 <div className='flex mt-5 gap-2  items-center cursor-pointer  justify-center'>
-  <UserButton/>
+  <UserButton  appearance={{
+      theme: theme === "dark" ? dark : null,
+  }}/>
   <div>
     <h1 className='text-sm font-medium'>{user.full_name}</h1>
     <p className='text-xs text-gray-500'>@{user.username}</p>
