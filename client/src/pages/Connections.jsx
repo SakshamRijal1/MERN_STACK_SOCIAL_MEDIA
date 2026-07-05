@@ -149,7 +149,7 @@ setLoading(false)
     {
       list.map((item,index)=>(
 <div onClick={()=>{
-  setStatus(item.name)
+  setStatus(item?.name)
 }} key={index} className={`flex flex-wrap gap-1 py-2 px-4 max-sm:px-2 justify-center items-center transition-all text-sm duration-200 cursor-pointer rounded-lg ${status==item.name? ' bg-indigo-600  text-white':"text-gray-500 "}`}>
 {item.icon}
   <span>{item.name}</span>
@@ -167,7 +167,7 @@ setLoading(false)
   <>
 {
   
-  followers.map((item,index)=>(
+  followers?.map((item,index)=>(
    
 <Card key={item._id} item={item}/>
 
@@ -176,7 +176,7 @@ setLoading(false)
 
   ))}
   {
-    followers.length==0 &&<p className='my-5 text-gray-600 text-sm'>No followers found.</p>
+    followers?.length==0 &&<p className='my-5 text-gray-600 text-sm'>No followers found.</p>
   }
     </>
 
@@ -193,14 +193,14 @@ setLoading(false)
   
   <>
   {
-  following.map((item,index)=>(
+  following?.map((item,index)=>(
 <Card key={item._id} item={item}/>
 
    
 
  
   ))}
-  {  following.length===0 && <p className='my-5 text-gray-600 text-sm'>No following found.</p>
+  {  following?.length===0 && <p className='my-5 text-gray-600 text-sm'>No following found.</p>
 
   }
    </>}
@@ -214,14 +214,14 @@ setLoading(false)
   
   
   <>
-  {connections.map((item,index)=>(
+  {connections?.map((item,index)=>(
       
     <Card key={item._id} item={item}/>
 
  
   ))
 }{
-   connections.length===0 && <p className='my-5 text-gray-600 text-sm'>No connections found.</p>
+   connections?.length===0 && <p className='my-5 text-gray-600 text-sm'>No connections found.</p>
 }
   </>
   }
@@ -230,7 +230,7 @@ setLoading(false)
   status=="Pending" &&
   <>
   {
-  pendingConnections.map((item,index)=>(
+  pendingConnections?.map((item,index)=>(
 
       <div className='flex flex-col  dark:bg-gray-900 dark:text-white max-w-72 rounded-lg p-4  min-w-60 shadow mt-8  items-center gap-2'>
        <img onClick={()=>{
@@ -291,7 +291,7 @@ setLoading(false)
  
   ))}
   {
- pendingConnections.length===0 && <p className='my-5 text-gray-600 text-sm'>No pending connections found.</p>
+ pendingConnections?.length===0 && <p className='my-5 text-gray-600 text-sm'>No pending connections found.</p>
   }
   </>} 
   

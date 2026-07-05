@@ -170,13 +170,13 @@ setPosts(data.posts)
 
   }
 
-if(id && id!==currentUser._id)
+if(id && id!==currentUser?._id)
 {
 
    fetchUser(id)
 }
 else{
-fetchUser(currentUser._id)
+fetchUser(currentUser?._id)
 }
 
 
@@ -232,7 +232,7 @@ item.cover_photo &&
   <div>
        {
       id && <>{
-   currentUser.following.includes(item._id) ?
+   currentUser?.following.includes(item._id) ?
    
     <button   onClick={()=>{
   

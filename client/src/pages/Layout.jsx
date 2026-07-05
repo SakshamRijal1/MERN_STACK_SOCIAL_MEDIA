@@ -44,7 +44,7 @@ const Layout = () => {
     
 
     const eventSource = new EventSource(
-      `${import.meta.env.VITE_BASEURL}/api/message/${messageUser._id}`
+      `${import.meta.env.VITE_BASEURL}/api/message/${messageUser?._id}`
     );
 
     eventSource.onmessage = (event) => {

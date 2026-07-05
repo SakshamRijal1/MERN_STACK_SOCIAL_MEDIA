@@ -98,12 +98,12 @@ finally{
 {
   
       <div className='flex flex-col  rounded-lg   gap-4'>
-    <img  className='w-15 h-15 object-cover rounded-full' src={user.profile_picture} alt="profile-picture" />
+    <img  className='w-15 h-15 object-cover rounded-full' src={user?.profile_picture} alt="profile-picture" />
     <div>
 
    
-    <h1 className='font-semibold flex gap-1'>{user.full_name}{user.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
-    <p className='text-gray-500'>@{user.username}</p>
+    <h1 className='font-semibold flex gap-1'>{user?.full_name}{user?.is_verified && <BadgeCheck className='fill-blue-600 text-white'/>}</h1>
+    <p className='text-gray-500'>@{user?.username}</p>
 
 
   </div>

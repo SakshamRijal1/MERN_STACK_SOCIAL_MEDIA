@@ -49,13 +49,13 @@ const Messages = () => {
         ) : (
           connections.map((user) => (
             <button
-              key={user._id}
-              onClick={() => navigate(`/messages/${user._id}`)}
+              key={user?._id}
+              onClick={() => navigate(`/messages/${user?._id}`)}
               className="w-full flex items-center justify-between px-5 py-4 dark border-b border-gray-300 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
             >
               <div className="flex items-center gap-4">
                 <img
-                  src={user.profile_picture}
+                  src={user?.profile_picture}
                   alt=""
                   className="w-14 h-14 rounded-full object-cover"
                 />
@@ -63,10 +63,10 @@ const Messages = () => {
                 <div className="text-left">
                   <div className="flex items-center gap-1">
                     <h2 className="font-semibold dark:text-white">
-                      {user.full_name}
+                      {user?.full_name}
                     </h2>
 
-                    {user.is_verified && (
+                    {user?.is_verified && (
                       <BadgeCheck
                         size={16}
                         className="fill-blue-600 text-white"
@@ -75,11 +75,11 @@ const Messages = () => {
                   </div>
 
                   <p className="text-sm text-gray-500">
-                    @{user.username}
+                    @{user?.username}
                   </p>
 
                   <p className="text-sm text-gray-400 truncate max-w-xs">
-                    {user.bio || "Start a conversation..."}
+                    {user?.bio || "Start a conversation..."}
                   </p>
                 </div>
               </div>
