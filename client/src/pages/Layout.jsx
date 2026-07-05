@@ -77,17 +77,17 @@ const Layout = () => {
   }, [messageUser, dispatch]);
   if (!user) return <Loading />;
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-gray-950">
+    <div className="min-h-screen bg-slate-100 dark:bg-gray-950 overflow-x-hidden">
       <div className="mx-auto flex max-w-[1600px] w-full h-dvh dark:bg-gray-950">
 
         {/* Sidebar */}
-        <Sidebar
+        <Sidebar className={'block'}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
 
         {/* Main */}
-        <main className="flex-1 dark:bg-gray-950 min-h-dvh overflow-x-hidden no-scrollbar">
+        <main  className="flex-1 dark:bg-gray-950 min-h-dvh block overflow-x-hidden no-scrollbar">
           <Outlet />
         </main>
 

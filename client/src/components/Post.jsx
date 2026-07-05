@@ -131,7 +131,7 @@ return (
 }
 <div  className='grid grid-cols-2 gap-2 cursor-pointer active:scale-98 transition-all duration-200 '>
    {   item.image_urls && item.image_urls.map((image,index)=>(
- <img  onClick={()=>{
+ <img   onClick={()=>{
   navigate(`/seepost/${item._id}`)
  }}
       key={index}  src={image}
@@ -159,15 +159,15 @@ return (
     
     {
   like.map((likedUser,index)=>(
-        <>
+        <div key={likedUser._id}>
 
         {
 
           index <3 &&
 
-        <img className='w-4 h-4 object-cover rounded-full' src={likedUser.profile_picture} alt="" />
+        <img  className='w-4 h-4 object-cover rounded-full' src={likedUser.profile_picture} alt="" />
 }
-        </>
+        </div>
         
       ))
     }

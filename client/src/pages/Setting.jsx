@@ -232,7 +232,7 @@ user?.is_verified &&
 !user?.is_verified &&
 
   verificationRequirements.map((item,index)=>(
-    <div className="flex items-center gap-3">
+    <div key={index} className="flex items-center gap-3">
          
          {   item.completed &&
           <CheckCircle2 className="text-green-600" />
@@ -303,7 +303,7 @@ user?.is_verified &&
             <Sun className="mx-auto text-yellow-500" size={35} />
 
             <h3 className="mt-3 font-semibold dark:text-white">
-              Dark Mode
+              Light Mode
             </h3>
 
             <p className="text-sm text-gray-500 mt-2">

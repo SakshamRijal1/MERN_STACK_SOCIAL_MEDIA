@@ -226,7 +226,7 @@ setLoad(true)
 
       {
         bgColors.map((color)=>(
-          <div onClick={()=>{
+          <div  onClick={()=>{
             setBackground(color)
           }} key={color} className={`w-8 cursor-pointer transition-all duration-100 h-8 rounded-full  ${background==color?"border-2":"border"} border-amber-50`} style={{background:color}}></div>
         ))

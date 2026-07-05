@@ -116,7 +116,7 @@ setProfileFile(null)
 {
   coverPhoto||details.cover_photo ?
 
-<img className=' rounded-lg max-sm:w-full h-50 w-9/12 object-cover' src={coverPhoto || details.cover_photo} alt="" /> :<div className='rounded-lg max-sm:w-full h-50 w-9/12 object-cover bg-gradient-to-r from-purple-600  to-pink-600 '></div>
+<img className=' rounded-lg max-sm:w-full h-50 w-9/12 object-cover' src={coverPhoto || details.cover_photo} alt="" /> :<div className='rounded-lg max-sm:w-full h-50 w-9/12 object-cover bg-gradient-to-r bg-gradient-to-r from-indigo-500 to-purple-600 '></div>
 }
 
   </div>
@@ -174,8 +174,8 @@ setCoverFile(link)
     handleSaveChange()
   }}
 
-    class={`group relative px-5 max-md:w-full py-1 text-white rounded-md dark:border-none flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
-    <div class="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+    className={`group relative px-5 max-md:w-full py-1 text-white rounded-md dark:border-none flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
+    <div className="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
     ></div>
 
   

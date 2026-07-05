@@ -144,7 +144,7 @@ url.length==1 &&
     
     url.map((item,index)=>(
 
-      <div className=' relative'>
+      <div key={index} className=' relative'>
             <X onClick={()=>{
 
 setUrl(url.filter(link=>link!==item))
@@ -184,12 +184,12 @@ setImage(image.filter((_,i)=>i!==index))
         }}  accept='image/*,videos/*' className='hidden ' type="file" name="" id="" />
 <Image  className='cursor-pointer hover:scale-95 dark:text-gray-400 transition-all duration-200 shadow'/>
       </label>
-   <div  class="flex flex-col gap-6 max-md:w-full  relative z-10">
+   <div  className="flex flex-col gap-6 max-md:w-full  relative z-10">
   <button disabled={load} onClick={()=>{
     handlePost()
   }}
-    class={`group relative px-5  py-3 text-white rounded-md flex justify-center items-center backdrop-blur-xl    bg-linear-to-r from-purple-500 ${load && 'opacity-50'} to-pink-500 shadow-2xl   hover:scale-[1.02] hover:-translate-y-1 active:scale-95 transition-all duration-500 ease-out cursor-pointer  hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 overflow-hidden`}>
-    <div class="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+    className={`group relative px-5  py-3 text-white rounded-md flex justify-center items-center backdrop-blur-xl    bg-gradient-to-r from-indigo-500 to-purple-600  ${load && 'opacity-50'}  shadow-2xl   hover:scale-[1.02] hover:-translate-y-1 active:scale-95 transition-all duration-500 ease-out cursor-pointer  overflow-hidden`}>
+    <div className="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
     ></div>
 
   

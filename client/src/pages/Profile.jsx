@@ -313,7 +313,7 @@ handleFollow(item)
 
 {
   list.map((item,index)=>(
-    <button onClick={()=>{
+    <button  onClick={()=>{
       setStatus(item)
     }} className={`cursor-pointer px-5 py-1 rounded-lg  transition-all duration-500 ${item==status ? "bg-indigo-600 text-white":"text-gray-700 dark:text-gray-500"} `} key={item}>
 {item}
@@ -331,7 +331,7 @@ handleFollow(item)
 {
 
 posts.map((post,index)=>(
-    <Post  key={index} item={post}/>
+    <Post  key={post._id} item={post}/>
   ))
 }
 </div>
