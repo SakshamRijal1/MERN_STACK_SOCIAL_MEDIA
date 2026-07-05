@@ -20,7 +20,7 @@ const theme=useSelector((state)=>state.theme.value)
      
             <h1 onClick={()=>{
           navigate('/')
-        }} className="text-3xl text-center my-2 font-bold text-indigo-600 mb-4">
+        }} className="text-3xl text-center my-2 font-bold text-indigo-600 mb-4 cursor-pointer">
             SakshaMedia
           </h1>
 

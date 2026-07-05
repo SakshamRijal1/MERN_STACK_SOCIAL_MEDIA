@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { dummyPostsData } from '../assets/assets'
 import Loading from './Loading';
-import { ArrowLeft, ArrowRight, BadgeCheck, Cross, Dot, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BadgeCheck, Cross, Dot, Home, X } from 'lucide-react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { getToken, useAuth, useUser } from '@clerk/react';
@@ -65,10 +65,15 @@ const navigate=useNavigate()
     const postWithHastags=post.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>')
   return (
     <div className='w-full h-screen  overflow-x-hidden backdrop-blur dark:text-white dark:bg-gray-950 bg-gray-50 flex p-4'>
+
        <button onClick={()=>{
 navigate(-1);
     
       }} className='w-10 h-10   rounded-lg  p-2 hover:bg-red-600 hover:border-none hover:text-white dark:bg-gray-800 bg-gray-50 absolute  cursor-pointer z-50 left-2 shadow '><X/></button>
+             <button onClick={()=>{
+navigate('/')
+    
+      }} className='  rounded-lg  p-2 hover:bg-indigo-600 hover:border-none hover:text-white dark:bg-gray-800 bg-gray-50 absolute  cursor-pointer z-50 right-2 shadow '><Home/></button>
         
       <div  className='bg-white rounded-lg  shadow border dark:text-white  dark:bg-gray-900 border-gray-300 w-full max-lg:h-1/2  max-lg:gap-4 flex flex-wrap '>
     

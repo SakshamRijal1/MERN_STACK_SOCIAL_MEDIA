@@ -16,6 +16,7 @@ dayjs.extend(relativeTime);
 const Post = ({item}) => {
 
 const [likeModel, setLikeModel] = useState(false)
+const [load, setLoad] = useState(false)
   const user=useSelector((state)=>state.user.value)
 const [comment, setComment] = useState(false);
 const [userComments, setUserComments] = useState([]);
@@ -47,7 +48,9 @@ const {getToken}=useAuth()
   const [like,setLike]=useState(item.likes_count);
 
   const handleLike=async()=>{
-
+  if(load) return;
+  setLoad(true)
+try{
     const token=await getToken()
     const {data}=await api.post('/api/post/like',
       {
@@ -78,6 +81,15 @@ const {getToken}=useAuth()
   
     }
   }
+  catch(err)
+{
+  return;
+}
+finally{
+  setLoad(false)
+}
+
+}
 
 
   useEffect(()=>{
