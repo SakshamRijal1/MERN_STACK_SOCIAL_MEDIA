@@ -45,8 +45,12 @@ res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
 res.setHeader("Access-Control-Allow-Credentials", "true");
   connections[userId]=res;
 
-
-  res.write('data:Connected to sse stream \n\n');
+res.write(
+  `data: ${JSON.stringify({
+    type: "connected",
+    message: "Connected to SSE stream"
+  })}\n\n`
+);
   req.on('close',()=>{
    delete connections[userId];
    console.log('Client disconnected')
