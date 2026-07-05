@@ -18,7 +18,8 @@ import MessageNotification from "../components/MessageNotification";
 import { ColorSpaceNode } from "three/src/nodes/Nodes.js";
 
 const Layout = () => {
-     const {user}= useUser();
+     const {user,isLoaded}= useUser();
+     
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -39,7 +40,10 @@ const Layout = () => {
 
 
   useEffect(() => {
-
+  if(!user)
+  {
+  return  navigate('/')
+  }
     if (!messageUser) return;
     
 
@@ -76,7 +80,8 @@ const Layout = () => {
       eventSource.close();
     };
   }, [messageUser, dispatch]);
-  if (!user) return <Loading />;
+  if (!isLoaded) return ;
+
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-gray-950 overflow-y-hidden">
       <div className="mx-auto flex max-w-[1600px] w-full h-dvh dark:bg-gray-950">

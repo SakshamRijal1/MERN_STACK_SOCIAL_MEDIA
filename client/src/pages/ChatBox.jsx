@@ -121,7 +121,7 @@ return ()=>{
 }, [messages]);
 
   if(loading ) return <Loading/>;
-if(!user) return <div className="w-screen h-screen overflow-hidden flex justify-center items-center text-gray-500 text-sm">No user found.</div>
+if(!user) return <div className=" h-screen overflow-hidden flex justify-center items-center text-gray-500 text-sm">No user found.</div>
 
   return    user && 
     <div className="h-dvh max-sm:fixed max-sm:overflow-hidden max-sm:inset-0  no-scrollbar flex flex-col dark:bg-gray-800 ">

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router'
 import { dummyPostsData } from '../assets/assets'
 import Loading from './Loading';
 import { ArrowLeft, ArrowRight, BadgeCheck, Cross, Dot, X } from 'lucide-react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { getToken, useAuth } from '@clerk/react';
+import { getToken, useAuth, useUser } from '@clerk/react';
 import api from '../api/axois';
 import toast from 'react-hot-toast';
 const Seepost = () => {
@@ -14,11 +14,15 @@ const Seepost = () => {
   const [load, setLoad] = useState(true);
   const [curr, setCurr] = useState(0)
   const {id}=useParams();
-
-const {getToken}=useAuth();
+const {user}=useUser();
+if(!user || !id)
+{
+  return <Navigate to={'/'}/>
+}
     
 const fetchPost=async(id)=>{
 const token=await getToken();
+
 try{
 const {data}=await api.post('/api/post/onepost',{
   id
@@ -34,12 +38,16 @@ if(data.success)
   setPost(data.post)
 }
 else {
-  toast.error(data.message)
+
+navigate('*')
+return
 }
 }
 catch(err)
 {
-  toast.error(err.message)
+
+navigate('*')
+return
 }
 setLoad(false)
 }

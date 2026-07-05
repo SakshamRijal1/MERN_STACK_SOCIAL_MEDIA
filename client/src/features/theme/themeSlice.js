@@ -24,7 +24,7 @@ import { act } from "react";
 
 
 const initialState={
-  value:localStorage.getItem("theme")
+  value:localStorage.getItem("theme")||'dark'
 }
 
 const themeSlice=createSlice({

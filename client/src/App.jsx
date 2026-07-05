@@ -20,6 +20,7 @@ import { fetchUser } from "./features/user/userSlice.js"
 import { fetchConnection } from "./features/connections/connectionSlice.js"
 import Setting from "./pages/Setting.jsx"
 import { addMessage } from "./features/messages/messagesSlice.js"
+import NotFound from "./components/NotFound.jsx"
 function App() {
 const theme = useSelector((state) => state.theme.value);
 
@@ -100,6 +101,10 @@ index:true,
   path:'setting',
   element:<Setting/>
 },
+{
+  path:'*',
+  element:<NotFound/>
+},
 
 {
   path:"createpost",
@@ -113,6 +118,10 @@ index:true,
   element:<Seepost/>
 }
 ,
+{
+  path:'*',
+  element:<NotFound/>
+},
 
   ])
 
