@@ -67,6 +67,7 @@ fetchDefault()
 ,[])
 const discoverPeople=async(e)=>{
   e.preventDefault()
+  discoverFactor.current.value=discoverFactor.current.value.trim();
   if(discoverFactor.current.value=="")
   {
 
