@@ -48,12 +48,12 @@ const Layout = () => {
     );
 
     eventSource.onmessage = (event) => {
-      console.log(event)
+
   if(event.data==="Connected to sse stream") return
 
       const message = JSON.parse(event.data);
 
-      if (pathnameRef.current === `/messages/${message?.from_user_id?._id}`) {
+      if (pathnameRef.current === `/messages/${message.from_user_id._id}`) {
         dispatch(addMessage(message));
 
 

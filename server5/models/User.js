@@ -13,6 +13,8 @@ username:{
   type:String,
   unique:true,
 },
+
+
 is_verified:{
 type:Boolean,
 default:false
@@ -53,6 +55,7 @@ connections:[
 ]
 
 },
+
 {
 timestamps:true,
 minimize:false

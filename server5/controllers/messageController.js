@@ -3,7 +3,7 @@ import fs from 'fs'
 import client from "../config/imageKit.js";
 import Message from "../models/Message.js";
 import Connection from '../models/Connection.js';
-
+import User from '../models/User.js'
 
 // import { error } from "console";
 // const connections={};//create an empty object to store server side event connections
@@ -44,6 +44,7 @@ res.setHeader('Cache-Control','no-cache')
 res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
 res.setHeader("Access-Control-Allow-Credentials", "true");
   connections[userId]=res;
+  await notifyFriends(userId, true);
 
 res.write(
   `data: ${JSON.stringify({
@@ -53,6 +54,9 @@ res.write(
 );
   req.on('close',()=>{
    delete connections[userId];
+
+
+
    console.log('Client disconnected')
 
   })
@@ -141,7 +145,7 @@ const {userId}=req.auth();
 const {to_user_id,text}=req.body;
 const image=req.file;
 let media_url="";
-console.log('Imageis ',image)
+
 let message_type=image?'image':'text';
 if(message_type==='image')
 {
