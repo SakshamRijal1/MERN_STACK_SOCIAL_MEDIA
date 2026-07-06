@@ -114,7 +114,7 @@ else{
     }
     catch(err)
     {
-toast.error(err.message)
+toast.error('from connectinscatch')
     }
     finally
     {

@@ -83,7 +83,7 @@ if(loadConnection) return;
 
    }
    else{
-    toast.error(data.message)
+toast.error("Something went wrong.")
 dispatch(fetchUser(token))
   dispatch(fetchConnection(token))
    }
@@ -120,7 +120,7 @@ dispatch(fetchUser(token))
 
    }
    else{
-    toast.error(data.message)
+toast.error("Something went wrong.")
 
    }
     

@@ -95,7 +95,7 @@ else{
 }
 catch(err)
 {
-  toast.error(err.message)
+toast.error("Something went wrong.")
 }
 finally{
   setMessage(null);

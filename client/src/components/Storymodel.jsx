@@ -176,7 +176,7 @@ setLoad(true)
     
    }
    else{
-    toast.error(data.message)
+toast.error("Something went wrong.")
    }
   }
   catch(err)

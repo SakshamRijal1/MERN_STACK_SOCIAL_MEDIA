@@ -71,14 +71,14 @@ let text=caption.current.value.trim()
   
  }
  else{
-  toast.error(data.message)
+  toast.error('from cp else')
  }
   
 
 }
 catch(err)
 {
-  toast.error(err.message)
+  toast.error("from create post catch")
 }
 finally{
   setLoad(false)

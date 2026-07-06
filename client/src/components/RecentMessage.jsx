@@ -45,14 +45,14 @@ const fetch=async()=>{
 
     }
     else{
-      toast.error(data.message)
+return
     }
 
   }
 
   catch(err)
   {
-
+return
   }
 }
 

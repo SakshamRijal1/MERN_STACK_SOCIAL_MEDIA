@@ -29,7 +29,7 @@ return data.success?data:null;
   }
   catch(err)
   {
-toast.error(err.message)
+toast.error("Something went wrong.")
   }
 })
 
@@ -43,11 +43,11 @@ const connectionSlice=createSlice({
     builder.addCase(fetchConnection.fulfilled,(state,action)=>{
       if(action.payload)
       {
-        state.connections=action.payload.connections
-        state.pendingConnections=action.payload.pendingConnections
-        state.followers=action.payload.followers
-        state.following=action.payload.following
-        state.sentRequest=action.payload.sentRequest
+        state.connections=action.payload?.connections
+        state.pendingConnections=action.payload?.pendingConnections
+        state.followers=action.payload?.followers
+        state.following=action.payload?.following
+        state.sentRequest=action.payload?.sentRequest
       }
     })
   }

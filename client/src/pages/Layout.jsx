@@ -19,7 +19,7 @@ import { ColorSpaceNode } from "three/src/nodes/Nodes.js";
 
 const Layout = () => {
      const {user,isLoaded}= useUser();
-     
+     const currentUser=useSelector((state)=>state.user.value)
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -81,6 +81,7 @@ const Layout = () => {
     };
   }, [messageUser, dispatch]);
   if (!isLoaded) return ;
+  if(!currentUser) return <Loading/>;
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-gray-950 overflow-y-hidden">

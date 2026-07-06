@@ -158,13 +158,13 @@ setPosts(data.posts)
 
   }
   else {
-    toast.error(data.message)
+    toast.error("from profile else")
   }
   
     }
     catch(err)
     {
-  toast.error(err.message)
+  toast.error("from profile catch")
     }
       setLoad(false);
 
@@ -232,7 +232,7 @@ item.cover_photo &&
   <div>
        {
       id && <>{
-   currentUser?.following.includes(item._id) ?
+   currentUser?.following?.includes(item._id) ?
    
     <button   onClick={()=>{
   
@@ -289,7 +289,7 @@ handleFollow(item)
                   setFollowingModel(true
 
                   )
-                }}  className='flex hover:underline cursor-pointer  gap-1'>{item.following.length} <span className='font-semibold'>Following</span></h1>
+                }}  className='flex hover:underline cursor-pointer  gap-1'>{item?.following?.length} <span className='font-semibold'>Following</span></h1>
             </div>
           </div>
 

@@ -77,7 +77,7 @@ if(data.success)
   dispatch(fetchUser(token))
 }
 else{
-  toast.error(data.message)
+  toast.error('Something went wrong.')
 }
 }
 else{

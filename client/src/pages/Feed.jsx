@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@clerk/react";
+import { useAuth, useUser } from "@clerk/react";
 import toast from "react-hot-toast";
 
 import api from "../api/axois";
@@ -12,6 +12,7 @@ import RecentMessage from "../components/RecentMessage";
 
 const Feed = () => {
   const { getToken } = useAuth();
+  const {user}=useUser()
 
   const [feeds, setFeeds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,19 +29,24 @@ const Feed = () => {
 
       if (data.success) {
         setFeeds(data.posts);
+        setLoading(false)
+      
       } else {
-        toast.error(data.message);
+toast.error('Something went wrong.')
+    return
       }
+      
     } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
+toast.error('Something went wrong.')
+    } 
+    finally{
+      setLoading(false)
     }
   };
 
   useEffect(() => {
     fetchFeeds();
-  }, []);
+  }, [user]);
 
   if (loading) return <Loading />;
 

@@ -52,7 +52,7 @@ const {data}=await api.get('/api/story/feed',{
   setStories(data.stories)
  }
  else{
-  toast.error(data.message)
+toast.error("Something went wrong.")
  }
   
   setLoad(false);

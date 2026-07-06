@@ -6,6 +6,7 @@ import ImageKit from '@imagekit/nodejs';
 import client from '../config/imageKit.js';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
+import { clerkClient } from '@clerk/express';
 
 
 
@@ -295,13 +296,16 @@ export const getFeedPost=async(req,res)=>{
   try{
 
   const {userId}=req.auth();
-  const user=await User.findById(userId);
+
+  let user=await User.findById(userId);
+
+
   const userVerified=await User.find({
     is_verified:true,
   })
 
 
-  const userIds=[userId,...user.following,...user.connections];
+  const userIds=[userId,...user?.following,...user?.connections];
   for(const vUser of userVerified)
   {
     userIds.push(vUser._id)

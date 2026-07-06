@@ -20,9 +20,7 @@ const syncUserCreation=inngest.createFunction(
     ]
   },
   async({event})=>{
-console.log(process.env.MONGO_URI)
-    console.log("Function triggered");
-    console.log("Mongo state:", mongoose.connection.readyState);
+
 
     const {id,email_addresses,first_name,last_name,image_url}=event.data;
     let username=email_addresses[0].email_address.split('@')[0];
@@ -47,11 +45,11 @@ existingUsername=await User.findOne({
     }
 
 const existingUser=await User.findById(id);
-console.log("this is existing one ",existingUser)
+
 if(!existingUser)
 {
  const user= await User.create(userCreated);
- console.log("this is real one",user)
+
 }
   })
 

@@ -114,7 +114,7 @@ finally{
 
   catch(err)
   {
-toast.error(err.message)
+toast.error("Something went wrong.")
   }  }
   fetchComment();
   },[item])

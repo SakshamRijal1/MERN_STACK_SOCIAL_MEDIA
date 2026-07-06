@@ -24,6 +24,7 @@ import NotFound from "./components/NotFound.jsx"
 function App() {
 const theme = useSelector((state) => state.theme.value);
 
+
 const {user,isLoaded}=useUser();
 useEffect(() => {
   if (theme === "dark") {
@@ -36,21 +37,32 @@ const {getToken}=useAuth();
 
 
 const dispatch=useDispatch()
-useEffect(()=>{
-const fetchData=async()=>{
+useEffect(() => {
+  if (!user) return;
 
-if(user)
-  {
-    const token=await getToken();
-    dispatch(fetchUser(token))
-    dispatch(fetchConnection(token))
-    
-  }
+  let cancelled = false;
 
-}
-  fetchData();
-  
-},[getToken,dispatch,user])
+  const loadUser = async () => {
+    const token = await getToken();
+
+    for (let i = 0; i < 10 && !cancelled; i++) {
+      const result = await dispatch(fetchUser(token));
+
+      if (fetchUser.fulfilled.match(result)) {
+        dispatch(fetchConnection(token));
+        return;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  };
+
+  loadUser();
+
+  return () => {
+    cancelled = true;
+  };
+}, [user, getToken, dispatch]);
 
 if(!isLoaded)
 {
