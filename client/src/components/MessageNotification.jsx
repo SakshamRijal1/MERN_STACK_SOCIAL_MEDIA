@@ -3,6 +3,7 @@ import { MessageCircle, X } from "lucide-react";
 import toast from "react-hot-toast";
 
 const MessageNotification = ({ t, message, navigate }) => {
+  console.log("Message is ",message)
   return (
     <div className="w-[380px] overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
 
