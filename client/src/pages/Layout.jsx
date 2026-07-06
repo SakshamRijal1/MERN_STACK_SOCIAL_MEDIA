@@ -51,33 +51,27 @@ const Layout = () => {
       `${import.meta.env.VITE_BASEURL}/api/message/${messageUser?._id}`
     );
 
-    eventSource.onmessage = (event) => {
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
 
+  if (data.type === "connected") {
+    return;
+  }
 
-  if(event.data==="Connected to sse stream") return
+  const message = data;
 
-      const message = JSON.parse(event.data);
-
-
-
-      if (pathnameRef.current === `/messages/${message.from_user_id?._id}`) {
-        dispatch(addMessage(message));
-
-
-        
-  
-      } else{
-     
-        toast.custom((t)=>(
-               
-          <MessageNotification t={t} navigate={navigate} message={message}/>
-        ),{position:'bottom-right'})
-    
-
-
-
-      }
-    };
+  if (pathnameRef.current === `/messages/${message.from_user_id?._id}`) {
+    dispatch(addMessage(message));
+  } else {
+    toast.custom((t) => (
+      <MessageNotification
+        t={t}
+        navigate={navigate}
+        message={message}
+      />
+    ));
+  }
+}
 
     return () => {
       eventSource.close();
