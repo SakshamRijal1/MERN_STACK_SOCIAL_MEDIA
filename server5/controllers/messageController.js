@@ -57,7 +57,7 @@ res.write(
 
 
 
-   console.log('Client disconnected')
+   
 
   })
 
@@ -190,7 +190,7 @@ if(connections[to_user_id])
   catch(err)
   {
 console.log(err);
-res.json({success:false,message:error.message})
+res.json({success:false,message:err.message})
   }
  }
 
@@ -267,14 +267,14 @@ res.json({success:true,messages})
 export const getUserRecentMessages=async(req,res)=>{
   try{
     const {userId}=req.auth();
-const connections=await Connection.find({
+const userConnections=await Connection.find({
   $or:[
     {from_user_id:userId},
     {to_user_id:userId},
   ],
   status:'accepted'
 })
-const connectionIds=connections.map((connection)=>connection.from_user_id ===userId?connection.to_user_id :connection.from_user_id)
+const connectionIds=userConnections.map((connection)=>String(connection.from_user_id) ===userId?connection.to_user_id :connection.from_user_id)
 
     const messages=await Message.find({
 $and:[
