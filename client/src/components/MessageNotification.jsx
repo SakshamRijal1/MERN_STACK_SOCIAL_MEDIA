@@ -32,7 +32,7 @@ const MessageNotification = ({ t, message, navigate }) => {
         <div className="mt-4 flex items-center gap-3">
           <div className="relative">
             <img
-              src={message.from_user_id.profile_picture}
+              src={message?.from_user_id?.profile_picture}
               alt=""
               className="h-14 w-14 rounded-full object-cover ring-2 ring-indigo-500/30"
             />
@@ -42,7 +42,7 @@ const MessageNotification = ({ t, message, navigate }) => {
 
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-base font-semibold text-zinc-900 dark:text-white">
-              {message.from_user_id.full_name}
+              {message?.from_user_id?.full_name}
             </h3>
 
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
