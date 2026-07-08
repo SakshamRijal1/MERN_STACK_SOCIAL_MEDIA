@@ -43,20 +43,7 @@ const theme=useSelector((state)=>state.theme.value)
           </h1>
 
           {/* Trust */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
-            <img src={assets.group_users} className="h-10" alt="users" />
-
-            <div>
-              <div className="flex">
-                {Array(5).fill(0).map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-amber-400 fill-amber-400" />
-                ))}
-              </div>
-              <p className="text-sm text-gray-600">
-                Trusted by 12+ users worldwide
-              </p>
-            </div>
-          </div>
+ 
 
           {/* Headline */}
           <h2 className="text-4xl lg:text-5xl font-bold dark:text-white text-gray-900 leading-tight">
