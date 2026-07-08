@@ -71,7 +71,7 @@ catch(err)
 }
 }
   return (
-    <div className='fixed bg-black/80 backdrop-blur w-screen h-screen  inset-0 z-110 flex justify-center p-5 max-sm:z-50 max-sm:p-0'>
+    <div className='fixed bg-black/80 backdrop-blur w-screen h-dvh  inset-0 z-110 flex justify-center p-5 max-sm:z-50 max-sm:p-0'>
     <div className='bg-white dark:text-white dark:bg-gray-900 flex flex-col gap-3  max-sm:w-full sm:rounded-lg  w-150 max-sm:h-full  no-scrollbar min-h-full overflow-y-auto relative '>
 <h1 className='text-2xl  border-b bg-white w-full border-b-gray-300 font-bold p-3 z-50 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 text-gray-800 sticky top-0'>Edit Profile</h1>
 <div className='flex gap-1 flex-wrap flex-col p-2 '>
