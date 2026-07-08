@@ -237,6 +237,75 @@ export const addPost=async(req,res)=>{
 }
 
 
+export const updatePost=async(req,res)=>{
+  try{
+   const {userId}=req.auth();
+  
+   const {content,post_type,postId}=req.body;
+
+   const images=req?.files;
+
+   
+   let image_urls=[];
+   if(images.length)
+   {
+   image_urls=await Promise.all(
+    images.map(async(image)=>{
+      const buffer=fs.createReadStream(image.path);
+      const response= await client.files.upload({
+      file:buffer,
+      fileName:image.originalname,
+      })
+      
+      const url=client.helper.buildSrc({
+        urlEndpoint:process.env.IMAGEKIT_URL_ENDPOINT,
+        src:response.filePath,
+        transformation:[
+          {
+            quality:'auto',
+          
+          },
+            {
+              format:'webp'
+
+            },
+            {
+              width:'1280'
+            }
+        ]
+      })
+      return url;
+    })
+   )
+   }
+   await Post.findOneAndUpdate({
+    _id:postId
+   },
+    {
+    user:userId,
+    content,
+    post_type,
+    image_urls
+   })
+   res.json({
+    success:true,
+    message:"Post updated successfully"
+   })
+
+
+  }
+  catch(err)
+
+
+  {
+    console.log(err)
+    res.json({
+      success:false,
+      message:err.message
+    })
+  }
+}
+
 export const getPost=async(req,res)=>{
   try
   {
@@ -379,7 +448,46 @@ catch(err)
 
 }
 
+export const deletePost=async(req,res)=>{
+  try{
+    const {userId}=req.auth();
+    const {postId}=req.body;
+    const post=await Post.findById(postId)
 
+if(post)
+{
+ if(post.user==userId)
+ {
+await post.deleteOne()
+   return res.json({
+    success:true,
+    message:"Post deleted successfully."
+   })
+
+ }
+ else{
+  return res.json({
+    success:false,
+    message:"Post cannot be deleted."
+   })
+ }
+}
+else{
+  return res.json({
+    success:false,
+    message:'Something went wrong'
+   })
+}
+
+  }
+  catch(err)
+  {
+    res.json({
+      success:false,
+      message:err.message
+    })
+  }
+}
 
 export const getLikePost=async(req,res)=>{
   try{

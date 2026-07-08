@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { dummyPostsData } from '../assets/assets'
 import Loading from './Loading'
-import { BadgeCheck, Dot, Heart, IndianRupee, MessageCircle, Share, TurkishLira } from 'lucide-react'
+import { BadgeCheck, Dot, Edit, Heart, IndianRupee, MessageCircle, Share, Trash, Trash2, TurkishLira } from 'lucide-react'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from 'react-router'
 import Seepost from './Seepost'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import api from '../api/axois'
 import { useAuth } from '@clerk/react'
 import toast from 'react-hot-toast'
 import CommentModel from './CommentModel'
 import LikeModel from './LikeModel'
+import EditPost from './EditPost'
+import { fetchUser } from '../features/user/userSlice'
 dayjs.extend(relativeTime);
-const Post = ({item}) => {
+const Post = ({item,setFeeds}) => {
+  const [editPost, setEditPost] = useState(false)
 
 const [likeModel, setLikeModel] = useState(false)
 const [load, setLoad] = useState(false)
   const user=useSelector((state)=>state.user.value)
 const [comment, setComment] = useState(false);
 const [userComments, setUserComments] = useState([]);
-
+const dispatch=useDispatch()
 const postShare=async(req,res)=>{
   const postUrl=`${window.location.origin}/seepost/${item._id}`
   if(navigator.share)
@@ -46,7 +49,39 @@ else{
 }
 const {getToken}=useAuth()
   const [like,setLike]=useState(item.likes_count);
+const handleDelete=async(req,res)=>
+{
+  const token=await getToken()
+  try{
+const {data}=await api.post('/api/post/delete',{
+  postId:item._id,
 
+},
+{
+  headers:{
+    Authorization:`Bearer ${token}`
+  }
+})
+if(data.success)
+{
+
+  
+  setFeeds((prev)=>prev.filter((post)=>post!=item))
+
+  toast.success(data.message);
+
+  return
+}
+else{
+  toast.error(data.message)
+}
+
+  }
+  catch(err)
+  {
+    return
+  }
+}
   const handleLike=async()=>{
   if(load) return;
   setLoad(true)
@@ -127,7 +162,8 @@ return (
  
  <div className=" bg-white  dark:bg-gray-900 dark:text-white rounded-lg p-6  max-sm:px-2  lg:p-10 w-full
  max-md:w-full flex justify-center  flex-col relative">
-
+<div className='flex justify-between items-center '>
+  
       <div className='flex gap-4 max-lg:my-3 max-sm:gap-5 '>
     
       <img onClick={()=>{
@@ -146,8 +182,29 @@ return (
       </div>
           
       </div>
+    
+    {  user._id ===item.user._id && <div className=' flex gap-5 relative'>
+      <div className='group'>
+
+  
+<Trash2 onClick={()=>{
+  handleDelete()
+}} className='b shadow  text-amber-700 rounded-lg  font-bold size-4 active:scale-95 cursor-pointer  '/>
+<div className= 'hidden  top-6 w-25 right-4  absolute sm:group-hover:flex text-white text-sm bg-gray-800 rounded-lg p-2 '>Delete Post</div>
+    </div>
+    <div className='group'>
+
+<Edit onClick={()=>{
+setEditPost(true)
+}} className='size-4 active:scale-95 text-cyan-600 shadow cursor-pointer'/>
+      <div className= 'hidden transition-all dur absolute w-20 top-6 text-white sm:group-hover:flex left-4 bg-gray-800 rounded-lg p-2 text-sm '>Edit Post</div>
+    </div>
+      </div>
+  
+}
   
 
+</div>
    
 {  item.content &&    <p className='w-full text-wrap  mb-3 font-light'dangerouslySetInnerHTML={{__html : postWithHastags}} /> 
 }
@@ -221,6 +278,9 @@ postShare()
         </div>
         {
           likeModel && <LikeModel setLikeModel={setLikeModel} id={item._id} />
+        }
+        {
+          editPost && <EditPost setEditPost={setEditPost} item={item} />
         }
          
       </>

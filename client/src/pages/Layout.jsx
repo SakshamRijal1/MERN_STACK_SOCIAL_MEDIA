@@ -68,8 +68,12 @@ eventSource.onmessage = (event) => {
         t={t}
         navigate={navigate}
         message={message}
+        
       />
-    ));
+    ),
+  {
+    position:'bottom-right'
+  });
   }
 }
 

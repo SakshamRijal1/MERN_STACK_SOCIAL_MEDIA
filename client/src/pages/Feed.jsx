@@ -66,7 +66,7 @@ toast.error('Something went wrong.')
           <div className="mt-6 space-y-6 w-full flex justify-center p-3  max-sm:p-1 items-center flex-col ">
             {feeds.length > 0 ? (
               feeds.map((post) => (
-                <Post key={post._id} item={post} />
+                <Post key={post._id} setFeeds={setFeeds} item={post} />
               ))
             ) : (
               <div className="rounded-2xl  bg-white  dark:bg-gray-900  dark:text-white w-full py-20 text-center shadow-sm">

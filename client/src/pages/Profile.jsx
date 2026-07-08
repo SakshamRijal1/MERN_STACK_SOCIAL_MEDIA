@@ -198,115 +198,134 @@ fetchUser(currentUser?._id)
 
   <div className='md:p-10 p-3 w-full overflow-x-hidden flex justify-center items-center flex-col gap-5 relative'>
 
-
-    <div className=' rounded-lg w-full max-h-screen dark:bg-slate-900  dark:text-white bg-white min-h-120 relative '>
-<div className="h-64 rounded-t-xl overflow-hidden bg-gradient-to-r max-h-full from-indigo-700 via-purple-700 to-pink-600">
-        {
-item.cover_photo &&
-        
- <img className='w-full h-full object-cover rounded-t-lg' src={item?.cover_photo} alt="" />
-        }
-
-
-      </div>
-
-      <div className='flex  gap-3 mt-5 max-lg:flex-col justify-between  '>
-   <div className="absolute top-[150px] ml-6 z-10">
-  <div className="rounded-full p-1 bg-white dark:bg-slate-900 shadow-2xl">
-    <img
-      onClick={() => setShowProfile(true)}
-      src={item?.profile_picture}
-      alt=""
-      className="w-40 h-40 rounded-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
-    />
+<div className="rounded-lg w-full bg-white dark:bg-slate-900 dark:text-white overflow-hidden">
+  {/* Cover Photo */}
+  <div className="h-40 sm:h-52 lg:h-64 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 overflow-hidden">
+    {item?.cover_photo && (
+      <img
+        src={item.cover_photo}
+        alt=""
+        className="w-full h-full object-cover"
+      />
+    )}
   </div>
-</div>
-        <div className='max-lg:ml-0 max-lg:mt-15 p-3 ml-50 w-full '>
-          <div className='flex justify-between'>
-            <div>
 
-            
-    <h1 className='font-semibold text-xl items-center flex gap-1'>{item?.full_name}{item?.is_verified && <BadgeCheck className=' fill-blue-600 text-white text-sm size-5 '/>}</h1>
-  <p className='text-gray-500'>@{item?.username}</p>
-  </div>
-  <div>
-       {
-      id && <>{
-   currentUser?.following?.includes(item._id) ?
-   
-    <button   onClick={()=>{
-  
-       handleUnFollow(item)
-     }}
-       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-slate-500 text-white  rounded-lg`}>
-         
-     Unfollow
-   
-   
-     </button> :
-   
-     <button  onClick={()=>{
-  
-handleFollow(item)
-     
-     }}
-       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-indigo-600 text-white  rounded-lg`}>
-     
-   
-     Follow
-   
-   
-     </button>
-     
-      
-     
-   
-    }
-     </>
-
-   }
-  </div>
-          </div>
-          <div>
-            <p className='text-gray-600 text-sm'>{item?.bio}</p>
-
-            <div className='mt-5 flex  gap-4 text-gray-700 dark:text-gray-600 max-sm:flex-col'>
-              {
-                item.location &&   <button className=' gap-1 flex rounded-xl  items-center justify-center px-3 py-0.5 text-sm ' ><MapPin/>{item?.location}</button>
-              }
-            
-              <button className=' gap-1 flex rounded-xl  items-center justify-center px-3 py-0.5 text-sm ' ><Calendar/> Joined <span className='font-semibold'>{dayjs(item?.createdAt).fromNow()}</span></button>
-            </div>
-            <hr  className='text-gray-300 mt-5'/>
-            <div className='flex gap-4 mt-2 text-gray-800 dark:text-gray-400'>
-              <h1 className='flex gap-1'>{posts.length} <span className='font-semibold'>Posts</span></h1>
-                <h1  onClick={()=>{
-                  setFollowModel(true
-
-                  )
-                }} className='flex hover:underline cursor-pointer  gap-1'>{item.followers.length} <span className='font-semibold'>Followers</span></h1>
-                  <h1  onClick={()=>{
-                  setFollowingModel(true
-
-                  )
-                }}  className='flex hover:underline cursor-pointer  gap-1'>{item?.following?.length} <span className='font-semibold'>Following</span></h1>
-            </div>
-          </div>
-
-        </div>
-        <div>
-
-        </div>
-{
-  !id && <div className=' p-3 max-lg:w-full '>
-          <button onClick={()=>{
-  setEdit(true)
-          }} className='flex max-lg:w-full transition-all duration-200 hover:scale-95 rounded-lg hove:shadow px-4 py-1 shadow  cursor-pointer  gap-2 justify-center items-center dark:shadow-gray-700'> <Edit/>Edit</button>
-        </div>
-}
-       
+  {/* Profile Section */}
+  <div className="px-6 pb-6">
+    {/* Profile Picture */}
+    <div className="-mt-16 sm:-mt-20">
+      <div className="inline-block rounded-full p-1 bg-white dark:bg-slate-900 shadow-xl">
+        <img
+          onClick={() => setShowProfile(true)}
+          src={item?.profile_picture}
+          alt=""
+          className="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
+        />
       </div>
     </div>
+
+    {/* Content */}
+    <div className="mt-5 flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+      {/* Left */}
+      <div className="flex-1">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+          <div>
+            <h1 className="font-semibold text-2xl flex items-center gap-1">
+              {item?.full_name}
+              {item?.is_verified && (
+                <BadgeCheck className="fill-blue-600 text-white size-5" />
+              )}
+            </h1>
+
+            <p className="text-gray-500">@{item?.username}</p>
+          </div>
+
+          {/* Follow Button */}
+          {id && (
+            currentUser?.following?.includes(item._id) ? (
+              <button
+                onClick={() => handleUnFollow(item)}
+                className="px-5 py-2 rounded-lg bg-slate-500 text-white hover:bg-slate-600 transition"
+              >
+                Unfollow
+              </button>
+            ) : (
+              <button
+                onClick={() => handleFollow(item)}
+                className="px-5 cursor-pointer py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition"
+              >
+                Follow
+              </button>
+            )
+          )}
+        </div>
+
+        {/* Bio */}
+        <p className="text-gray-600 dark:text-gray-400 mt-3">
+          {item?.bio}
+        </p>
+
+        {/* Info */}
+        <div className="flex flex-wrap gap-4 mt-5 text-sm text-gray-600 dark:text-gray-400">
+          {item?.location && (
+            <div className="flex items-center gap-1">
+              <MapPin size={16} />
+              {item.location}
+            </div>
+          )}
+
+          <div className="flex items-center gap-1">
+            <Calendar size={16} />
+            Joined
+            <span className="font-semibold">
+              {dayjs(item?.createdAt).fromNow()}
+            </span>
+          </div>
+        </div>
+
+        <hr className="my-5" />
+
+        {/* Stats */}
+        <div className="flex flex-wrap gap-6">
+          <h1>
+            <span className="font-semibold">{posts.length}</span> Posts
+          </h1>
+
+          <h1
+            onClick={() => setFollowModel(true)}
+            className="cursor-pointer hover:underline"
+          >
+            <span className="font-semibold">{item.followers.length}</span>{" "}
+            Followers
+          </h1>
+
+          <h1
+            onClick={() => setFollowingModel(true)}
+            className="cursor-pointer hover:underline"
+          >
+            <span className="font-semibold">
+              {item?.following?.length}
+            </span>{" "}
+            Following
+          </h1>
+        </div>
+      </div>
+
+      {/* Edit Button */}
+      {!id && (
+        <div className="w-full lg:w-auto">
+          <button
+            onClick={() => setEdit(true)}
+            className="w-full lg:w-auto flex items-center cursor-pointer justify-center gap-2 px-5 py-2 rounded-lg shadow dark:shadow-gray-700 hover:scale-95 transition"
+          >
+            <Edit  size={18} />
+            Edit
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
 
 
     <div className='shadow w-96 p-2 max-sm:w-full dark:bg-gray-900 flex justify-between rounded-lg '>
@@ -331,7 +350,7 @@ handleFollow(item)
 {
 
 posts.map((post,index)=>(
-    <Post  key={post._id} item={post}/>
+    <Post setFeeds={setPosts}  key={post._id} item={post}/>
   ))
 }
 </div>
