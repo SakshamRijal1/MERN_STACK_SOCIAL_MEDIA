@@ -7,6 +7,7 @@ import client from '../config/imageKit.js';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
 import { clerkClient } from '@clerk/express';
+import { json } from 'stream/consumers';
 
 
 
@@ -240,10 +241,23 @@ export const addPost=async(req,res)=>{
 export const updatePost=async(req,res)=>{
   try{
    const {userId}=req.auth();
-  
-   const {content,post_type,postId}=req.body;
+
+   let {content,post_type,postId,saveImage}=req.body;
+    
+   saveImage=saveImage?JSON.parse(saveImage) :[]
+   const post=await Post.findById(postId);
+
+   if(post.user!==userId)
+   {
+    return res.json({
+      success:false,
+      message:"Cannot update post"
+    })
+   }
+
 
    const images=req?.files;
+
 
    
    let image_urls=[];
@@ -277,6 +291,10 @@ export const updatePost=async(req,res)=>{
       return url;
     })
    )
+   }
+   if(saveImage)
+   {
+    image_urls=[...saveImage,...image_urls];
    }
    await Post.findOneAndUpdate({
     _id:postId

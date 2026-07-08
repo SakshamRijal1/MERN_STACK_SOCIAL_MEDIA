@@ -18,6 +18,10 @@ const [image, setImage] = useState([])
 const user=useSelector((state)=>state.user.value)
 const navigate=useNavigate()
 const handlePost=async()=>{
+  if(image.length>=5) {
+    toast.error("Cannot add more than 4 photos");
+    return
+  }
   setLoad(true)
   const token=await getToken()
   let content=""
@@ -71,14 +75,14 @@ let text=caption.current.value.trim()
   
  }
  else{
-  toast.error('from cp else')
+  toast.error(data.message)
  }
   
 
 }
 catch(err)
 {
-  toast.error("from create post catch")
+  toast.error(err.message)
 }
 finally{
   setLoad(false)

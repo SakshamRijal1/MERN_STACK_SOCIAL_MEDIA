@@ -13,46 +13,54 @@ const caption=useRef('')
 const [url, setUrl] = useState([])
 const {getToken}=useAuth()
 const [image, setImage] = useState([])
+const [alreadySaved, setAlreadySaved] = useState(item.image_urls)
+
+
 
 
 const user=useSelector((state)=>state.user.value)
 const navigate=useNavigate()
 useEffect(()=>{
-  
-    if(item.post_type=="text_with_image")
-    {
-      setUrl(item.image_urls)
+   
+
+ 
+
       setCaptionWithHastag(item.content);
-       caption.current.vlaue=item.content
+       caption.current.value=item.content
 
     
-    }
+    
 
   
 
 },[item])
 const handlePost=async()=>{
-  
+  const newImage=[...url,...alreadySaved];
+    if(newImage.length>=5) {
+    toast.error("Cannot add more than 4 photos");
+    return
+  }
   setLoad(true)
   const token=await getToken()
-  let content=""
-  let post_type=""
+
  try{
+    let content=""
+  let post_type=""
 let text=caption.current.value.trim()
 
   if(text)
   {
     content=caption.current.value;
   }
-  if(url.length==0 && !content)
+  if(newImage.length==0 && !content)
   {
    return toast.error("Cannot add empty post.")
   }
-  if(content && url.length>0)
+  if(content && newImage.length>0)
   {
     post_type="text_with_image"
   }
-  else if(content && url.length==0)
+  else if(content && newImage.length==0)
     
   {
   
@@ -61,18 +69,19 @@ let text=caption.current.value.trim()
   else{
     post_type="image"
   }
-
-
-  const post=new FormData()
+const post=new FormData()
  post.append('content',content)
  post.append('post_type',post_type)
+ post.append('postId',item._id)
+ alreadySaved.length>=1 &&post.append('saveImage',JSON.stringify(alreadySaved))
 
  for(const val of image)
  {
   post.append('images',val)
  }
 
- const {data}=await api.post('/api/post/add',post,
+
+ const {data}=await api.post('/api/post/update',post,
   {
     headers:{
       Authorization:`Bearer ${token}`
@@ -82,18 +91,20 @@ let text=caption.current.value.trim()
  if(data.success)
  {
   toast.success(data.message);
-  navigate('/')
+setEditPost(false);
+
   
  }
  else{
-  toast.error('from cp else')
+  toast.error(data.message)
+  return
  }
   
 
 }
 catch(err)
 {
-  toast.error("from create post catch")
+  toast.error("Something went wrong.")
 }
 finally{
   setLoad(false)
@@ -102,15 +113,15 @@ finally{
 
   return (
 
-    <div className='w-screen h-screen fixed top-0  right-0 bg-black/80 inset-0 backdrop-blur z-100 flex justify-center p-5'>
+    <div className='w-screen h-screen fixed top-0  right-0 bg-black/80 no-scrollbar inset-0 backdrop-blur z-100 flex justify-center p-5'>
      <X  onClick={()=>{
           setEditPost(false)
         }}
  className='absolute top-1 right-1 cursor-pointer  shadow w-8 h-8 rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200 z-120'/>
       
-      <div className='md:p-10 p-3 w-150 overflow-x-hidden'>
-  <h1 className='text-2xl font-bold dark:text-white'>Create Post</h1>
-  <p className=' text-gray-500 mt-4 dark:text-gray-400'>Share your thoughts to the world.</p>
+      <div className='md:p-10 no-scrollbar bg-white dark:bg-gray-950 p-3 w-200 max-sm:w-full overflow-x-hidden '>
+  <h1 className='text-2xl font-bold dark:text-white'>Edit Post</h1>
+
   
   <div className='w-full max-md:w-full p-3 dark:bg-gray-900 dark:text-white rounded-lg shadow flex flex-col  gap-3 '>
 
@@ -130,11 +141,11 @@ finally{
 }
 <div className='  mb-10 '>
 
-<textarea ref={caption} onInput={(e)=>{
+<textarea ref={caption}  onInput={(e)=>{
 setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-600">$1</span>`))
 }}  placeholder='What happening?' className='resize-none w-full mt-3 p-2 dark:outline-gray-700 outline-1 outline-gray-300 rounded-lg ' />
 {
-  ( url.length>=1 || captionWithHastag!=="") &&
+  ( url.length>=1 || alreadySaved.length>=1|| captionWithHastag!=="") &&
 
 <div className='w-full rounded-lg shadow p-3 '>
 
@@ -143,9 +154,47 @@ setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-
   __html:captionWithHastag
 }}/>
 <div className='w-full min-h-full flex gap-2 flex-wrap justify-center items-center'>
-  {
-    url.length>=1 && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center grid w-full grid-cols-3 gap-2 content-center justify-center  '>
 
+
+
+  {
+   (url.length>=1 || alreadySaved.length>=1) && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center grid w-full grid-cols-3 gap-2 content-center justify-center  '>
+
+{
+alreadySaved.length==1 && 
+<div className='col-span-3 relative w-96 h-96 '>
+
+    <img className='w-full h-full object-cover ' src={alreadySaved[0]} alt="" />
+    <X onClick={()=>{
+setAlreadySaved([])
+}} className='absolute rounded-full top-0 right-0 cursor-pointer  bg-gray-500   shadow  w-8 h-8 flex items-center  text-white active:scale-95 transition-all duration-200'/>
+</div>
+    
+}
+      
+{
+  
+  (alreadySaved.length>1) &&(
+    
+  alreadySaved.map((aImage,index)=>(
+
+      <div key={`${aImage}-${index}`} className=' relative'>
+            <X onClick={()=>{
+
+setAlreadySaved(alreadySaved.filter(link=>link!==aImage))
+
+
+
+
+}} 
+ className='absolute top-0 right-0 cursor-pointer  shadow w-8 h-8 rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200'/>
+ <img className='w-full  max-w-96 max-h-96   object-cover' src={aImage} alt="" />
+ </div>
+    ))
+
+     
+  )
+}
 {
 url.length==1 && 
 <div className='col-span-3 relative w-96 h-96 '>
@@ -158,6 +207,7 @@ url.length==1 &&
 </div>
     
 }
+
 {
   url.length>1 &&(
     

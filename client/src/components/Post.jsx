@@ -208,7 +208,7 @@ setEditPost(true)
    
 {  item.content &&    <p className='w-full text-wrap  mb-3 font-light'dangerouslySetInnerHTML={{__html : postWithHastags}} /> 
 }
-<div  className='grid grid-cols-2 gap-2 cursor-pointer active:scale-98 transition-all duration-200 '>
+<div  className={` gap-2 cursor-pointer  ${item.image_urls.length%2==0 ? 'grid grid-cols-2':'flex flex-wrap'} active:scale-98 transition-all duration-200 `}>
    {   item.image_urls && item.image_urls.map((image,index)=>(
  <img   onClick={()=>{
   navigate(`/seepost/${item._id}`)

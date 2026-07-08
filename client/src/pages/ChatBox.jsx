@@ -32,6 +32,7 @@ const [viewImage, setViewImage] = useState(null)
     const file=e.target.files[0];
     if(file)
     {
+      message.current.value=""
       setImage(file);
       setImageUrl(URL.createObjectURL(file))
     }

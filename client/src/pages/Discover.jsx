@@ -108,8 +108,8 @@ setDiscover([])
 
   return (
       <div className='md:p-10 p-3 w-full overflow-x-hidden'>
-  <h1 className='text-2xl font-bold dark:text-white'>Connections</h1>
-  <p className=' text-gray-500 mt-4 dark:text-gray-400'>Connect with amazing people and grow your network.</p>
+  <h1 className='text-2xl font-bold dark:text-white'>Discover</h1>
+  <p className=' text-gray-500 mt-4 dark:text-gray-400'>Explore new people, connect with like-minded individuals, and grow your network.</p>
   <div className='w-full p-4 shadow rounded-lg mt-5 flex items-center justify-center'>
     <form onSubmit={(e)=>{
       discoverPeople(e)
