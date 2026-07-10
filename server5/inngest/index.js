@@ -86,7 +86,6 @@ const syncUserDeletion=inngest.createFunction(
   },
   async({event})=>{
     const {id}=event.data;
-    console.log("from inngest",id)
 
 await User.findByIdAndDelete(id);
   })
@@ -104,10 +103,7 @@ const {connectionId}=event.data;
 await step.run('sent-connection-request-mail',async()=>{
   const connection=await Connection.findById(connectionId).populate('from_user_id to_user_id'
   );
-  console.log("SMTP_USER:", process.env.SMTP_USER);
-console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
-console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
-console.log("Connecion is ",connection)
+
   const subject="👋 New Connection Request";
 const body = `
 <!DOCTYPE html>
@@ -171,6 +167,174 @@ const body = `
 `;
 await sendEmail({
   to:connection.to_user_id.email,
+  subject,
+  body
+
+}) 
+})
+
+
+const in24Hours=new Date(Date.now()+24*60*60*1000)
+await  step.sleepUntil('wait-for-24hours',in24Hours);
+await step.run('send-connection-request-reminder',async()=>{
+  const connection=await Connection.findById(connectionId).populate('from_user_id to_user_id');
+  if(connection.status==="accepted")
+  {
+    return {
+     message: "Already accepted the request"
+    }
+  }
+   const subject="🕐 Connection Request Reminder"
+  const body = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Connection Request Reminder</title>
+</head>
+
+<body style="margin:0; padding:0; background:#f4f4f4; font-family:Arial, sans-serif;">
+
+  <div style="max-width:600px; margin:40px auto; background:#ffffff; border-radius:10px; overflow:hidden;">
+
+    <!-- Header -->
+    <div style="background:#f59e0b; padding:20px; text-align:center; color:white;">
+      <h2 style="margin:0;">⏰ Reminder: Connection Request</h2>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:20px; color:#333;">
+
+      <p>Hi <b>${connection.to_user_id.full_name}</b>,</p>
+
+      <p>
+        You still have a pending connection request waiting for your response on <b>SakshaMedia</b>.
+      </p>
+
+      <!-- User Card -->
+      <div style="margin:20px 0; padding:15px; background:#f9f9f9; border-radius:8px;">
+        <p style="margin:5px 0;">
+          👤 <b>Name:</b> ${connection.from_user_id.full_name}
+        </p>
+        <p style="margin:5px 0;">
+          📩 <b>Username:</b> @${connection.from_user_id.username}
+        </p>
+      </div>
+
+      <p>
+        Don’t miss out on growing your network 🚀
+      </p>
+
+      <!-- Button -->
+      <div style="text-align:center; margin-top:20px;">
+        <a href="${process.env.FRONTEND_URL}/connections"
+           style="background:#f59e0b; color:white; padding:12px 20px; text-decoration:none; border-radius:6px; display:inline-block;">
+          Review Request
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#f1f1f1; padding:15px; text-align:center; font-size:12px; color:#666;">
+      SakshaMedia © All rights reserved
+    </div>
+
+  </div>
+
+</body>
+</html>
+`;
+await sendEmail({
+  to:connection.to_user_id.email,
+  subject,
+  body
+})
+
+return {
+  message:"Reminder sent."
+}
+
+
+
+})
+}
+)
+
+
+
+
+const sendFollowNotification=inngest.createFunction({
+  id:"send-follow-notification-reminder",
+  triggers:[{
+  event:"app/follow-request"
+}]
+},
+
+async({event,step})=>{
+const {user,toUser}=event.data;
+await step.run('sent-connection-request-mail',async()=>{
+  const subject="👋 New Follower";
+const body = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>New Follower</title>
+</head>
+
+<body style="margin:0; padding:0; background:#f4f4f4; font-family:Arial, sans-serif;">
+
+  <div style="max-width:600px; margin:40px auto; background:#ffffff; border-radius:10px; overflow:hidden;">
+
+    <!-- Header -->
+    <div style="background:#4f46e5; padding:20px; text-align:center; color:white;">
+      <h2 style="margin:0;">👋 New Follower</h2>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:20px; color:#333;">
+
+      <p>Hi <b>${toUser.full_name}</b>,</p>
+
+      <p>
+        You have a new follower <b>SakshaMedia</b>.
+      </p>
+
+      <!-- User Info Card -->
+      <div style="margin:20px 0; padding:15px; background:#f9f9f9; border-radius:8px;">
+        <p style="margin:5px 0;">
+          👤 <b>Name:</b> ${user.full_name}
+        </p>
+        <p style="margin:5px 0;">
+          📩 <b>Username:</b> @${user.username}
+        </p>
+      </div>
+
+
+
+      <!-- Button -->
+      <div style="text-align:center; margin-top:20px;">
+        <a href="${process.env.FRONTEND_URL}/connections"
+           style="background:#4f46e5; color:white; padding:12px 20px; text-decoration:none; border-radius:6px; display:inline-block;">
+          View Followers
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#f1f1f1; padding:15px; text-align:center; font-size:12px; color:#666;">
+      SakshaMedia © All rights reserved
+    </div>
+
+  </div>
+
+</body>
+</html>
+`;
+await sendEmail({
+  to:toUser.email,
   subject,
   body
 

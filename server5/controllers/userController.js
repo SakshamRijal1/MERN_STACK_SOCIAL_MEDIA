@@ -307,6 +307,12 @@ export const defaultUser=async(req,res)=>{
     const toUser=await User.findById(id);
     toUser.followers.push(userId);
     await toUser.save();
+    await inngest.send({
+      name:"app/follow-request",
+      data:{
+        user,toUser
+      }
+    })
     res.json({
       success:true,
       message:"User followed successfully"
