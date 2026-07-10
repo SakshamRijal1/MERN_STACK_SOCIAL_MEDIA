@@ -158,13 +158,14 @@ setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-
 
 
   {
-   (url.length>=1 || alreadySaved.length>=1) && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center grid w-full grid-cols-3 gap-2 content-center justify-center  '>
+   (url.length>=1 || alreadySaved.length>=1) && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center flex w-full flex-wrap gap-2 content-center justify-center  '>
 
 {
 alreadySaved.length==1 && 
-<div className='col-span-3 relative w-96 h-96 '>
+<div className='relative'>
 
-    <img className='w-full h-full object-cover ' src={alreadySaved[0]} alt="" />
+
+    <img  className='w-full  max-w-96 max-h-96   object-cover' src={alreadySaved[0]} alt="" />
     <X onClick={()=>{
 setAlreadySaved([])
 }} className='absolute rounded-full top-0 right-0 cursor-pointer  bg-gray-500   shadow  w-8 h-8 flex items-center  text-white active:scale-95 transition-all duration-200'/>
@@ -188,7 +189,8 @@ setAlreadySaved(alreadySaved.filter(link=>link!==aImage))
 
 }} 
  className='absolute top-0 right-0 cursor-pointer  shadow w-8 h-8 rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200'/>
- <img className='w-full  max-w-96 max-h-96   object-cover' src={aImage} alt="" />
+
+    <img  className='w-full  max-w-96 max-h-96   object-cover' src={aImage} alt="" />
  </div>
     ))
 
@@ -199,7 +201,8 @@ setAlreadySaved(alreadySaved.filter(link=>link!==aImage))
 url.length==1 && 
 <div className='col-span-3 relative w-96 h-96 '>
 
-    <img className='w-full h-full object-cover ' src={url} alt="" />
+   
+    <img  className='w-full  max-w-96 max-h-96   object-cover' src={url} alt="" />
     <X onClick={()=>{
   setUrl([])
   setImage([])
@@ -223,7 +226,8 @@ setImage(image.filter((_,i)=>i!==index))
 
 }} 
  className='absolute top-0 right-0 cursor-pointer  shadow w-8 h-8 rounded-full bg-gray-400  flex items-center text-white active:scale-95 transition-all duration-200'/>
- <img className='w-full  max-w-96 max-h-96   object-cover' src={uImage} alt="" />
+
+    <img  className='w-full  max-w-96 max-h-96   object-cover' src={uImage} alt="" />
  </div>
     ))
 
