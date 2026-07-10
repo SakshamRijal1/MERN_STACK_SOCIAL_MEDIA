@@ -582,4 +582,4 @@ return {
 })
 
 
-export const functions=[syncUserCreation,syncUserUpdation,syncUserDeletion,sendNewConnectionRequestReminder,deleteStory,sendNotificationOnUnseenMessages]
+export const functions=[syncUserCreation,syncUserUpdation,syncUserDeletion,sendNewConnectionRequestReminder,deleteStory,sendNotificationOnUnseenMessages,sendFollowNotification]
