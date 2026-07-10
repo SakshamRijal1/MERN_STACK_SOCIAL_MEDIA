@@ -502,7 +502,7 @@ export const sendConnectionRequest=async(req,res)=>{
       from_user_id:userId,
       to_user_id:id,
     })
-    console.log("COnnection created",connection)
+
     await inngest.send({
       name:"app/connection-request",
       data:{
