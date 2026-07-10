@@ -131,7 +131,7 @@ const body = `
       <p>Hi <b>${toUser.full_name}</b>,</p>
 
       <p>
-        You have a new follower <b>SakshaMedia</b>.
+        You have a new follower on <b>SakshaMedia</b>.
       </p>
 
       <!-- User Info Card -->
