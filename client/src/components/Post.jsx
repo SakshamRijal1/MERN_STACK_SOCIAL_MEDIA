@@ -14,6 +14,7 @@ import CommentModel from './CommentModel'
 import LikeModel from './LikeModel'
 import EditPost from './EditPost'
 import { fetchUser } from '../features/user/userSlice'
+import { isAxiosError } from 'axios'
 dayjs.extend(relativeTime);
 const Post = ({item,setFeeds}) => {
   const [editPost, setEditPost] = useState(false)
@@ -23,6 +24,7 @@ const [load, setLoad] = useState(false)
   const user=useSelector((state)=>state.user.value)
 const [comment, setComment] = useState(false);
 const [userComments, setUserComments] = useState([]);
+const [isSeeMore, setIsSeeMore] = useState(true)
 const dispatch=useDispatch()
 const postShare=async(req,res)=>{
   const postUrl=`${window.location.origin}/seepost/${item._id}`
@@ -156,7 +158,7 @@ toast.error("Something went wrong.")
   const currentUser=useSelector((state)=>state.user.value)
   const navigate=useNavigate()
 
- const postWithHastags=item.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>')
+ const postWithHastags=(isSeeMore && item.content.length>250) ? item.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>').slice(0,250)+'...' :item.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>')
 return (
 <>
  
@@ -206,7 +208,22 @@ setEditPost(true)
 
 </div>
    
-{  item.content &&    <p className='w-full text-wrap  mb-3 font-light'dangerouslySetInnerHTML={{__html : postWithHastags}} /> 
+{  item.content &&  <><p
+  className="font-light"
+  dangerouslySetInnerHTML={{ __html: postWithHastags }}
+/>
+
+{isSeeMore && item.content.length>250 && <span onClick={()=>{
+  setIsSeeMore(false)
+}} className="ml-1 cursor-pointer hover:underline text-blue-500">
+    See More
+  </span>}
+{!isSeeMore && item.content.length>250 && <span onClick={()=>{
+    setIsSeeMore(true)
+}} className="ml-1 cursor-pointer hover:underline text-gray-500">
+    See Less
+  </span>}
+</> 
 }
 <div  className={` gap-2 cursor-pointer  ${item.image_urls.length%2==0 ? 'grid grid-cols-2':'flex flex-wrap'} active:scale-98 transition-all duration-200 `}>
    {   item.image_urls && item.image_urls.map((image,index)=>(
