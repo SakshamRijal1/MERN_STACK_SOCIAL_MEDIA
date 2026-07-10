@@ -273,7 +273,7 @@ const sendFollowNotification=inngest.createFunction({
 
 async({event,step})=>{
 const {user,toUser}=event.data;
-await step.run('sent-connection-request-mail',async()=>{
+await step.run('sent-follow-mail',async()=>{
   const subject="👋 New Follower";
 const body = `
 <!DOCTYPE html>
