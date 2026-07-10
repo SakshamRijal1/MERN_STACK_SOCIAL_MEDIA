@@ -104,6 +104,10 @@ const {connectionId}=event.data;
 await step.run('sent-connection-request-mail',async()=>{
   const connection=await Connection.findById(connectionId).populate('from_user_id to_user_id'
   );
+  console.log("SMTP_USER:", process.env.SMTP_USER);
+console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
+console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
+console.log("Connecion is ",connection)
   const subject="👋 New Connection Request";
 const body = `
 <!DOCTYPE html>
@@ -125,7 +129,7 @@ const body = `
     <!-- Body -->
     <div style="padding:20px; color:#333;">
 
-      <p>Hi <b>${connection.to_user_id.full_name}</b>,</p>
+      <p>Hi <b>${connection?.to_user_id?.full_name}</b>,</p>
 
       <p>
         You have received a new connection request on <b>SakshaMedia</b>.
