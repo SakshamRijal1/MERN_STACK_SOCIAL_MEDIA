@@ -260,11 +260,16 @@ user?.is_verified &&
         
         {
           !user?.is_verified &&
+          <>
           <button onClick={()=>{
           handleVerified()
         }} disabled={verificationRequirements.filter((item)=>item.completed).length<5} className={`mt-8  ${verificationRequirements.filter((item)=>item.completed).length<5 ?"cursor-not-allowed bg-gray-500 " :"cursor-pointer bg-indigo-600 hover:bg-indigo-700"}  transition px-6 py-3 rounded-xl text-white font-medium`}>
           Apply for Verification
         </button>
+        <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
+  Once you meet all the verification requirements, we'll send a confirmation email to your registered email address. You can then apply for the verification badge.
+</p>
+</>
 }
         </>
 }
