@@ -43,10 +43,10 @@
 //   return response
 // }
 // export default sendEmail;
-import e from "express";
+
 import nodemailer from "nodemailer";
 const transporter=nodemailer.createTransport({
-  host:"",
+  host:"smtp-relay.brevo.com",
   port:587,
   secure:false,
   auth:{
