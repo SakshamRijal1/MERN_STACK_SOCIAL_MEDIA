@@ -67,7 +67,7 @@ return
   },[user])
 
   return (
-    <div  className='shadow hadow bg-white dark:bg-gray-900 dark:text-white p-2 rounded-lg  '>
+    <div  className='shadow  bg-white dark:bg-gray-900 dark:text-white p-2 rounded-lg  '>
       <h1 className='font-semibold'>Recent messages</h1>
       <div className='flex flex-col gap-5 mt-5 justify-center '>
 {

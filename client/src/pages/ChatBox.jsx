@@ -11,6 +11,7 @@ import api from "../api/axois";
 import { addMessage, fetchMessages, resetMessage, setMessage } from "../features/messages/messagesSlice";
 import { div } from "three/src/nodes/math/OperatorNode.js";
 import ShowProfile from "../components/ShowProfile";
+import dayjs from "dayjs";
 
 const ChatBox = () => {
   const { userId } = useParams();
@@ -144,7 +145,13 @@ if(!user) return <div className=" h-screen overflow-hidden flex justify-center i
               {user.full_name}
               {user.is_verified && <BadgeCheck size={16} className="fill-blue-600 text-white"/>}
             </div>
-            <p className="text-xs text-green-600">● Active now</p>
+          
+          {
+          user.isOnline && <p className="text-xs text-green-600">● Active now</p>
+}
+          {
+          !user.isOnline && <p className="text-xs text-gray-500">Last seen {dayjs(user.last_seen).fromNow()}</p>
+}
           </div>
         </div>
       </header>
