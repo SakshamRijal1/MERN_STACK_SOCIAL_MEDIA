@@ -44,12 +44,7 @@ res.setHeader('Cache-Control','no-cache')
 res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
 res.setHeader("Access-Control-Allow-Credentials", "true");
   connections[userId]=res;
-  await User.findByIdAndUpdate(userId,
-    {
-      isOnline:true,
-    
-    }
-  )
+
 
 
 res.write(
@@ -60,13 +55,7 @@ res.write(
 );
   req.on('close',async()=>{
    delete connections[userId];
-  await User.findByIdAndUpdate(userId,
-    {
-      isOnline:false,
-      last_seen:new Date()
-    
-    }
-  )
+
 
 
    

@@ -14,14 +14,7 @@ username:{
   unique:true,
 },
 
-isOnline:{
-type:Boolean,
-default:false,
-},
-last_seen:{
-type:Date,
-default:new Date()
-},
+
 is_verified:{
 type:Boolean,
 default:false

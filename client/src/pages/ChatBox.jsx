@@ -146,12 +146,9 @@ if(!user) return <div className=" h-screen overflow-hidden flex justify-center i
               {user.is_verified && <BadgeCheck size={16} className="fill-blue-600 text-white"/>}
             </div>
           
-          {
-          user.isOnline && <p className="text-xs text-green-600">● Active now</p>
-}
-          {
-          !user.isOnline && <p className="text-xs text-gray-500">Last seen {dayjs(user.last_seen).fromNow()}</p>
-}
+    <p className="text-xs text-green-600">● Active now</p>
+
+       
           </div>
         </div>
       </header>
