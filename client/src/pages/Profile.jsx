@@ -356,7 +356,7 @@ posts.map((post,index)=>(
 </div>
     }
     {
-      status=="Media" &&    <div className="flex  p-2 max-w-4xl   flex-col gap-2">
+      status=="Media" &&    <div className="flex  p-2 max-w-4xl   flex-wrap gap-2">
 
 {
   ((posts.length==0)||(

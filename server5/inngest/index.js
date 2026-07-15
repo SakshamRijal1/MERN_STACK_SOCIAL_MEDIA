@@ -95,6 +95,94 @@ await User.findByIdAndDelete(id);
 
   
 
+const sendVerifiedBadgeNotification=inngest.createFunction({
+  id:"send-verified-badge-notification-reminder",
+  triggers:[{
+  event:"app/verify-request"
+}]
+},
+
+async({event,step})=>{
+const {user}=event.data;
+
+await step.run("verification-eligibility-mail", async () => {
+  const subject = "🎉 You're Eligible to Apply for Verification!";
+
+  const body = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Verification Eligibility</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+
+<div style="max-width:600px;margin:40px auto;background:#ffffff;border-radius:10px;overflow:hidden;">
+
+  <!-- Header -->
+  <div style="background:#4f46e5;padding:20px;text-align:center;color:white;">
+    <h2 style="margin:0;">🎉 Mission Completed!</h2>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:25px;color:#333;">
+
+    <p>Hi <b>${user.full_name}</b>,</p>
+
+    <p>
+      Congratulations! You have successfully completed all the requirements
+      needed to apply for the <b>Verified Badge</b> on <b>SakshaMedia</b>.
+    </p>
+
+    <div style="background:#f8f9ff;padding:18px;border-radius:8px;margin:20px 0;">
+
+      <h3 style="margin-top:0;">✅ Completed Requirements</h3>
+
+      <p>✔ Verified Email</p>
+      <p>✔ Profile Picture Added</p>
+      <p>✔ Unique Username</p>
+      <p>✔ 100+ Followers</p>
+      <p>✔ 30 days+ profile age</p>
+
+    </div>
+
+    <p>
+      You can now submit your verification request.
+      Once our team reviews and approves it, you'll receive your official
+      <b>Verified Badge</b>.
+    </p>
+
+    <div style="text-align:center;margin-top:30px;">
+      <a href="${process.env.FRONTEND_URL}/setting"
+         style="background:#4f46e5;color:#fff;padding:14px 24px;
+         text-decoration:none;border-radius:6px;font-weight:bold;">
+         Apply for Verification
+      </a>
+    </div>
+
+
+
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#f1f1f1;padding:15px;text-align:center;
+  font-size:12px;color:#666;">
+    © ${new Date().getFullYear()} SakshaMedia. All rights reserved.
+  </div>
+
+</div>
+
+</body>
+</html>
+`;
+
+  await sendMail({
+    to: user.email,
+    subject,
+    body,
+  });
+})})
 
 const sendFollowNotification=inngest.createFunction({
   id:"send-follow-notification-reminder",
@@ -105,7 +193,7 @@ const sendFollowNotification=inngest.createFunction({
 
 async({event,step})=>{
 const {user,toUser}=event.data;
-console.log(`User is ${user} and toUser is ${toUser}`)
+
 await step.run('sent-follow-mail',async()=>{
   const subject="👋 New Follower";
 const body = `
@@ -497,4 +585,4 @@ return {
 })
 
 
-export const functions=[syncUserCreation,syncUserUpdation,syncUserDeletion,sendNewConnectionRequestReminder,deleteStory,sendNotificationOnUnseenMessages,sendFollowNotification]
+export const functions=[syncUserCreation,syncUserUpdation,syncUserDeletion,sendNewConnectionRequestReminder,deleteStory,sendNotificationOnUnseenMessages,sendFollowNotification,sendVerifiedBadgeNotification]
