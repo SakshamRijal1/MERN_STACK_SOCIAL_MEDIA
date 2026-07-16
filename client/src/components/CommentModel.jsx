@@ -15,7 +15,9 @@ const CommentModel = ({post,setComment,comments,setUserComments}) => {
 
 const handleSubmit=async(e)=>{
   e.preventDefault()
+    if(load) return;
   setLoad(true)
+
 const token=await getToken();
 try{
 if(commentUser.current.value.length==0)
