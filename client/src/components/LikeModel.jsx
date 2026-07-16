@@ -94,7 +94,7 @@ navigate(`/profile`)
 }
 else{
 
-navigate(`/profile/${likeUser.user._id}`)
+navigate(`/profile/${likeUser._id}`)
 }
 }}
       key={likeUser._id}
