@@ -11,10 +11,13 @@ const CommentModel = ({post,setComment,comments,setUserComments}) => {
 
   const {getToken}=useAuth()
   const commentUser=useRef("");
+  const [load, setLoad] = useState(false)
 
 const handleSubmit=async(e)=>{
   e.preventDefault()
+  setLoad(true)
 const token=await getToken();
+try{
 if(commentUser.current.value.length==0)
 {
 return toast.error('Comment cannot be empty.')
@@ -39,6 +42,17 @@ if(data.success)
 else{
   toast.error(data.message)
 }
+
+}
+catch(err)
+{
+  toast.error("Something went wrong");
+}
+finally
+{
+  setLoad(false)
+}
+
 }
 
 
@@ -230,15 +244,16 @@ hover:scale-110
 
 <div className="py-3 flex justify-center">
 
-<button 
+<button  disabled={load}
 onClick={() => setComment(false)}
-className="
+className={`
 text-sm
 text-gray-500 dark:text-red-500
 hover:text-red-500
 transition
+${load && 'opacity-50'}
 cursor-pointer
-"
+`}
 >
 
 Hide comments
