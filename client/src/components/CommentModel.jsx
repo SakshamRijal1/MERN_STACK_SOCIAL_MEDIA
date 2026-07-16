@@ -206,8 +206,9 @@ transition
 />
 
 <button
+disabled={load}
 type="submit"
-className="
+className={`
 absolute
 right-2
 top-1/2
@@ -222,14 +223,14 @@ hover:bg-indigo-700
 rounded-full
 
 text-white
-
+${load && 'opacity-50'}
 flex
 items-center
 justify-center
 
 transition
 hover:scale-110
-"
+`}
 >
 
 <SendHorizonalIcon size={18} />
@@ -246,14 +247,14 @@ hover:scale-110
 
 <div className="py-3 flex justify-center">
 
-<button  disabled={load}
+<button 
 onClick={() => setComment(false)}
 className={`
 text-sm
 text-gray-500 dark:text-red-500
 hover:text-red-500
 transition
-${load && 'opacity-50'}
+
 cursor-pointer
 `}
 >
