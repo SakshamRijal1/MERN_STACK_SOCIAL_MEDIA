@@ -162,7 +162,7 @@ toast.error("Something went wrong.")
 return (
 <>
  
- <div className=" bg-white  dark:bg-gray-900 dark:text-white rounded-lg p-6  max-sm:px-2  lg:p-10 w-full
+ <div className="inset-0 overflow-x-hidden bg-white  dark:bg-gray-900 dark:text-white rounded-lg p-6  max-sm:px-2  lg:p-10 w-full
  max-md:w-full flex justify-center  flex-col relative">
 <div className='flex justify-between items-center '>
   

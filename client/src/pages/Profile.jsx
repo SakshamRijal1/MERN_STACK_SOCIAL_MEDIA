@@ -24,6 +24,7 @@ const currentUser=useSelector((state)=>state.user.value)
 const [likes, setLikes] = useState(0)
 const [edit, setEdit] = useState(false)
 const [followModel, setFollowModel] = useState(false)
+
 const [followingModel, setFollowingModel] = useState(false)
 const [loadFollow, setLoadFollow] = useState(false)
 const [showProfile, setShowProfile] = useState(false)
@@ -87,6 +88,7 @@ toast.error(err.message)
 }
 const handleUnFollow=async(item)=>{
   if(loadFollow) return;
+
      setLoadFollow(true)
   const token=await getToken()
 
@@ -132,6 +134,7 @@ toast.error(err.message)
 
 useEffect(()=>{
 if(!currentUser)  return
+setLoad(true)
     const fetchUser=async(id)=>{
 
     const token=await getToken();
@@ -166,7 +169,9 @@ setPosts(data.posts)
     {
   toast.error("from profile catch")
     }
-      setLoad(false);
+ finally{
+  setLoad(false)
+ }
 
   }
 
