@@ -8,12 +8,15 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { getToken, useAuth, useUser } from '@clerk/react';
 import api from '../api/axois';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 const Seepost = () => {
   dayjs.extend(relativeTime)
   const [post, setPost] = useState(null);
   const [load, setLoad] = useState(true);
   const [curr, setCurr] = useState(0)
   const {id}=useParams();
+  const currentUser=useSelector(state=>state.user.value)
+
 const {user}=useUser();
 if(!user || !id)
 {
@@ -111,7 +114,16 @@ navigate('/')
 
     <div className='flex w-full gap-4 mt-4 '>
   
-      <img className='w-13  rounded-full object-cover relative bottom-5 h-13 ' src={post.user.profile_picture} alt="cover-photo" />
+      <img onClick={()=>{
+if(post.user._id ===currentUser._id)
+{
+  navigate('/profile');
+
+}
+else {
+  navigate(`/profile/${post.user._id}`)
+}
+      }}  className='w-13 cursor-pointer  rounded-full object-cover relative bottom-5 h-13 ' src={post.user.profile_picture} alt="cover-photo" />
       <div className='flex  relative flex-col bottom-5 flex-wrap' >
     <h1 className='font-semibold flex gap-1 items-center'>{post.user.full_name}{post.user.is_verified && <BadgeCheck  className='fill-blue-600 size-4 text-white'/>}</h1>
       <p className='text-gray-700 text-sm font-light flex flex-wrap gap-0.5 dark:text-gray-500'>@{post.user.username} <Dot/> {dayjs(post.createdAt).fromNow()} </p>

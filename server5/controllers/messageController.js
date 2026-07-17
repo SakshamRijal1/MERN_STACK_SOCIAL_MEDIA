@@ -43,7 +43,7 @@ const {userId}=req.params;
 res.setHeader('Cache-Control','no-cache')
 res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
 res.setHeader("Access-Control-Allow-Credentials", "true");
-  connections[userId]=res;
+ connections[userId]=res;
 
 
 
@@ -55,10 +55,6 @@ res.write(
 );
   req.on('close',async()=>{
    delete connections[userId];
-
-
-
-   
 
   })
 
