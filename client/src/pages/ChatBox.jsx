@@ -92,6 +92,7 @@ message.current.value=""
 
 }
 else{
+  toast.error(data.message)
   throw new Error(data.message)
 }
 }
