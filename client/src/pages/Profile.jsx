@@ -186,7 +186,7 @@ fetchUser(currentUser?._id)
 
 
 
-},[id,currentUser])
+},[id])
 
 
 
