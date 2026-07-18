@@ -150,9 +150,7 @@ setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-
 <div className='w-full rounded-lg shadow p-3 '>
 
 
-<p className='w-full  p-2 text-gray-700 dark:text-gray-300 rounded-lg top-0'  dangerouslySetInnerHTML={{
-  __html:captionWithHastag
-}}/>
+
 <div className='w-full min-h-full flex gap-2 flex-wrap justify-center items-center'>
 
 

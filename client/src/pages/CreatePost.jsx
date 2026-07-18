@@ -14,7 +14,6 @@ const [url, setUrl] = useState([])
 const {getToken}=useAuth()
 const [image, setImage] = useState([])
 
-
 const user=useSelector((state)=>state.user.value)
 const navigate=useNavigate()
 const handlePost=async()=>{
@@ -124,9 +123,7 @@ setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-
 <div className='w-full rounded-lg shadow p-3 '>
 
 
-<p className='w-full  p-2 text-gray-700 dark:text-gray-300 rounded-lg top-0'  dangerouslySetInnerHTML={{
-  __html:captionWithHastag
-}}/>
+
 <div className='w-full min-h-full flex gap-2 flex-wrap justify-center items-center'>
   {
     url.length>=1 && <div className='relative border dark:border-gray-700 border-gray-300 rounded-lg p-3   items-center flex w-full flex-wrap gap-2 content-center justify-center  '>

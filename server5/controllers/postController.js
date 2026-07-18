@@ -539,3 +539,43 @@ console.log(post)
     })
   }
 }
+export const findHashtag=async(req,res)=>{
+  try{
+
+  
+  const {userId}=req.auth()
+  const {input}=req.body;
+   const post=await Post.find({
+      
+        content:new RegExp(input,'i')
+    
+   })
+   const user=await User.find({
+    $or:[
+      {
+        full_name:new RegExp(input,'i')
+      },
+       {
+        bio:new RegExp(input,'i')
+      },
+        {
+        location:new RegExp(input,'i')
+      }
+    ]
+   })
+   res.json({
+    user,
+    post,
+    message:"Found data successfully"
+   })
+  }
+
+  catch(err)
+  {
+    res.json({
+      message:err.message,
+      success:false
+
+    })
+  }
+}

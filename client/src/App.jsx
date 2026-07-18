@@ -21,6 +21,7 @@ import { fetchConnection } from "./features/connections/connectionSlice.js"
 import Setting from "./pages/Setting.jsx"
 import { addMessage } from "./features/messages/messagesSlice.js"
 import NotFound from "./components/NotFound.jsx"
+import Hashtag from "./pages/Hashtag.jsx"
 function App() {
 const theme = useSelector((state) => state.theme.value);
 
@@ -116,6 +117,10 @@ index:true,
 {
   path:'*',
   element:<NotFound/>
+},
+{
+path:'hashtag/:input',
+element:<Hashtag/>
 },
 
 {

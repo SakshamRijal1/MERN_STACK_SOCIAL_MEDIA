@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { dummyPostsData } from '../assets/assets'
 import Loading from './Loading'
-import { BadgeCheck, Dot, Edit, Heart, IndianRupee, MessageCircle, Share, Trash, Trash2, TurkishLira } from 'lucide-react'
+import { BadgeCheck, Dot, Edit, Heart, IndianRupee, MessageCircle, ReceiptRussianRuble, Share, Trash, Trash2, TurkishLira } from 'lucide-react'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from 'react-router'
@@ -127,7 +127,23 @@ finally{
 }
 
 }
+const renderHastag = (text) => {
+  return text.split(/(#\w+)/g).map((part, index) => {
+    if (/^#\w+$/.test(part)) {
+      return (
+        <span
+          key={index}
+          onClick={() => navigate(`/hashtag/${part.slice(1)}`)}
+          className="text-indigo-600 cursor-pointer hover:underline transition-all duration-200"
+        >
+          {part}
+        </span>
+      );
+    }
 
+    return <span key={index}>{part}</span>;
+  });
+};
 
   useEffect(()=>{
     setComment(false)
@@ -158,7 +174,6 @@ toast.error("Something went wrong.")
   const currentUser=useSelector((state)=>state.user.value)
   const navigate=useNavigate()
 
- const postWithHastags=(isSeeMore && item.content.length>250) ? item.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>').slice(0,250)+'...' :item.content.replace(/(#\w+)/g,'<span class="text-indigo-600 hover:underline">$1</span>')
 return (
 <>
  
@@ -208,10 +223,8 @@ setEditPost(true)
 
 </div>
    
-{  item.content &&  <><p
-  className="font-light"
-  dangerouslySetInnerHTML={{ __html: postWithHastags }}
-/>
+{  item.content &&  <>
+<p>{renderHastag(isSeeMore  && item.content.length>250 ? item.content.slice(0,250)+'...':item.content)}</p>
 
 {isSeeMore && item.content.length>250 && <span onClick={()=>{
   setIsSeeMore(false)
