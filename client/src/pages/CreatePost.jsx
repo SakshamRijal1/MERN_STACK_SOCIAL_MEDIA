@@ -8,11 +8,12 @@ import { useNavigate } from 'react-router'
 const CreatePost = () => {
 
 const [load, setLoad] = useState(false);
-const [captionWithHastag, setCaptionWithHastag] = useState("");
+
 const caption=useRef('')
 const [url, setUrl] = useState([])
 const {getToken}=useAuth()
 const [image, setImage] = useState([])
+
 
 const user=useSelector((state)=>state.user.value)
 const navigate=useNavigate()
@@ -114,11 +115,9 @@ finally{
 }
 <div className='  mb-10 '>
 
-<textarea ref={caption} onInput={(e)=>{
-setCaptionWithHastag(e.target.value.replace(/(#\w+)/g,`<span class="text-indigo-600">$1</span>`))
-}}  placeholder='What happening?' className='resize-none w-full mt-3 p-2 dark:outline-gray-700 outline-1 outline-gray-300 rounded-lg ' />
+<textarea ref={caption}  placeholder='What happening?' className='resize-none w-full mt-3 p-2 dark:outline-gray-700 outline-1 outline-gray-300 rounded-lg ' />
 {
-  ( url.length>=1 || captionWithHastag!=="") &&
+  ( url.length>=1 ) &&
 
 <div className='w-full rounded-lg shadow p-3 '>
 
