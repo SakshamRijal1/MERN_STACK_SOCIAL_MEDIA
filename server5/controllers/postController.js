@@ -383,6 +383,7 @@ export const getFeedPost=async(req,res)=>{
   try{
 
   const {userId}=req.auth();
+  
 
   let user=await User.findById(userId);
 
