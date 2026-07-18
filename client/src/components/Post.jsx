@@ -245,7 +245,7 @@ setEditPost(true)
  }}
       key={index}  src={image}
         alt="photo"
-        className={`w-full   rounded-lg min-h-[250px] md:min-h-[350px] lg:min-h-[450px] object-cover ${item.image_urls.length==1 && 'col-span-2 h-auto'}`}
+        className={`w-full   rounded-lg object-cover ${item.image_urls.length==1 && 'col-span-2 h-auto'}`}
       />
     ))
    }  
