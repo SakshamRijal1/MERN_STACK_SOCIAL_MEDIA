@@ -22,6 +22,7 @@ image_urls:[
     enum:['text','image','text_with_image'],
     required:true
   },
+
   likes_count:[
     {
       type:String,
