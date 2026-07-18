@@ -84,11 +84,11 @@ navigate('/')
         <div className='w-9/12 max-lg:w-full dark:border-r-gray-700 relative h-full transition-all duration-300 border-r p-4 border-r-gray-300 flex justify-center  group'>
 
      
-   <img   className='rounded max-md:object-cover w-full  transition-all duration-300 object-contain' src={post.image_urls[curr]} alt="" />
+   <img   className='rounded w-full  transition-all duration-300 object-contain' src={post.image_urls[curr]} alt="" />
 {( post.image_urls.length>1 && curr<(post.image_urls.length-1) ) &&
   <div onClick={()=>{
     setCurr((curr)=>curr+1);
-  }}   className='absolute active:scale-95 transition-all duration-200 animate-pulse text-white max-md:hidden top-[50%] right-0 p-3 rounded-full bg-gray-600  z-110  hidden group-hover:flex cursor-pointer'>
+  }}   className='absolute active:scale-95 transition-all duration-200 animate-pulse text-white  top-[50%] right-0 p-3 rounded-full bg-gray-600  z-110   cursor-pointer'>
       
          <ArrowRight  
        className=' '/>
@@ -97,7 +97,7 @@ navigate('/')
 }
    {  curr>0 &&   <div onClick={()=>{
     setCurr((curr)=>curr-1);
-  }}   className='absolute active:scale-95 transition-all duration-200 animate-pulse text-white max-md:hidden top-[50%] left-0 p-3 rounded-full bg-gray-600 z-110  hidden group-hover:flex cursor-pointer'>
+  }}   className='absolute active:scale-95 transition-all duration-200 animate-pulse text-white top-[50%] left-0 p-3 rounded-full bg-gray-600 z-110   cursor-pointer'>
       
          <ArrowLeft 
        className=' '/>
