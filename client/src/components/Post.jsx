@@ -134,7 +134,7 @@ const renderHastag = (text) => {
         <span
           key={index}
           onClick={() => navigate(`/hashtag/${part.slice(1)}`)}
-          className="text-indigo-600 cursor-pointer hover:underline transition-all duration-200"
+          className="text-indigo-600 cursor-pointer  hover:underline transition-all duration-200"
         >
           {part}
         </span>
@@ -224,7 +224,7 @@ setEditPost(true)
 </div>
    
 {  item.content &&  <>
-<p>{renderHastag(isSeeMore  && item.content.length>250 ? item.content.slice(0,250)+'...':item.content)}</p>
+<p className='font-light'>{renderHastag(isSeeMore  && item.content.length>250 ? item.content.slice(0,250)+'...':item.content)}</p>
 
 {isSeeMore && item.content.length>250 && <span onClick={()=>{
   setIsSeeMore(false)

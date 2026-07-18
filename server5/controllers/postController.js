@@ -549,15 +549,13 @@ export const findHashtag=async(req,res)=>{
       
         content:new RegExp(input,'i')
     
-   })
+   }).populate('user likes_count')
    const user=await User.find({
     $or:[
       {
         full_name:new RegExp(input,'i')
       },
-       {
-        bio:new RegExp(input,'i')
-      },
+     
         {
         location:new RegExp(input,'i')
       }
@@ -566,7 +564,9 @@ export const findHashtag=async(req,res)=>{
    res.json({
     user,
     post,
-    message:"Found data successfully"
+    message:"Found data successfully",
+    success:true
+
    })
   }
 
