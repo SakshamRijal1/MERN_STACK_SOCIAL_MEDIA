@@ -383,7 +383,7 @@ export const getFeedPost=async(req,res)=>{
   try{
 
   const {userId}=req.auth();
-  
+
 
   let user=await User.findById(userId);
 
@@ -550,7 +550,7 @@ export const findHashtag=async(req,res)=>{
       
         content:new RegExp(input,'i')
     
-   }).populate('user likes_count')
+   }).populate('user likes_count').sort({createdAt:-1})
    const user=await User.find({
     $or:[
       {
