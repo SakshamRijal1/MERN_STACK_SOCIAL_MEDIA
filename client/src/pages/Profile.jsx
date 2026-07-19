@@ -250,7 +250,7 @@ fetchUser(currentUser?._id)
             currentUser?.following?.includes(item._id) ? (
               <button
                 onClick={() => handleUnFollow(item)}
-                className="px-5 py-2 rounded-lg bg-slate-500 text-white hover:bg-slate-600 transition"
+                className="px-5 py-2 rounded-lg bg-slate-500 text-white cursor-pointer hover:bg-slate-600 transition"
               >
                 Unfollow
               </button>

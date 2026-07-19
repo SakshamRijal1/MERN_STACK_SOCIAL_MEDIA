@@ -207,14 +207,14 @@ return (
 <Trash2 onClick={()=>{
   handleDelete()
 }} className='b shadow  text-amber-700 rounded-lg  font-bold size-4 active:scale-95 cursor-pointer  '/>
-<div className= 'hidden  top-6 w-25 right-4  absolute sm:group-hover:flex text-white text-sm bg-gray-800 rounded-lg p-2 '>Delete Post</div>
+<div className= 'hidden  top-6 w-25 right-4  absolute sm:group-hover:flex text-white text-sm bg-gray-800 rounded-lg p-2 z-120'>Delete Post</div>
     </div>
     <div className='group'>
 
 <Edit onClick={()=>{
 setEditPost(true)
 }} className='size-4 active:scale-95 text-cyan-600 shadow cursor-pointer'/>
-      <div className= 'hidden transition-all dur absolute w-20 top-6 text-white sm:group-hover:flex left-4 bg-gray-800 rounded-lg p-2 text-sm '>Edit Post</div>
+      <div className= 'hidden transition-all dur absolute w-20 top-6 text-white sm:group-hover:flex left-4 bg-gray-800 rounded-lg p-2 text-sm z-120'>Edit Post</div>
     </div>
       </div>
   
