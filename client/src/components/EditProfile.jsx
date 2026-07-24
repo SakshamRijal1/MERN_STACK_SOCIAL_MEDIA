@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, updateUser } from '../features/user/userSlice.js';
 import { useAuth } from '@clerk/react';
 import { current } from '@reduxjs/toolkit';
-const EditProfile = ({details,setEdit,id,setItem,fetchProfile}) => {
+const EditProfile = ({details,setEdit,id,fetchProfile}) => {
   const currentUser=useSelector((state)=>state.user.value)
  const [profile, setProfile] = useState(null);
  const [coverPhoto, setCoverPhoto] = useState(null);

@@ -411,16 +411,16 @@ posts.map((post,index)=>(
 
 
       {  edit &&
-        <EditProfile  setEdit={setEdit} details={item} id={id} setItem={setItem} fetchProfile={fetchProfile}  />
+        <EditProfile  setEdit={setEdit} id={id} details={item}  fetchProfile={fetchProfile}  />
       }
       {
-        showProfile && <ShowProfile image={item.profile_picture} setShowProfile={setShowProfile}/>
+        showProfile && <ShowProfile  image={item.profile_picture}  setShowProfile={setShowProfile}/>
       }
          {
-        followModel &&  <FollowModel title={'Followers'} setFollowModel={setFollowModel} users={item.followers}/>
+        followModel &&  <FollowModel id={id} title={'Followers'}  fetchProfile={fetchProfile} setFollowModel={setFollowModel} users={item.followers}/>
       }
           {
-        followingModel &&  <FollowModel title={'Following'} setFollowModel={setFollowingModel} users={item.following}/>
+        followingModel &&  <FollowModel id={id} title={'Following'} fetchProfile={fetchProfile} setFollowModel={setFollowingModel} users={item.following}/>
       }
 
 

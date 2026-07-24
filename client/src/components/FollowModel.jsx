@@ -12,6 +12,8 @@ const FollowModel = ({
   title,
   users,
   setFollowModel,
+  fetchProfile,
+  id
 
 }) => {
   
@@ -38,8 +40,14 @@ setLoadFollow(true)
 
     if(data.success)
     {
+      setFollowModel(false)
+      if(!id ||id==currentUser._id)
+      {
+        fetchProfile(currentUser._id,false)
+      }
           dispatch(fetchUser(token))
                dispatch(fetchConnection(token))
+       
       // setFollowing((prev)=>{
       //   return [item._id,...prev]
       // })
@@ -77,15 +85,20 @@ const handleUnFollow=async(item)=>{
     )
     if(data.success)
     {
-      
+         setFollowModel(false)
   //     setFollowing((prev)=>{
   //  return prev.filter(user=>user!==item._id)
   //     })
+      if(!id ||id==currentUser._id)
+      {
+        fetchProfile(currentUser._id,false)
 
+      }
+      
 
           dispatch(fetchUser(token))
           dispatch(fetchConnection(token))
-  
+       
   
       toast.success(`Unfollowed ${item.full_name} successfully.`)
     }
