@@ -1,12 +1,15 @@
 import { Edit2 } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { updateUser } from '../features/user/userSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser, updateUser } from '../features/user/userSlice.js';
 import { useAuth } from '@clerk/react';
-const EditProfile = ({details,setEdit}) => {
+import { current } from '@reduxjs/toolkit';
+const EditProfile = ({details,setEdit,id,setItem}) => {
+  const currentUser=useSelector((state)=>state.user.value)
  const [profile, setProfile] = useState(null);
  const [coverPhoto, setCoverPhoto] = useState(null);
+ const [load, setLoad] = useState(false)
  const [profileFile, setProfileFile] = useState(null)
  const [coverFile, setCoverFile] = useState(null)
  const name=useRef("")
@@ -16,6 +19,8 @@ const EditProfile = ({details,setEdit}) => {
 const {getToken}=useAuth()
 const dispatch=useDispatch()
 const handleSaveChange=async(e)=>{
+  if(load) return;
+  setLoad(true)
 if(name.current.value.length>25)
 {
  toast.error("Name is too long.");
@@ -61,7 +66,14 @@ userData.append('full_name',full_name)
 profile_picture && userData.append('profile',profile_picture)
  cover_photo && userData.append('cover',cover_photo)
 try{
-   dispatch(updateUser({userData,token}))
+
+const updatedUser = await dispatch(updateUser({ token, userData })).unwrap();
+
+if (!id || id === updatedUser._id) {
+    setItem(updatedUser);
+}
+setLoad(false)
+  
 setEdit(false)
 
 }
@@ -170,11 +182,11 @@ setCoverFile(link)
 <button onClick={()=>{
   setEdit(false)
 }} className=' rounded-md py-1 px-7  cursor-pointer  dark:hover:bg-gray-700 dark:border-none hover:bg-gray-200 border-gray-300 border transition-all duration-300'>Cancel</button>
-  <button  onClick={()=>{
+  <button  disabled={load} onClick={()=>{
     handleSaveChange()
   }}
 
-    className={`group relative px-5 max-md:w-full py-1 text-white rounded-md dark:border-none flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
+    className={`group relative px-5 max-md:w-full py-1 ${load && 'opacity-50 cursor-not-allowed'} text-white rounded-md dark:border-none flex justify-center items-center backdrop-blur-xl border-2   bg-linear-to-r from-purple-500 to-pink-500 shadow-2xl hover:bg-linear-to-r hover:from-pink-500 hover:to-purple-500 hover:scale-[1.02] hover:-translate-y-1 active:scale-95  cursor-pointer   transition-all duration-500 ease-out    overflow-hidden`}>
     <div className="absolute  inset-0 bg-gradient-to-r from-transparent via-white  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
     ></div>
 

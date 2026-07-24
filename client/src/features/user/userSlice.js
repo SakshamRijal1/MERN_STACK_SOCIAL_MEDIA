@@ -16,7 +16,7 @@ export const fetchUser = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-   console.log(data)
+
 
       if (!data.success) {
         return rejectWithValue(data.message);

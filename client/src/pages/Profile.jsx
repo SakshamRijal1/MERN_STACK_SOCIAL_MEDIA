@@ -64,8 +64,12 @@ setLoadFollow(true)
 
     if(data.success)
     {
-          dispatch(fetchUser(token))
-               dispatch(fetchConnection(token))
+      await dispatch(fetchUser(token))
+         await dispatch(fetchConnection(token))
+           setItem(prev => ({
+        ...prev,
+        followers: [...prev.followers, currentUser]
+    }));
       // setFollowing((prev)=>{
       //   return [item._id,...prev]
       // })
@@ -88,9 +92,9 @@ toast.error(err.message)
 }
 const handleUnFollow=async(item)=>{
   if(loadFollow) return;
+
      setLoadFollow(true)
   const token=await getToken()
-
 
   try{
     const {data}=await api.post('/api/user/unfollow',
@@ -102,18 +106,22 @@ const handleUnFollow=async(item)=>{
         }
       }
     )
-    
     if(data.success)
     {
       
+         await dispatch(fetchUser(token))
+         await dispatch(fetchConnection(token))
+       setItem(prev => ({
+        ...prev,
+        followers: prev.followers.filter(user => user._id !== currentUser._id)
+    }));
   //     setFollowing((prev)=>{
   //  return prev.filter(user=>user!==item._id)
   //     })
 
-  
 
   
-
+  
       toast.success(`Unfollowed ${item.full_name} successfully.`)
     }
     else{
@@ -135,7 +143,7 @@ toast.error(err.message)
 useEffect(()=>{
 if(!currentUser)  return
 setLoad(true)
-    const fetchUser=async(id)=>{
+    const fetchProfile=async(id)=>{
 
     const token=await getToken();
 
@@ -161,13 +169,13 @@ setPosts(data.posts)
 
   }
   else {
-    toast.error(data.message)
+    toast.error("from profile else")
   }
   
     }
     catch(err)
     {
-  toast.error(err.message)
+  toast.error("from profile catch")
     }
  finally{
   setLoad(false)
@@ -178,10 +186,10 @@ setPosts(data.posts)
 if(id && id!==currentUser?._id)
 {
 
-   fetchUser(id)
+   fetchProfile(id)
 }
 else{
-fetchUser(currentUser?._id)
+fetchProfile(currentUser?._id)
 }
 
 
@@ -400,7 +408,7 @@ posts.map((post,index)=>(
 
 
       {  edit &&
-        <EditProfile  setEdit={setEdit} details={item} />
+        <EditProfile  setEdit={setEdit} details={item} id={id} setItem={setItem}  />
       }
       {
         showProfile && <ShowProfile image={item.profile_picture} setShowProfile={setShowProfile}/>
