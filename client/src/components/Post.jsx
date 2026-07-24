@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 import CommentModel from './CommentModel'
 import LikeModel from './LikeModel'
 import EditPost from './EditPost'
-import { fetchUser } from '../features/user/userSlice'
+
 import { isAxiosError } from 'axios'
 dayjs.extend(relativeTime);
 const Post = ({item,setFeeds}) => {

@@ -102,7 +102,7 @@ const handleUnFollow=async(item)=>{
         }
       }
     )
-
+    
     if(data.success)
     {
       
@@ -110,9 +110,8 @@ const handleUnFollow=async(item)=>{
   //  return prev.filter(user=>user!==item._id)
   //     })
 
+  
 
-          dispatch(fetchUser(token))
-          dispatch(fetchConnection(token))
   
 
       toast.success(`Unfollowed ${item.full_name} successfully.`)
@@ -162,13 +161,13 @@ setPosts(data.posts)
 
   }
   else {
-    toast.error("from profile else")
+    toast.error(data.message)
   }
   
     }
     catch(err)
     {
-  toast.error("from profile catch")
+  toast.error(err.message)
     }
  finally{
   setLoad(false)

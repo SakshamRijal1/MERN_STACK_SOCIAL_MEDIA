@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { BadgeCheck, Captions, Image, X } from 'lucide-react'
+import { AwardIcon, BadgeCheck, Captions, Image, X } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import api from '../api/axois'
 import { getToken, useAuth } from '@clerk/react'
 import { useNavigate } from 'react-router'
+import { fetchUser } from '../features/user/userSlice'
+
 const EditPost = ({setEditPost,item}) => {
 
 const [load, setLoad] = useState(false);
@@ -14,7 +16,7 @@ const [url, setUrl] = useState([])
 const {getToken}=useAuth()
 const [image, setImage] = useState([])
 const [alreadySaved, setAlreadySaved] = useState(item.image_urls)
-
+const dispatch=useDispatch()
 
 
 
@@ -91,6 +93,7 @@ const post=new FormData()
  if(data.success)
  {
   toast.success(data.message);
+ await dispatch(fetchUser(token))
 setEditPost(false);
 
   
