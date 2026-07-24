@@ -94,6 +94,10 @@ const handleUnFollow=async(item)=>{
         fetchProfile(currentUser._id,false)
 
       }
+      else 
+      {
+        fetchProfile(id)
+      }
       
 
           dispatch(fetchUser(token))
