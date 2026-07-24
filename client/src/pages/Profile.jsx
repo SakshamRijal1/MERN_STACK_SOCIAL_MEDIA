@@ -46,6 +46,48 @@ const navigate=useNavigate()
 const [item, setItem] = useState(null)
     const {getToken}= useAuth()
 
+    const fetchProfile=async(id,loader=true)=>{
+
+    const token=await getToken();
+if(loader)
+{
+  setLoad(true)
+}
+
+    try{
+const {data}=await api.post(`/api/user/profiles`,
+  {
+  id
+  },{
+  headers:{
+    Authorization:`Bearer ${token}`
+  }
+  
+
+})
+
+  if(data.success)
+  {
+
+    setItem(data.profile)
+setPosts(data.posts)
+
+
+  }
+  else {
+    toast.error(data.message)
+  }
+  
+    }
+    catch(err)
+    {
+    toast.error(err.message)
+    }
+ finally{
+  setLoad(false)
+ }
+
+  }
     const handleFollow=async(item)=>{
 if(loadFollow) return
   const token=await getToken()
@@ -142,46 +184,7 @@ toast.error(err.message)
 
 useEffect(()=>{
 if(!currentUser)  return
-setLoad(true)
-    const fetchProfile=async(id)=>{
 
-    const token=await getToken();
-
-
-    try{
-const {data}=await api.post(`/api/user/profiles`,
-  {
-  id
-  },{
-  headers:{
-    Authorization:`Bearer ${token}`
-  }
-  
-
-})
-
-  if(data.success)
-  {
-
-    setItem(data.profile)
-setPosts(data.posts)
-
-
-  }
-  else {
-    toast.error("from profile else")
-  }
-  
-    }
-    catch(err)
-    {
-  toast.error("from profile catch")
-    }
- finally{
-  setLoad(false)
- }
-
-  }
 
 if(id && id!==currentUser?._id)
 {
@@ -194,7 +197,7 @@ fetchProfile(currentUser?._id)
 
 
 
-},[id])
+},[id],currentUser)
 
 
 
@@ -408,7 +411,7 @@ posts.map((post,index)=>(
 
 
       {  edit &&
-        <EditProfile  setEdit={setEdit} details={item} id={id} setItem={setItem}  />
+        <EditProfile  setEdit={setEdit} details={item} id={id} setItem={setItem} fetchProfile={fetchProfile}  />
       }
       {
         showProfile && <ShowProfile image={item.profile_picture} setShowProfile={setShowProfile}/>

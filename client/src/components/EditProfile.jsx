@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, updateUser } from '../features/user/userSlice.js';
 import { useAuth } from '@clerk/react';
 import { current } from '@reduxjs/toolkit';
-const EditProfile = ({details,setEdit,id,setItem}) => {
+const EditProfile = ({details,setEdit,id,setItem,fetchProfile}) => {
   const currentUser=useSelector((state)=>state.user.value)
  const [profile, setProfile] = useState(null);
  const [coverPhoto, setCoverPhoto] = useState(null);
  const [load, setLoad] = useState(false)
  const [profileFile, setProfileFile] = useState(null)
  const [coverFile, setCoverFile] = useState(null)
+ 
  const name=useRef("")
  const username=useRef("")
  const bio=useRef("")
@@ -68,9 +69,12 @@ profile_picture && userData.append('profile',profile_picture)
 try{
 
 const updatedUser = await dispatch(updateUser({ token, userData })).unwrap();
+dispatch(fetchUser(token))
+
+
 
 if (!id || id === updatedUser._id) {
-    setItem(updatedUser);
+   fetchProfile(currentUser._id,false)
 }
 setLoad(false)
   
