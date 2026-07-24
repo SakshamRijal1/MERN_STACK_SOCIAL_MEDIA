@@ -88,9 +88,9 @@ toast.error(err.message)
 }
 const handleUnFollow=async(item)=>{
   if(loadFollow) return;
-
      setLoadFollow(true)
   const token=await getToken()
+
 
   try{
     const {data}=await api.post('/api/user/unfollow',
@@ -102,6 +102,7 @@ const handleUnFollow=async(item)=>{
         }
       }
     )
+
     if(data.success)
     {
       
@@ -113,7 +114,7 @@ const handleUnFollow=async(item)=>{
           dispatch(fetchUser(token))
           dispatch(fetchConnection(token))
   
-  
+
       toast.success(`Unfollowed ${item.full_name} successfully.`)
     }
     else{

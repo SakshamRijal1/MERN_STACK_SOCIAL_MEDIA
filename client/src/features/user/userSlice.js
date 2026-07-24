@@ -18,8 +18,12 @@ export const fetchUser = createAsyncThunk(
       });
 
       if (!data.success) {
+
         return rejectWithValue(data.message);
       }
+      console.log(data)
+
+     
 
       return data.user;
     } catch (err) {

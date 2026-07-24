@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import api from '../../api/axois'
-import { Satellite } from 'lucide-react'
+
 const initialState={
   messages:[]
 }
