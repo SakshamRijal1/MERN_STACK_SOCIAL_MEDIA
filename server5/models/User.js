@@ -31,6 +31,22 @@ location:{
   type:String,
   default:""
 },
+school:{
+  type:String,
+  default:""
+},
+hobby:{
+  type:String,
+  default:""
+},
+linkName:{
+  type:String,
+  default:""
+},
+link:{
+  type:String,
+  default:""
+},
 profile_picture:{
   type:String,
   default:""

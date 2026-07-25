@@ -77,7 +77,7 @@ export const updateUserData=async(req,res)=>{
 
   try{
     const {userId}=  req.auth();
-    let {username,bio,location,full_name}=req.body;
+    let {username,bio,location,full_name,school,hobby,linkName,link}=req.body;
     const tempUser=await User.findById(userId);
      
 
@@ -115,7 +115,11 @@ if(existingUser)
     username,
     bio,
     location,
-    full_name
+    full_name,
+    school,
+    hobby,
+    linkName,
+    link
   };
 
    if(profile)

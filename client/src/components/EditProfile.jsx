@@ -17,6 +17,10 @@ const EditProfile = ({details,setEdit,id,fetchProfile}) => {
  const username=useRef("")
  const bio=useRef("")
  const location=useRef("")
+ const school = useRef("")
+ const hobby = useRef("")
+ const linkName = useRef("")
+ const link = useRef("")
 const {getToken}=useAuth()
 const dispatch=useDispatch()
 const handleSaveChange=async(e)=>{
@@ -59,11 +63,21 @@ const token=await getToken()
  const user_name=username.current.value.trim()
   const about=bio.current.value.trim()
  const user_location=location.current.value.trim()
+ const school_name=school.current.value.trim()
+ const main_hobby=hobby.current.value.trim()
+ const link_name=linkName.current.value.trim()
+ const pure_link=link.current.value.trim()
+
 const userData=new FormData();
 userData.append('username',user_name)
 userData.append('bio',about)
 userData.append('location',user_location)
+userData.append('hobby',main_hobby)
+userData.append('linkName',link_name)
+userData.append('link',pure_link)
+userData.append('school',school_name)
 userData.append('full_name',full_name)
+
 profile_picture && userData.append('profile',profile_picture)
  cover_photo && userData.append('cover',cover_photo)
 try{
@@ -178,6 +192,19 @@ setCoverFile(link)
 <div className='flex gap-1 flex-col p-2'>
 <h1 className='text-sm text-gray-800 dark:text-gray-300'>Location</h1>
 <input ref={location} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.location} id="" />
+</div>
+<div className='flex gap-1 flex-col p-2'>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>College/School</h1>
+<input ref={school} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.school} id="" />
+</div>
+<div className='flex gap-1 flex-col p-2'>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Main Hobby</h1>
+<input ref={hobby} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name="" defaultValue={details.hobby} id="" />
+</div>
+<div className='flex gap-1 flex-col p-2'>
+<h1 className='text-sm text-gray-800 dark:text-gray-300'>Social Media Link</h1>
+<input placeholder='Link Name eg Saksham Rijal|Facebook Saksham Rijal|Youtube' ref={linkName} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' defaultValue={details.linkName} type="text" name=""  id="" />
+<input placeholder='Paste your social media link here.' ref={link} defaultValue={details.link} className='w-full h-full  border-none outline outline-gray-300 rounded-lg px-4 py-2.5' type="text" name=""  id="" />
 </div>
 <div className='w-full flex max-sm:justify-center justify-end p-2 border-t border-gray-300 sticky bottom-0 dark:bg-gray-900 dark:border-gray-700 bg-white '>
   <div className='flex gap-5 p-2 max-sm:w-full max-sm:flex-col '>

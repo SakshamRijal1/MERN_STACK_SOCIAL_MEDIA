@@ -1,6 +1,6 @@
   import React, { useEffect, useRef, useState } from 'react'
   import { dummyConnectionsData, dummyPostsData } from '../assets/assets'
-  import { BadgeCheck, Calendar, Edit, GitPullRequestCreateArrowIcon, MapPin } from 'lucide-react'
+  import { BadgeCheck, Calendar, Edit, Gamepad2, GitPullRequestCreateArrowIcon, Lightbulb, Link, Link2, MapPin, School, Shapes, Sparkles } from 'lucide-react'
 
     import dayjs from 'dayjs'
     import relativeTime from 'dayjs/plugin/relativeTime'
@@ -289,7 +289,24 @@ fetchProfile(currentUser?._id)
               {item.location}
             </div>
           )}
-
+ {item?.school && (
+            <div className="flex items-center gap-1">
+              <School size={16} />
+              {item.school}
+            </div>
+          )}
+           {item?.hobby&& (
+            <div className="flex items-center gap-1">
+              <Shapes size={16} />
+              {item.hobby}
+            </div>
+          )}
+                     {item?.link && item?.linkName&& (
+            <div className="flex items-center gap-1">
+              <Link2 size={16} />
+        <a href={item.link} target='_blank'>{item.linkName}</a>
+            </div>
+          )}
           <div className="flex items-center gap-1">
             <Calendar size={16} />
             Joined
