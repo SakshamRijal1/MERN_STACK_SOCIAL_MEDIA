@@ -174,9 +174,9 @@ navigate(`/profile/${user._id}`)
                     className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 cursor-pointer dark:ring-gray-700"
                   />
 
-                  <div>
+                  <div className="overflow-hidden text-ellipsis">
                     <div className="flex items-center gap-1">
-                      <h2 className="font-semibold">
+                      <h2 className="font-semibold overflow-hidden text-ellipsis">
                         {user.full_name}
                       </h2>
 
@@ -185,7 +185,7 @@ navigate(`/profile/${user._id}`)
                       )}
                     </div>
 
-                    <p className="text-sm text-gray-500">
+                     <p className="text-sm overflow-hidden text-ellipsis text-gray-500">
                       @{user.username}
                     </p>
                   </div>

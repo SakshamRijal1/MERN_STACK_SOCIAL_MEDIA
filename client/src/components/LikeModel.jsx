@@ -121,10 +121,10 @@ navigate(`/profile/${likeUser._id}`)
         />
 
         {/* Name */}
-        <div>
-          <div className="flex items-center gap-1">
+        <div className='overflow-hidden text-ellipsis'>
+          <div className="flex items-center gap-1 overflow-hidden text-ellipsis ">
 
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+            <h2 className="font-semibold text-gray-900 overflow-hidden text-ellipsis  dark:text-white">
               {likeUser.full_name}
             </h2>
 
@@ -135,7 +135,7 @@ navigate(`/profile/${likeUser._id}`)
             )}
           </div>
 
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-gray-500 overflow-hidden text-ellipsis dark:text-gray-400">
             @{likeUser.username}
           </p>
         </div>
