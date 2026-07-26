@@ -28,7 +28,8 @@ const Feed = () => {
       });
 
       if (data.success) {
-        setFeeds(data.posts);
+        const shuffled = [...data.posts].sort(() => Math.random() - 0.5);
+        setFeeds(shuffled);
         setLoading(false)
       
       } else {

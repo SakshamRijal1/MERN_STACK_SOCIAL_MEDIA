@@ -224,7 +224,7 @@ setEditPost(true)
 </div>
    
 {  item.content &&  <>
-<p className='font-light'>{renderHastag(isSeeMore  && item.content.length>250 ? item.content.slice(0,250)+'...':item.content)}</p>
+<p className='font-light  whitespace-pre-wrap'>{renderHastag(isSeeMore  && item.content.length>250 ? item.content.slice(0,250)+'...':item.content)}</p>
 
 {isSeeMore && item.content.length>250 && <span onClick={()=>{
   setIsSeeMore(false)
