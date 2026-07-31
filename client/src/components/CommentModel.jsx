@@ -227,13 +227,14 @@ ${load && 'opacity-50'}
 flex
 items-center
 justify-center
+cursor-pointer
 
 transition
 hover:scale-110
 `}
 >
 
-<SendHorizonalIcon size={18} />
+<SendHorizonalIcon  size={18} />
 
 </button>
 
