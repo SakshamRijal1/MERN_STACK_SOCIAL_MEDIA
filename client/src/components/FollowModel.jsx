@@ -203,7 +203,7 @@ navigate(`/profile/${user._id}`)
   
        handleUnFollow(user)
      }}
-       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-slate-500 text-white  rounded-lg`}>
+       className={`  cursor-pointer    w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-slate-500 text-white  rounded-lg`}>
          
      Unfollow
    
@@ -215,7 +215,7 @@ navigate(`/profile/${user._id}`)
 handleFollow(user)
      
      }}
-       className={`group relative cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-indigo-600 text-white  rounded-lg`}>
+       className={`  cursor-pointer   w-full text-sm  active:scale-95 transition-all duration-300 px-4    py-2 bg-indigo-600 text-white  rounded-lg`}>
      
    
      Follow

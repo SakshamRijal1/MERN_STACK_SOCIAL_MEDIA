@@ -185,9 +185,13 @@ toast.error(err.message)
 useEffect(()=>{
 if(!currentUser)  return
 
-
+  if (id === currentUser._id) {
+    navigate("/profile", { replace: true });
+    return;
+  }
 if(id && id!==currentUser?._id)
 {
+
 
    fetchProfile(id)
 }
@@ -197,7 +201,7 @@ fetchProfile(currentUser?._id)
 
 
 
-},[id],currentUser)
+},[id,currentUser])
 
 
 
@@ -257,7 +261,7 @@ fetchProfile(currentUser?._id)
           </div>
 
           {/* Follow Button */}
-          {id && (
+          {id && id!=currentUser._id && (
             currentUser?.following?.includes(item._id) ? (
               <button
                 onClick={() => handleUnFollow(item)}
@@ -345,7 +349,7 @@ fetchProfile(currentUser?._id)
       </div>
 
       {/* Edit Button */}
-      {!id && (
+      {!id  && (
         <div className="w-full lg:w-auto">
           <button
             onClick={() => setEdit(true)}
