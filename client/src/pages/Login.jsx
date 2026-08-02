@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const Login = () => {
 const theme=useSelector((state)=>state.theme.value)
   return (
-    <div className="relative min-h-screen w-full dark:bg-slate-950 dark:text-white bg-white overflow-y-auto flex items-center justify-center">
+    <div className="h-screen  dark:bg-slate-950 dark:text-white bg-white overflow-y-auto flex items-center justify-center">
 
       {/* Background */}
       <div className="absolute inset-0 z-0">
